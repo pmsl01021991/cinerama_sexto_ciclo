@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Comida - Cinerama</title>
+
+  <link rel="stylesheet" href="css/comida.css" />
+  <link rel="stylesheet" href="css/logo.css" />
+
+  <script src="js/comida.js" defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div id="btn-atras" class="btn-atras">← Atrás</div>
+    <div class="logo">CINERAMA</div>
+  </header>
+
+  <main class="layout">
+
+    <!-- Columna izquierda: info película (similar a asientos) -->
+    <aside class="panel panel-left">
+      <div class="movie-card">
+        <img id="img-pelicula" class="movie-img" src="" alt="Poster">
+        <div class="movie-info">
+          <h2 id="titulo" class="movie-title"></h2>
+          <p id="tipo-pelicula" class="movie-meta"></p>
+          <p id="fecha-actual" class="movie-meta"></p>
+          <p id="hora" class="movie-meta"></p>
+          <p id="sala" class="movie-meta"></p>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>Importante</h3>
+        <ul>
+          <li>Solo alimentos comprados en el cine permitidos</li>
+          <li>Prohibido ingresar comida externa</li>
+          <li>Películas +18: exclusivo para mayores de edad</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Centro: productos -->
+    <section class="panel panel-center">
+      <div class="panel-title">
+        <h1>🍿 Elige tus productos <span>(opcional)</span></h1>
+        <p>Agrega combos, bebidas o snacks. Si no deseas, puedes continuar sin productos.</p>
+      </div>
+
+      <div id="productosGrid" class="grid">
+        <!-- Cards se renderizan con JS -->
+      </div>
+    </section>
+
+    <!-- Derecha: resumen (similar a asientos) -->
+    <aside class="panel panel-right">
+      <h2 class="resume-title">DETALLES DE SU COMPRA</h2>
+
+      <div class="resume-box">
+        <p class="resume-line">Total de entradas: <b id="r-entradas">0</b></p>
+        <p class="resume-line">Butacas: <b id="r-butacas">-</b></p>
+        <p class="resume-line">Productos: <b id="r-productos">Ninguno</b></p>
+        <div class="divider"></div>
+
+        <p class="resume-line">Total productos:</p>
+        <p class="money">S/ <span id="r-totalProductos">0.00</span></p>
+
+        <div class="actions">
+          <button id="btn-saltar" class="btn-secondary">Continuar sin productos</button>
+          <button id="btn-continuar" class="btn-primary">Continuar al pago</button>
+        </div>
+
+        <p class="tiny">
+          * La compra de productos es opcional. Puedes continuar sin seleccionar.
+        </p>
+      </div>
+    </aside>
+
+  </main>
+
+</body>
+</html>

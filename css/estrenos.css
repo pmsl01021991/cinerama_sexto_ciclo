@@ -1,0 +1,264 @@
+/* =========================================================
+0) VARIABLES & BASE
+   ========================================================= */
+:root{
+  --header-h: 72px;         /* altura del header */
+  --header-bg: #151515;     /* color del header */
+  --accent:   #e53935;      /* color acento */
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+    font-family: Arial, sans-serif;
+    /* empuja el contenido para que el header fijo no lo tape */
+    padding-top: var(--header-h);
+}
+
+/* anclas (#seccion) no quedan ocultas por el header fijo */
+section{ scroll-margin-top: var(--header-h); }
+
+/* =========================================================
+1) HEADER (FIJO) + LOGO + NAV
+   ========================================================= */
+header{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background-color: var(--header-bg);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.6rem 1.875rem; /* sin padding vertical extra */
+    column-gap: 12px;
+    z-index: 1000;
+}
+
+header .logo{
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: var(--accent); /* rojo Cinerama */
+}
+
+/* Empuja el menú a la derecha (desktop) */
+#nav-menu, .nav-menu{ margin-left: auto; }
+
+#nav-menu ul, .nav-menu ul{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;   /* espacio entre links */
+}
+
+#nav-menu a, .nav-menu a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+#nav-menu a:hover, .nav-menu a:hover{ color: var(--accent); }
+
+/* Botón hamburguesa (oculto en desktop) */
+.hamburger{
+    display: none;
+    font-size: 2.125rem;
+    cursor: pointer;
+    color: #fff;
+    line-height: 1;
+    padding: .4rem .5rem;  /* área clickeable mejor */
+    z-index: 1001;
+}
+
+/* =========================================================
+   2) HERO (si lo usas)
+   ========================================================= */
+.hero{
+    background: url('https://via.placeholder.com/1200x400') center/cover no-repeat;
+    color: #fff;
+    text-align: center;
+    padding: 6.25rem 1.25rem;
+}
+
+/* =========================================================
+   3) CARTELERA / PELÍCULAS
+   ========================================================= */
+#cartelera{
+    padding: 2.5rem 1.25rem;
+    background-color: #f9f9f9;
+}
+
+h2{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2.5rem;
+}
+
+.peliculas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+}
+
+.pelicula{
+    background-color: #fff;
+    border-radius: .3125rem;
+    box-shadow: 0 .125rem .3125rem rgba(0,0,0,.1);
+    overflow: hidden;
+    text-align: center;
+    width: 220px;
+    padding: 0;
+}
+
+.pelicula img{
+    width: 100%;
+    height: 330px;        /* poster */
+    object-fit: cover;    /* llena el espacio */
+    border-radius: .3125rem .3125rem 0 0;
+    transition: transform .3s ease;
+}
+.pelicula img:hover{ transform: scale(1.05); }
+
+.pelicula button{
+    margin: .3125rem;
+    padding: .5rem 1rem;
+    border: none;
+    border-radius: .25rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-trailer{ background-color: var(--accent); color:#fff; }
+.btn-infoestrenos{
+    display:inline-block; margin:.3125rem; padding:.5rem 1rem;
+    border:none; border-radius:.25rem;
+    background-color:#1976d2; color:#fff; font-weight:bold;
+    text-decoration:none; text-align:center; cursor:pointer;
+}
+
+/* =========================================================
+   4) SECCIONES GENERALES
+   ========================================================= */
+section{ padding: 2.5rem 1.25rem; }
+section h2{ margin-bottom: 1.25rem; }
+
+.peliculas, .estrenos{
+    display:flex; gap:1.25rem; flex-wrap:wrap;
+}
+
+/* =========================================================
+5) SLIDER
+   ========================================================= */
+.slider{
+    position: relative;
+    width: 100%;
+    height: 31.25rem;     /* ajusta el alto a tu gusto */
+    overflow: hidden;
+    background-color: #000;
+}
+
+.slider .slide{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slider .slide.active{ opacity: 1; }
+
+.slider img{
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* =========================================================
+6) MODAL (tráiler)
+   ========================================================= */
+.modal{
+    display: none;          /* la abres con JS */
+    position: fixed; inset: 0;
+    z-index: 9999;
+    background-color: rgba(0,0,0,.8);
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+.modal-content{
+    position: relative; background-color:#000;
+    width: 90%; max-width: 800px; aspect-ratio: 16/9;
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+}
+.modal-content iframe{ width:100%; height:100%; border:none; }
+.close{
+    color:#fff; position:absolute; top:-30px; right:0;
+    font-size:40px; font-weight:bold; cursor:pointer;
+}
+
+/* =========================================================
+   7) FOOTER
+   ========================================================= */
+footer{
+    background:#222; color:#fff;
+    padding: 3vw 5vw;
+}
+.footer-container{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:2vw;
+    max-width:90vw; margin:auto;
+}
+.footer-section{ flex:1; min-width:20vw; margin-bottom:2vh; }
+.footer-section h3{
+    font-size:1.2rem; margin-bottom:1vh;
+    border-bottom:.2rem solid #ffcc00; display:inline-block; padding-bottom:.5vh;
+}
+.footer-section p, .footer-section a{ color:#ddd; text-decoration:none; font-size:1rem; }
+.footer-section a:hover{ color:#ffcc00; }
+.social-links, .quick-links{ list-style:none; padding:0; }
+.social-links li, .quick-links li{ margin-bottom:.8vh; }
+
+.footer-bottom b p{
+    background-color:#3a46ee; padding:8vh; text-align:center; color:#fff;
+}
+
+.marquee{ width:100%; height:3.125rem; overflow:hidden; position:relative; }
+.marquee-text{ position:absolute; white-space:nowrap; animation:bounce-left 5s linear infinite; font-weight:bold; }
+
+/* =========================================================
+8) RESPONSIVE
+   ========================================================= */
+
+/* Desktop: nav horizontal por defecto */
+
+@media (max-width: 768px){
+    /* Mostrar hamburguesa y empujarla a la DERECHA */
+    .hamburger{
+        display:block;
+        margin-left:auto;     /* 👈 se pega al borde derecho en móvil */
+    }
+
+    /* Menú desplegable bajo el header */
+    #nav-menu, .nav-menu{
+        position: fixed;
+        top: var(--header-h);
+        left: 0; right: 0;
+        background: #000;
+        display: none;            /* oculto por defecto */
+        padding: 10px 0;
+    }
+    #nav-menu.active, .nav-menu.active{ display: block; }
+
+    #nav-menu ul, .nav-menu ul{
+        flex-direction: column;
+        gap: 12px;
+        padding: 0; margin: 0;
+        text-align: center;
+    }
+
+    /* Slider más pequeño en móvil */
+    .slider{ height: 13.75rem; }
+
+    /* Footer en columna */
+    .footer-container{ flex-direction: column; text-align: center; }
+    }

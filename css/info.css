@@ -1,0 +1,203 @@
+/* =========================================================
+0) VARIABLES & BASE
+   ========================================================= */
+:root{
+    --header-h: 72px;
+    --header-bg: #151515;
+    --accent:   #e53935;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+    font-family: Arial, sans-serif;
+    color:#111;
+    padding-top: var(--header-h);              /* evita que el header tape el contenido */
+}
+
+section{ scroll-margin-top: var(--header-h); } /* anclas visibles */
+
+/* =========================================================
+1) HEADER (FIJO) + LOGO + NAV
+   ========================================================= */
+header{
+    position: fixed; top:0; left:0; right:0;
+    height: var(--header-h);
+    background-color: var(--header-bg);
+    color:#fff;
+    display:flex; align-items:center; gap:12px;
+    justify-content:flex-start;
+    padding: .6rem 1.875rem;
+    z-index:1000;
+}
+
+/* animación del logo */
+@keyframes pulse{
+    0%{ transform:scale(1);   opacity:1; }
+    50%{ transform:scale(1.1);opacity:.8; }
+    100%{ transform:scale(1); opacity:1; }
+}
+
+header .logo{
+    font-size:1.75rem; font-weight:bold; font-family:Arial, sans-serif;
+    color:#e53935;
+}
+
+/* Menú a la derecha (soporta id o class) */
+#nav-menu, .nav-menu{ margin-left:auto; }
+#nav-menu ul, .nav-menu ul{
+    list-style:none; display:flex; align-items:center; gap:1.25rem;
+    margin:0; padding:0;
+}
+#nav-menu a, .nav-menu a{
+    color:#fff; text-decoration:none; font-size:1rem;
+}
+#nav-menu a:hover, .nav-menu a:hover{ color:var(--accent); }
+
+/* Hamburguesa (oculta en desktop) */
+.hamburger{
+    display:none; font-size:2.125rem; cursor:pointer; color:#fff;
+    margin-left:12px; z-index:1001;
+}
+
+/* =========================================================
+   2) HERO (opcional)
+   ========================================================= */
+.hero{
+    background:url('https://via.placeholder.com/1200x400') center/cover no-repeat;
+    color:#fff; text-align:center; padding:6.25rem 1.25rem;
+}
+
+/* =========================================================
+3) SLIDER
+   ========================================================= */
+.slider{
+    position:relative; width:100%; height:31.25rem;
+    overflow:hidden; background:#000;
+}
+.slider .slide{
+    position:absolute; inset:0; opacity:0; transition:opacity 1s ease-in-out;
+    display:flex; justify-content:center; align-items:center;
+}
+.slider .slide.active{ opacity:1; }
+.slider img{ max-height:100%; max-width:100%; object-fit:contain; }
+
+/* =========================================================
+   4) FICHA DE PELÍCULA
+   ========================================================= */
+.ficha-pelicula, .horario{
+    padding:2rem 1rem; background:#f9f9f9;
+}
+.ficha-contenido{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:2rem;
+    max-width:1200px; margin:0 auto;
+}
+.ficha-poster{ display:flex; flex-direction:column; align-items:center; }
+.ficha-poster img{
+    width:300px; height:auto; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,.2);
+}
+.boton-trailer-container{ margin-top:10px; }
+.btn-trailer{
+    display:inline-block; background:var(--accent); color:#fff;
+    padding:12px 24px; border:none; border-radius:5px; font-size:16px; font-weight:bold;
+    text-decoration:none; cursor:pointer; transition:background-color .3s ease;
+    margin-top:1rem;
+}
+.btn-trailer:hover{ background:#c62828; }
+
+.ficha-info{ flex:1 1 500px; font-size:1rem; line-height:1.6; color:#333; }
+.ficha-info h1{ color:var(--accent); margin-bottom:1rem; }
+
+.etiquetas{ margin-bottom:1rem; }
+.etiqueta{
+    display:inline-block; padding:.25rem .75rem; border-radius:4px;
+    color:#fff; font-weight:bold; margin-right:.5rem; font-size:.875rem;
+}
+.etiqueta.rojo{ background:var(--accent); }
+.etiqueta.azul{ background:#1e8eda; }
+.etiqueta.gris{ background:#555; }
+
+/* =========================================================
+   5) MODAL (trailer)
+   ========================================================= */
+.modal{
+    display:none; position:fixed; inset:0; z-index:9999;
+    background:rgba(0,0,0,.8); justify-content:center; align-items:center; padding:1rem;
+}
+.modal-content{
+    position:relative; background:#000; width:90%; max-width:800px; aspect-ratio:16/9;
+    box-shadow:0 5px 15px rgba(0,0,0,.5);
+}
+.modal-content iframe{ width:100%; height:100%; border:none; }
+.close{ color:#fff; position:absolute; top:-30px; right:0; font-size:40px; font-weight:bold; cursor:pointer; }
+
+/* =========================================================
+6) HORARIOS
+   ========================================================= */
+.horario{ font-size:1rem; }
+.horario-contenido{
+    display:flex; flex-direction:column; gap:3rem;
+    max-width:1200px; margin:auto;
+}
+.horario-contenido h2{ color:var(--accent); }
+.horario-2d p, .horario-3d p{
+    display:flex; align-items:center; gap:1rem; font-size:1.1rem; font-weight:500; margin-bottom:2rem;
+}
+.horario-2d p::before{
+    content:"2D"; border:2px #0D1F40 solid; padding:8px 13px; border-radius:5px; font-weight:bold; color:#0D1F40;
+}
+.horario-3d p::before{
+    content:"3D"; border:2px #0D1F40 solid; padding:8px 13px; border-radius:8px; font-weight:bold; color:#0D1F40;
+}
+.horario-listas{ display:flex; flex-wrap:wrap; gap:1.5rem; }
+.horario-listas div{
+    border:2px #c62828 solid; color:#c62828; padding:12px 18px; border-radius:8px; cursor:pointer; font-size:1.1rem;
+}
+
+/* =========================================================
+7) FOOTER
+   ========================================================= */
+footer{ background:#222; color:#fff; padding:3vw 5vw; font-family:Arial, sans-serif; }
+.footer-container{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:2vw;
+    max-width:90vw; margin:auto;
+}
+.footer-section{ flex:1; min-width:20vw; margin-bottom:2vh; }
+.footer-section h3{
+    font-size:1.2rem; margin-bottom:1vh; border-bottom:.2rem solid #ffcc00; display:inline-block; padding-bottom:.5vh;
+}
+.footer-section p, .footer-section a{ color:#ddd; text-decoration:none; font-size:1rem; }
+.footer-section a:hover{ color:#ffcc00; }
+.social-links, .quick-links{ list-style:none; padding:0; }
+.social-links li, .quick-links li{ margin-bottom:.8vh; }
+.footer-bottom b p{ background:#3a46ee; padding:8vh; text-align:center; color:#fff; }
+.marquee{ width:100%; height:3.125rem; overflow:hidden; position:relative; }
+.marquee-text{ position:absolute; white-space:nowrap; animation:bounce-left 5s linear infinite; font-weight:bold; }
+
+/* =========================================================
+8) RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px){
+    /* Muestra la hamburguesa y mantiene menú debajo del header fijo */
+    .hamburger{ display:block; margin-left:auto; }
+
+    #nav-menu, .nav-menu{
+        position:fixed; top:var(--header-h); left:0; right:0;
+        background:#000; display:none; padding:10px 0;
+    }
+    #nav-menu.active, .nav-menu.active{ display:block; }
+
+    #nav-menu ul, .nav-menu ul{
+        flex-direction:column; gap:12px; text-align:center;
+    }
+
+    /* Slider compacto */
+    .slider{ height:13.75rem; }
+
+    /* Ficha: poster más estrecho */
+    .ficha-poster img{ width:220px; }
+
+    /* Footer en columna */
+    .footer-container{ flex-direction:column; text-align:center; }
+}

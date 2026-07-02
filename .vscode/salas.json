@@ -1,0 +1,13 @@
+{
+    "2D": {
+        "filas": 10,
+        "columnas": 10,
+        "pasillo": [7, 8, 2, 3]
+        
+    },
+    "3D": {
+        "filas": 10,
+        "columnas": 11,
+        "pasillo": [2, 3, 7]
+    }
+}

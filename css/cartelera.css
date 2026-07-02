@@ -1,0 +1,249 @@
+/* =========================================================
+0) VARIABLES & BASE
+   ========================================================= */
+:root{
+  --header-h: 72px;            /* altura del header */
+  --header-bg: #000;           /* color fondo header */
+  --accent:   #e53935;         /* rojo para hover/botones */
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+    font-family: Arial, sans-serif;
+    color:#111;
+  /* empuja el contenido para que el header fijo no lo tape */
+  padding-top: var(--header-h);
+}
+
+/* evita que al navegar con #ancla quede oculto por el header */
+section{ scroll-margin-top: var(--header-h); }
+
+/* =========================================================
+   1) HEADER (FIJO) + LOGO + NAV
+   ========================================================= */
+header{
+    position: fixed;
+    top:0; left:0; right:0;
+    height: var(--header-h);
+    background-color: var(--header-bg);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    padding: 0 1.875rem;        /* sin padding vertical para no aumentar altura */
+    z-index:1000;
+}
+
+/* animación del logo */
+@keyframes pulse{
+    0%{ transform:scale(1);   opacity:1; }
+    50%{ transform:scale(1.1);opacity:.8; }
+    100%{ transform:scale(1); opacity:1; }
+}
+header .logo{
+    font-size:1.75rem;
+    font-weight:bold;
+    color:#e7ef4c;
+    animation:pulse 1.5s infinite;
+}
+
+/* Soporta id y class para el nav */
+#nav-menu, .nav-menu{ margin-left:auto; }        /* empuja el menú a la derecha */
+
+#nav-menu ul, .nav-menu ul{
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:1.25rem;
+}
+
+#nav-menu a, .nav-menu a{
+    color:#fff;
+    text-decoration:none;
+    font-size:1rem;
+}
+#nav-menu a:hover, .nav-menu a:hover{ color:var(--accent); }
+
+/* botón hamburguesa (oculto en desktop) */
+.hamburger{
+    display:none;
+    font-size:2.125rem;
+    cursor:pointer;
+    color:#fff;
+    margin-left:12px;
+    z-index:1001;
+}
+
+/* =========================================================
+   2) HERO (si lo usas)
+   ========================================================= */
+.hero{
+    background:url('https://via.placeholder.com/1200x400') center/cover no-repeat;
+    color:#fff; text-align:center;
+    padding:6.25rem 1.25rem;
+}
+
+/* =========================================================
+   3) CARTELERA / PELÍCULAS
+   ========================================================= */
+#cartelera{
+    padding:2.5rem 1.25rem;
+    background:#f9f9f9;
+}
+#cartelera h2{
+    text-align:center;
+    font-size:2rem; font-weight:bold;
+    margin-bottom:2.5rem;
+}
+
+.peliculas{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:1.25rem;
+}
+
+.pelicula{
+    background:#fff;
+    width:220px;
+    border-radius:0.3125rem;
+    box-shadow:0 0.125rem 0.3125rem rgba(0,0,0,.1);
+    overflow:hidden;
+    text-align:center;
+}
+.pelicula img{
+    width:100%;
+    height:330px;              /* poster */
+    object-fit:cover;
+    border-radius:0.3125rem 0.3125rem 0 0;
+    transition:transform .3s ease;
+}
+.pelicula img:hover{ transform:scale(1.05); }
+
+.pelicula button{
+    margin:0.3125rem;
+    padding:0.5rem 1rem;
+    border:none; border-radius:0.25rem;
+    cursor:pointer; font-weight:bold;
+}
+.btn-trailer{ background:var(--accent); color:#fff; }
+.btn-info{
+    display:inline-block; margin:0.3125rem;
+    padding:0.5rem 1rem; border:none; border-radius:0.25rem;
+    background:#1976d2; color:#fff; font-weight:bold;
+    text-decoration:none; text-align:center; cursor:pointer;
+}
+
+/* =========================================================
+   4) SECCIONES GENERALES
+   ========================================================= */
+section{ padding:2.5rem 1.25rem; }
+section h2{ margin-bottom:1.25rem; }
+
+/* =========================================================
+   5) SLIDER (portada/película)
+   ========================================================= */
+.slider{
+    position:relative;
+    width:100%;
+    height:31.25rem;           /* ajusta a tu gusto */
+    overflow:hidden;
+  background:#000;           /* “pantalla” negra */
+}
+.slider .slide{
+    position:absolute; inset:0;
+    opacity:0;
+    transition:opacity 1s ease-in-out;
+    display:flex; justify-content:center; align-items:center;
+}
+.slider .slide.active{ opacity:1; }
+.slider img{
+    max-height:100%; max-width:100%;
+    object-fit:contain;
+}
+
+/* =========================================================
+   6) MODAL (trailer)
+   ========================================================= */
+.modal{
+  display:none;              /* tu JS la pone en flex al abrir */
+    position:fixed; inset:0; z-index:9999;
+    background:rgba(0,0,0,.8);
+    justify-content:center; align-items:center;
+    padding:1rem;
+}
+.modal-content{
+    position:relative;
+    background:#000;
+    width:90%; max-width:800px;
+    aspect-ratio:16/9;
+    box-shadow:0 5px 15px rgba(0,0,0,.5);
+}
+.modal-content iframe{ width:100%; height:100%; border:none; }
+.close{
+    color:#fff; position:absolute; top:-30px; right:0;
+    font-size:40px; font-weight:bold; cursor:pointer;
+}
+
+/* =========================================================
+   7) FOOTER
+   ========================================================= */
+footer{
+    background:#222; color:#fff;
+    padding:3vw 5vw;
+}
+.footer-container{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:2vw;
+    max-width:90vw; margin:auto;
+}
+.footer-section{ flex:1; min-width:20vw; margin-bottom:2vh; }
+.footer-section h3{
+    font-size:1.2rem; margin-bottom:1vh;
+    border-bottom:0.2rem solid #ffcc00; display:inline-block; padding-bottom:.5vh;
+}
+.footer-section p, .footer-section a{ color:#ddd; text-decoration:none; font-size:1rem; }
+.footer-section a:hover{ color:#ffcc00; }
+.social-links, .quick-links{ list-style:none; padding:0; }
+.social-links li, .quick-links li{ margin-bottom:.8vh; }
+.footer-bottom b p{
+    background:#3a46ee; padding:8vh; text-align:center; color:#fff;
+}
+.marquee{ width:100%; height:3.125rem; overflow:hidden; position:relative; }
+.marquee-text{ position:absolute; white-space:nowrap; animation:bounce-left 5s linear infinite; font-weight:bold; }
+
+/* =========================================================
+   8) RESPONSIVE
+   ========================================================= */
+
+/* Desktop: ya tenemos menú horizontal */
+
+@media (max-width: 768px){
+  /* muestra la hamburguesa */
+    .hamburger{ display:block; 
+        margin-left: auto;
+    }
+
+  /* menú desplegable bajo el header */
+    #nav-menu, .nav-menu{
+        position:fixed;
+        top:var(--header-h);
+        left:0; right:0;
+        background:#000;
+        display:none;            /* oculto por defecto */
+        padding:10px 0;
+    }
+    #nav-menu.active, .nav-menu.active{ display:block; }
+
+    #nav-menu ul, .nav-menu ul{
+        flex-direction:column;
+        gap:12px;
+        padding:0; margin:0; text-align:center;
+    }
+
+    /* slider más pequeño en móvil */
+    .slider{ height:220px; }
+
+    /* footer en columna */
+    .footer-container{ flex-direction:column; text-align:center; }
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Estrenos</title>
+    <link rel="stylesheet" href="css/estrenos.css" />
+    <script src="js/estrenos.js" defer></script>
+    <link rel="stylesheet" href="css/logo.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo" id="logo-cinerama">CINERAMA</div>
+        
+        <!-- Botón Hamburguesa -->
+        <div class="hamburger">☰</div>
+
+        <nav id="nav-menu" class="nav-menu">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="cartelera.html">Cartelera</a></li>
+                <li><a href="contacto.html">Contáctenos</a></li>
+            </ul>
+
+        </nav>
+    </header>
+
+    <section class="slider">
+        <div class="slide active">
+            <img src="imagenes/baner1.jpg" alt="Banner 1">
+        </div>
+        <div class="slide">
+            <img src="imagenes/banner2.jpg" alt="Banner 2">
+        </div>
+        <div class="slide">
+            <img src="imagenes/banner3.webp" alt="Banner 3">
+        </div>
+    </section>
+
+    
+
+    <!-- Sección Cartelera -->
+    <section id="estrenos">
+        <h2>Estrenos</h2>
+
+        <div class="peliculas">
+            <!-- Película 1 -->
+            <div class="pelicula">
+                <img src="imagenes/estrenos/chihiro.png" alt="Película 1">
+                <div>
+                    <button class="btn-trailer" data-video="https://www.youtube.com/embed/5Fgq4Osh6XQ">🎬 TRAILER</button>
+                    <a href="infoestrenos.html?pelicula=chihiro" class="btn-infoestrenos">INFO</a>
+
+                </div>
+            </div>
+
+            <!-- Película 2 -->
+            <div class="pelicula">
+                <img src="imagenes/estrenos/stans.png" alt="Película 2">
+                <div>
+                    <button class="btn-trailer" data-video="https://www.youtube.com/embed/7Zn1e11CJ-0">🎬 TRAILER</button>
+                    <a href="infoestrenos.html?pelicula=Stans" class="btn-infoestrenos">INFO</a>
+                </div>
+            </div>
+            
+            <!-- Película 3 -->
+            <div class="pelicula">
+                <img src="imagenes/estrenos/live.png" alt="Película 3">
+                <div>
+                    <button class="btn-trailer"data-video="https://www.youtube.com/embed/R2bJBQSTSAs">🎬 TRAILER</button>
+                    <a href="infoestrenos.html?pelicula=LIVE" class="btn-infoestrenos">INFO</a>
+                </div>
+            </div>
+
+            <!-- Película 4 -->
+            <div class="pelicula">
+                <img src="imagenes/estrenos/miraculo.png" alt="Película 4">
+                <div>
+                    <button class="btn-trailer" data-video="https://www.youtube.com/embed/MqLTqsyvDvA">🎬 TRAILER</button>
+                    <a href="infoestrenos.html?pelicula=Miraculous" class="btn-infoestrenos">INFO</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Redes Sociales</h3>
+                <ul class="social-links">
+                    <li><a href="https://www.facebook.com/" target="_blank">Facebook</a></li>
+                    <li><a href="https://www.facebook.com/TwitterInc/?locale=es_LA" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/accounts/login/?source=auth_switcher&locale=es_ES"
+                            target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>📞 Teléfono: <a href="tel:967356714">967356714</a></p>
+                <p>📧 Email: <a href="mailto:info@empresa.com">info@empresa.com</a></p>
+                <p>📍 Dirección: Calle Ejemplo 123, Ciudad, País</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="quick-links">
+                    <a href="#inicio" class="scroll-suave">Inicio</a>
+                  
+                    
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <b>
+                <marquee>
+                    <p>&copy; 2025 Mi Empresa. Todos los derechos son reservados.</p>
+                </marquee>
+            </b>
+        </div>
+
+    </footer>
+
+    <!-- Modal para el trailer -->
+        <div id="trailerModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <iframe id="trailerVideo" width="560" height="315" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
+
+</body>
+</html>

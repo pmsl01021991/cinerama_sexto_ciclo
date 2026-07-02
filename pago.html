@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Pago</title>
+    <link rel="stylesheet" href="css/pago.css" />
+    <script src="js/pago.js" defer></script>
+
+</head>
+<body>
+    <!-- Espacio de separación -->
+    <div style="height: 2rem;"></div>
+
+    <header>
+        <div class="logo" id="logo-cinerama">CINERAMA</div>
+        
+        <!-- Botón Hamburguesa -->
+        <div class="hamburger">☰</div>
+
+        <nav id="nav-menu" class="nav-menu">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="estrenos.html">Estrenos</a></li>
+                <li><a href="contacto.html">Contáctenos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div style="height: 2rem;"></div>
+
+    <div style="height: 2rem;"></div>
+    <div class="pago-formulario">
+        <h2>Elige una forma de Pago</h2>
+
+        <!-- ✅ Formulario -->
+        <form id="form-pago">
+            <input type="text" id="nombre" placeholder="Nombre completo" />
+            <input type="email" id="correo" placeholder="Correo electrónico" />
+
+            <div class="metodo-pago">
+                <label>
+                    <input type="radio" name="metodo" value="tarjeta" />
+                    Tarjeta de Crédito o Débito
+                    <div class="iconos">
+                        <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa"/>
+                        <img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard"/>
+                        <img src="https://img.icons8.com/color/48/000000/amex.png" alt="Amex"/>
+                    </div>
+                </label>
+
+                <label>
+                    <input type="radio" name="metodo" value="billetera" />
+                    Billeteras Electrónicas
+                </label>
+
+                <div id="billeteras-detalle" class="billeteras" style="display: none;">
+                    <select id="tipo-doc">
+                        <option value="">Tipo de documento</option>
+                        <option value="dni">DNI</option>
+                        <option value="ce">Carnet de Extranjería</option>
+                        <option value="pasaporte">Pasaporte</option>
+                    </select>
+                    <input type="text" id="numero-doc" placeholder="Número de documento" />
+                    <input type="text" id="telefono" placeholder="Número de Celular" />
+
+                    <p>Elige alguna de las opciones de pago:</p>
+                    <div class="billeteras-opciones">
+                        <img src="/imagenes/Yape.png" alt="Yape" class="opcion-pago" data-billetera="Yape"/>
+                        <img src="/imagenes/Plin.png" alt="Plin" class="opcion-pago" data-billetera="Plin"/>
+                    </div>
+
+                    <div id="yapeImagenContainer" style="display:none; text-align:center;">
+                    <img src="/imagenes/QR-Yape.jpg" alt="QR Yape" class="qr-pago">
+                    </div>
+
+                    <div id="plinImagenContainer" style="display:none; text-align:center;">
+                        <img src="/imagenes/QR-Plin.jpg" alt="QR Plin" class="qr-pago">
+                    </div>
+
+                    
+
+                    <!-- ✅ Campo oculto para billetera -->
+                    <input type="hidden" id="billetera-usada" value="">
+                </div>
+            </div>
+
+            <p class="nota">* No se hacen cambios ni devoluciones<br>
+            * Toda la información de pago es segura</p>
+
+            <button type="submit" id="btn-pagar">Pagar</button>
+        </form>
+    </div>
+
+    <!-- Espacio de separación -->
+    <div style="height: 2rem;"></div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Redes Sociales</h3>
+                <ul class="social-links">
+                    <li><a href="https://www.facebook.com/" target="_blank">Facebook</a></li>
+                    <li><a href="https://www.facebook.com/TwitterInc/?locale=es_LA" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/accounts/login/?source=auth_switcher&locale=es_ES"
+                            target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>📞 Teléfono: <a href="tel:967356714">967356714</a></p>
+                <p>📧 Email: <a href="mailto:info@empresa.com">info@empresa.com</a></p>
+                <p>📍 Dirección: Calle Ejemplo 123, Ciudad, País</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="quick-links">
+                    <a href="#inicio" class="scroll-suave">Inicio</a>
+                   
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <b>
+                <marquee>
+                    <p>&copy; 2025 Mi Empresa. Todos los derechos son reservados.</p>
+                </marquee>
+            </b>
+        </div>
+    </footer>
+
+</body>
+</html>

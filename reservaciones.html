@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel de Reservaciones</title>
+  <link rel="stylesheet" href="css/reservaciones.css" />
+  <link rel="stylesheet" href="css/logo.css" />
+  <script src="js/reservaciones.js" defer></script>
+  <script src="js/auth.js" defer></script> <!-- manejo de sesión/admin -->
+</head>
+<body data-require-admin="true">
+
+  <!-- Header -->
+    <header>
+        <div class="logo" id="logo-cinerama">CINERAMA</div>
+
+        <!-- Botón Hamburguesa -->
+        <div class="hamburger" id="hamburger">&#9776;</div>
+
+        <nav id="nav-menu">
+        <ul>
+            <li><a href="index.html">Cine</a></li>
+            <li><a href="cartelera.html">Cartelera</a></li>
+            <li><a href="estrenos.html">Estrenos</a></li>
+            <li><a href="contacto.html">Contáctenos</a></li>
+            <li><button id="cerrarSesionBtn" data-admin-only hidden style="border:0;background:#111;color:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;">Salir</button></li>
+
+            <!-- Link de login: se oculta cuando hay sesión -->
+            <li><a href="login.html" id="loginLink">Iniciar Sesión</a></li>
+        </ul>
+        </nav>
+    </header>
+  <div class="container">
+    <h1>Panel de Administración 🎬</h1>
+    <button id="cerrarSesionPanel">Cerrar Sesión</button>
+
+
+    <div id="contenedor-reservaciones">
+      <!-- Aquí se generarán los botones y datos dinámicamente -->
+    </div>
+  </div>
+</body>
+</html>

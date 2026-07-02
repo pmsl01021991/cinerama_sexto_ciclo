@@ -1,0 +1,197 @@
+/* =========================================================
+   0) VARIABLES & BASE
+   ========================================================= */
+:root{
+    --header-h: 72px;
+    --header-bg: #151515;
+    --accent:   #e53935;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+    font-family: Arial, sans-serif;
+    padding-top: var(--header-h);          /* que el header fijo no tape */
+}
+
+section{ scroll-margin-top: var(--header-h); }  /* anclas visibles */
+
+/* =========================================================
+1) HEADER (FIJO) + LOGO + NAV
+   ========================================================= */
+header{
+    position: fixed; top:0; left:0; right:0;
+    height: var(--header-h);
+    background-color: var(--header-bg);
+    color:#fff;
+    display:flex; align-items:center; justify-content:flex-start;
+    padding: .6rem 1.875rem;
+    column-gap: 12px;
+    z-index:1000;
+}
+
+/* Logo con animación */
+@keyframes pulse{
+    0%{ transform:scale(1);   opacity:1; }
+    50%{ transform:scale(1.1);opacity:.8; }
+    100%{ transform:scale(1); opacity:1; }
+}
+header .logo{
+    font-size:1.75rem; font-weight:bold;
+    color:#e7ef4c;
+    animation:pulse 1.5s infinite;
+}
+
+/* Menú a la derecha en desktop */
+#nav-menu, .nav-menu{ margin-left:auto; }
+#nav-menu ul, .nav-menu ul{
+  list-style:none; display:flex; align-items:center; gap:1.25rem;
+}
+#nav-menu a, .nav-menu a{
+    color:#fff; text-decoration:none; font-size:1rem;
+}
+#nav-menu a:hover, .nav-menu a:hover{ color:var(--accent); }
+
+/* Hamburguesa (oculta en desktop) */
+.hamburger{
+    display:none; font-size:2.125rem; line-height:1;
+    cursor:pointer; color:#fff; padding:.4rem .5rem;
+  z-index:1001;
+}
+
+/* =========================================================
+2) HERO (si lo usas)
+   ========================================================= */
+.hero{
+    background:url('https://via.placeholder.com/1200x400') center/cover no-repeat;
+    color:#fff; text-align:center; padding:6.25rem 1.25rem;
+}
+
+/* =========================================================
+   3) SLIDER
+   ========================================================= */
+.slider{
+    position:relative; width:100%; height:31.25rem;
+    overflow:hidden; background:#000;
+}
+.slider .slide{
+    position:absolute; inset:0; opacity:0; transition:opacity 1s ease-in-out;
+    display:flex; justify-content:center; align-items:center;
+}
+.slider .slide.active{ opacity:1; }
+.slider img{ max-height:100%; max-width:100%; object-fit:contain; }
+
+/* =========================================================
+   4) FOOTER
+   ========================================================= */
+footer{ background:#222; color:#fff; padding:3vw 5vw; }
+.footer-container{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:2vw;
+    max-width:90vw; margin:auto;
+}
+.footer-section{ flex:1; min-width:20vw; margin-bottom:2vh; }
+.footer-section h3{
+    font-size:1.2rem; margin-bottom:1vh;
+    border-bottom:.2rem solid #ffcc00; display:inline-block; padding-bottom:.5vh;
+}
+.footer-section p, .footer-section a{ color:#ddd; text-decoration:none; font-size:1rem; }
+.footer-section a:hover{ color:#ffcc00; }
+.social-links, .quick-links{ list-style:none; padding:0; }
+.social-links li, .quick-links li{ margin-bottom:.8vh; }
+
+.footer-bottom b p{
+    background:#3a46ee; padding:8vh; text-align:center; color:#fff;
+}
+
+.marquee{ width:100%; height:3.125rem; overflow:hidden; position:relative; }
+.marquee-text{ position:absolute; white-space:nowrap; animation:bounce-left 5s linear infinite; font-weight:bold; }
+
+/* =========================================================
+5) CONTACTO (encapsulado para no afectar otros forms)
+   ========================================================= */
+#contacto{
+    width:100%; max-width:50rem; margin:auto;
+    background:#ccdce2; padding:2.5rem; border-radius:.5rem;
+    box-shadow:0 .125rem .625rem rgba(234,25,25,.1);
+}
+#contacto h2{
+    text-align:left; font-size:2rem; margin-bottom:1.5rem; color:#0d48a0;
+    border-bottom:.1875rem solid #2050a4; display:inline-block; padding-bottom:.5rem;
+}
+
+/* Form del contacto (solo aquí) */
+#contacto form{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(15rem, 1fr));
+    gap:1.5rem;
+}
+#contacto .form-group{ display:flex; flex-direction:column; }
+#contacto .form-group.full-width{ grid-column:span 2; }
+
+#contacto label{ margin-bottom:.5rem; font-weight:bold; color:#023b47; }
+#contacto input, #contacto select, #contacto textarea{
+    padding:.75rem; border:.0625rem solid #57bd3a; border-radius:.3125rem; font-size:1rem;
+}
+#contacto textarea{ resize:vertical; min-height:9.375rem; }
+#contacto .btn-enviar{
+    grid-column:span 2; padding:.75rem; background:#103fc0; color:#fae8e8;
+    border:none; border-radius:.3125rem; cursor:pointer; font-weight:bold; font-size:1rem;
+    text-transform:uppercase; letter-spacing:.0625rem; transition:background-color .3s ease;
+}
+#contacto .btn-enviar:hover{ background:#b71c1c; }
+#contacto #formMessage{ grid-column:span 2; text-align:center; color:green; margin-top:1rem; font-weight:bold; }
+
+/* =========================================================
+6) TOAST (modal simple)
+   ========================================================= */
+.toast{
+    visibility:hidden; width:400px; max-width:90%; background:#222; color:#fff;
+    text-align:center; border-radius:10px; padding:30px 20px; position:fixed;
+    z-index:1000; left:50%; top:50%; transform:translate(-50%,-50%);
+    font-size:20px; box-shadow:0 8px 16px rgba(0,0,0,.3); opacity:0;
+    transition:opacity .5s ease, transform .5s ease;
+}
+.toast.show{ visibility:visible; opacity:1; transform:translate(-50%,-50%) scale(1); }
+
+/* =========================================================
+7) RESPONSIVE
+   ========================================================= */
+
+/* Desktop: nav horizontal por defecto */
+
+@media (max-width: 768px){
+    /* Hamburguesa visible y a la DERECHA */
+    .hamburger{ display:block; margin-left:auto; }
+
+    /* Menú desplegable bajo el header fijo */
+    #nav-menu, .nav-menu{
+        position:fixed; top:var(--header-h); left:0; right:0;
+        background:#000; display:none; padding:10px 0;
+    }
+    #nav-menu.active, .nav-menu.active{ display:block; }
+
+    #nav-menu ul, .nav-menu ul{
+        flex-direction:column; gap:12px; padding:0; margin:0; text-align:center;
+    }
+
+    /* Slider más compacto en móvil */
+    .slider{ height:13.75rem; }
+
+    /* Contacto ultra compacto y en una columna */
+    #contacto{ max-width:340px; padding:.6rem; margin:0 auto; }
+    #contacto form{
+        grid-template-columns:1fr !important; gap:.5rem; margin:0; padding:0;
+    }
+    #contacto .form-group,
+    #contacto .form-group.full-width{ grid-column:span 1 !important; }
+
+    #contacto label{ margin-bottom:.2rem; font-size:.85rem; }
+    #contacto input, #contacto select, #contacto textarea{
+        padding:.3rem; font-size:.85rem; height:2rem;
+    }
+    #contacto textarea{ min-height:3.5rem; }
+    #contacto .btn-enviar{ grid-column:span 1; padding:.4rem; font-size:.85rem; }
+
+    /* Footer en columna */
+    .footer-container{ flex-direction:column; text-align:center; }
+}

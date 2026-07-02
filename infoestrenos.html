@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Info</title>
+    <link rel="stylesheet" href="css/info.css" />
+    <script src="js/infoestrenos.js" defer></script>
+    <link rel="stylesheet" href="css/logo.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo" id="logo-cinerama">CINERAMA</div>
+        
+        <!-- Botón Hamburguesa -->
+        <div class="hamburger">☰</div>
+
+        <nav id="nav-menu" class="nav-menu">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="estrenos.html">Estrenos</a></li>
+                <li><a href="contacto.html">Contáctenos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    
+    <!-- Slider -->
+    <section class="slider">
+        <div class="slide active">
+            <img src="imagenes/banner1.jpg" alt="Banner 1">
+        </div>
+        <div class="slide">
+            <img src="imagenes/banner2.webp" alt="Banner 2">
+        </div>
+        <div class="slide">
+            <img src="imagenes/banner3.jpg" alt="Banner 3">
+        </div>
+    </section>
+
+    <!-- Espacio de separación -->
+    <div style="height: 2rem;"></div>
+
+    <!-- Ficha de la película -->
+    <section class="ficha-pelicula">
+        <div class="ficha-contenido">
+
+            <!-- Imagen -->
+            <div class="ficha-poster">
+                <img id="poster-pelicula" src="" alt="Poster Película">
+                
+                <!-- Contenedor para centrar el botón -->
+                <div class="boton-trailer-container">
+                    <button class="btn-trailer" id="btnTrailer">🎬 Ver Trailer</button>
+                </div>
+            </div>
+
+            <!-- Información -->
+            <div class="ficha-info">
+                <h1 id="titulo-pelicula"></h1>
+
+                <div class="etiquetas">
+                    <span class="etiqueta rojo" id="categoria-1"></span>
+                    <span class="etiqueta azul" id="categoria-2"></span>
+                    <span class="etiqueta gris" id="categoria-3"></span>
+                </div>
+
+                <p><b>🎬 Director:</b> <span id="director"></span></p>
+                <p><b>⏱️ Duración:</b> <span id="duracion"></span></p>
+                <p><b>📅 Estreno:</b> <span id="estreno"></span></p>
+                <p><b>👥 Reparto:</b> <span id="reparto"></span></p>
+
+                <h2 style="color: #b71c1c; margin-top: 1rem;">📖 Sinopsis</h2>
+                <p id="sinopsis"></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Horarios -->
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Redes Sociales</h3>
+                <ul class="social-links">
+                    <li><a href="https://www.facebook.com/" target="_blank">Facebook</a></li>
+                    <li><a href="https://www.facebook.com/TwitterInc/?locale=es_LA" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/accounts/login/?source=auth_switcher&locale=es_ES"
+                            target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>📞 Teléfono: <a href="tel:967356714">967356714</a></p>
+                <p>📧 Email: <a href="mailto:info@empresa.com">info@empresa.com</a></p>
+                <p>📍 Dirección: Calle Ejemplo 123, Ciudad, País</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="quick-links">
+                    <a href="#inicio" class="scroll-suave">Inicio</a>
+                   
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <b>
+                <marquee>
+                    <p>&copy; 2025 Mi Empresa. Todos los derechos son reservados.</p>
+                </marquee>
+            </b>
+        </div>
+
+    </footer>
+
+    <!-- Modal para el trailer -->
+    <div id="trailerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="trailerVideo" width="560" height="315" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
+
+</body>
+</html>

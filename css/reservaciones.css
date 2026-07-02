@@ -1,0 +1,259 @@
+/* Estilo general */
+
+:root{
+    --header-h: 72px;         /* Altura del header */
+    --header-bg: #151515;
+    --accent: #e53935;        /* Rojo Cinerama */
+}
+
+html{ scroll-behavior: smooth; }
+
+*{
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    color: #111;
+    /* Empuja el contenido para no quedar debajo del header fijo */
+    padding-top: var(--header-h);
+}
+
+/* Evita que las secciones con #ancla queden ocultas por el header */
+section{ scroll-margin-top: var(--header-h); }
+
+/* =========================================================
+    1) HEADER (FIJO) + NAV
+   ========================================================= */
+header{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background-color: var(--header-bg);
+    color: #fff;
+    display: flex;
+    align-items: center;       /* centra logo y menú verticalmente */
+    justify-content: flex-start;
+    padding: 0 1.875rem;       /* sin padding vertical para no crecer */
+    z-index: 1000;
+}
+
+/* animación del logo */
+@keyframes pulse{
+    0%{ transform:scale(1);   opacity:1; }
+    50%{ transform:scale(1.1);opacity:.8; }
+    100%{ transform:scale(1); opacity:1; }
+}
+
+/* anclas (#seccion) no quedan ocultas por el header fijo */
+section{ scroll-margin-top: var(--header-h); }
+
+header .logo{
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #e5c21a;            /* o #e53935 si prefieres el rojo */
+}
+
+/* Empuja el menú a la derecha del logo */
+#nav-menu{ margin-left: auto; }
+
+#nav-menu ul{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;              /* separación entre items */
+}
+
+#nav-menu a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+#nav-menu a:hover{ color: var(--accent); }
+
+/* Botón hamburguesa (oculto en desktop) */
+.hamburger{
+    display: none;
+    font-size: 2.125rem;
+    cursor: pointer;
+    color: #fff;
+    margin-left: 12px;
+    z-index: 1001;
+}
+
+
+/* Contenedor principal */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Título */
+.container h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+/* Botón de cerrar sesión */
+#cerrarSesionPanel {
+  display: block;
+  margin: 0 auto 25px;
+  padding: 10px 20px;
+  background: #ff4b5c;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#cerrarSesionBtn:hover {
+  background: #e04351;
+}
+
+/* Contenedor de reservaciones */
+#contenedor-reservaciones {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Caja individual */
+.reservacion-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reservacion-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Texto dentro de la tarjeta */
+.reservacion-card strong {
+  color: #444;
+  font-size: 1.1rem;
+}
+
+.reservacion-card p {
+  margin: 5px 0;
+  color: #666;
+}
+
+/* Botones de opciones */
+#contenedor-reservaciones .btn-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#contenedor-reservaciones .btn-group button {
+  padding: 8px 15px;
+  border: none;
+  background: #3498db;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#contenedor-reservaciones .btn-group button:hover {
+  background: #2980b9;
+}
+
+/* Tabla general */
+.table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.table-admin {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.table-admin th,
+.table-admin td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.table-admin th {
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+}
+
+.table-admin tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table-admin tr:hover {
+  background-color: #f1f7ff;
+}
+
+/* Botones del panel */
+.btn-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.btn-panel {
+  padding: 8px 15px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-panel:hover {
+  background: #2980b9;
+}
+
+/* Mobile */
+@media (max-width: 768px){
+  /* Botón hamburguesa visible */
+    .hamburger{ display: block; 
+        margin-left: auto
+    }
+
+    /* Menú desplegable bajo el header */
+    #nav-menu{
+        position: fixed;
+        top: var(--header-h);
+        left: 0; right: 0;
+        background: #000;
+        display: none;            /* oculto por defecto */
+        padding: 10px 0;
+    }
+    #nav-menu.active{ display: block; }
+
+    #nav-menu ul{
+        flex-direction: column;
+        gap: 12px;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+     }

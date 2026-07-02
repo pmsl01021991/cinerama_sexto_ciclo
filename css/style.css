@@ -1,0 +1,323 @@
+/* =========================================================
+   0) VARIABLES & BASE
+   ========================================================= */
+:root{
+    --header-h: 72px;         /* Altura del header */
+    --header-bg: #151515;
+    --accent: #e53935;        /* Rojo Cinerama */
+}
+
+html{ scroll-behavior: smooth; }
+
+*{
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    color: #111;
+    /* Empuja el contenido para no quedar debajo del header fijo */
+    padding-top: var(--header-h);
+}
+
+/* Evita que las secciones con #ancla queden ocultas por el header */
+section{ scroll-margin-top: var(--header-h); }
+
+/* =========================================================
+    1) HEADER (FIJO) + NAV
+   ========================================================= */
+header{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background-color: var(--header-bg);
+    color: #fff;
+    display: flex;
+    align-items: center;       /* centra logo y menú verticalmente */
+    justify-content: flex-start;
+    padding: 0 1.875rem;       /* sin padding vertical para no crecer */
+    z-index: 1000;
+}
+
+header .logo{
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #e5c21a;            /* o #e53935 si prefieres el rojo */
+}
+
+/* Empuja el menú a la derecha del logo */
+#nav-menu{ margin-left: auto; }
+
+#nav-menu ul{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;              /* separación entre items */
+}
+
+#nav-menu a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+#nav-menu a:hover{ color: var(--accent); }
+
+/* Botón hamburguesa (oculto en desktop) */
+.hamburger{
+    display: none;
+    font-size: 2.125rem;
+    cursor: pointer;
+    color: #fff;
+    margin-left: 12px;
+    z-index: 1001;
+}
+
+/* =========================================================
+2) HERO (si lo usas)
+   ========================================================= */
+.hero{
+    background: url('https://via.placeholder.com/1200x400') center/cover no-repeat;
+    color: #fff;
+    text-align: center;
+    padding: 6.25rem 1.25rem;
+}
+
+/* =========================================================
+3) SLIDER
+   ========================================================= */
+.slider{
+    position: relative;
+    width: 100%;
+    height: 31.25rem;         /* ajusta alto a tu gusto */
+    overflow: hidden;
+    background-color: #000;   /* “pantalla” negra */
+}
+
+.slider .slide{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider .slide.active{ opacity: 1; }
+
+.slider img{
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* =========================================================
+   4) SECCIONES GENERALES
+   ========================================================= */
+section{
+    padding: 4.5rem 1.25rem;
+}
+
+section h2{ margin-bottom: 1.25rem; }
+
+/* Películas / Estrenos */
+.peliculas, .estrenos{
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.pelicula{
+    background-color: #f4f4f4;
+    padding: 0.625rem;
+    border-radius: 0.3125rem;
+    text-align: center;
+    width: 12.5rem;
+}
+
+.pelicula img{
+    width: 100%;
+    height: auto;
+    border-radius: 0.3125rem;
+}
+
+/* Formulario */
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    max-width: 25rem;
+    margin: auto;
+}
+form input, form textarea{
+    padding: 0.625rem;
+    border: 1px solid #ccc;
+    border-radius: 0.3125rem;
+}
+form button{
+    padding: 0.625rem;
+    background-color: #111;
+    color: #fff;
+    border: none;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+}
+
+/* =========================================================
+   5) SECCIÓN: NUESTROS CINES
+   ========================================================= */
+#cines{
+  padding: 3.125rem 1.25rem;
+  background-color: #f9f9f9;
+}
+#cines h2{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2.5rem;
+}
+.cine-card{
+    max-width: 68.75rem;
+    margin: 1.25rem auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.625rem rgba(0,0,0,0.1);
+    overflow: hidden;
+    background-color: #fff;
+}
+.cine-header{
+    background-color: #d32f2f;
+    color: #fff;
+    padding: 0.9375rem 1.25rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.cine-body{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    padding: 1.25rem;
+    gap: 1.25rem;
+}
+.cine-image{ flex: 1 1 60%; }
+.cine-image img{
+    width: 100%;
+    height: auto;
+    border-radius: 0.25rem;
+}
+.cine-info{
+    flex: 1 1 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.cine-info p{
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.5;
+}
+.btn-cartelera{
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    background-color: #d32f2f;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: bold;
+    align-self: flex-start;
+    text-align: center;
+    text-decoration: none;
+}
+.btn-cartelera:hover{ background-color: #b71c1c; }
+
+/* =========================================================
+   6) FOOTER
+   ========================================================= */
+footer{
+    background: #222;
+    color: #fff;
+    padding: 3vw 5vw;
+}
+.footer-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2vw;
+    max-width: 90vw;
+    margin: auto;
+}
+.footer-section{
+    flex: 1; min-width: 20vw; margin-bottom: 2vh;
+}
+.footer-section h3{
+    font-size: 1.2rem;
+    margin-bottom: 1vh;
+    border-bottom: 0.2rem solid #ffcc00;
+    display: inline-block;
+    padding-bottom: 0.5vh;
+}
+.footer-section p, .footer-section a{
+    color: #ddd; text-decoration: none; font-size: 1rem;
+}
+.footer-section a:hover{ color: #ffcc00; }
+.social-links, .quick-links{ list-style: none; padding: 0; }
+.social-links li, .quick-links li{ margin-bottom: 0.8vh; }
+.footer-bottom b p{
+    background-color: #3a46ee;
+    padding: 8vh; text-align: center; color: #fff;
+}
+.marquee{
+  width: 100%; height: 3.125rem; overflow: hidden; position: relative;
+}
+.marquee-text{
+    position: absolute; white-space: nowrap; animation: bounce-left 5s linear infinite; font-weight: bold;
+}
+
+/* =========================================================
+   7) RESPONSIVE
+   ========================================================= */
+
+/* Desktop: ya tenemos nav horizontal por defecto */
+
+/* Mobile */
+@media (max-width: 768px){
+  /* Botón hamburguesa visible */
+    .hamburger{ display: block; 
+        margin-left: auto
+    }
+
+    /* Menú desplegable bajo el header */
+    #nav-menu{
+        position: fixed;
+        top: var(--header-h);
+        left: 0; right: 0;
+        background: #000;
+        display: none;            /* oculto por defecto */
+        padding: 10px 0;
+    }
+    #nav-menu.active{ display: block; }
+
+    #nav-menu ul{
+        flex-direction: column;
+        gap: 12px;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+
+  /* Slider más pequeño en móvil */
+    .slider{ height: 220px; }
+
+    /* Cines en una columna */
+    .cine-body{ flex-wrap: wrap; }
+    .cine-image, .cine-info{ flex: 1 1 100%; }
+    .cine-info{ padding-top: 1.25rem; text-align: center; }
+    .btn-cartelera{ align-self: center; padding: 0.5rem 1rem; font-size: 0.875rem; }
+    .cine-header{ font-size: 1.125rem; padding: 0.625rem 0.9375rem; }
+    .cine-info p{ font-size: 0.875rem; }
+
+    /* Footer en columna */
+    .footer-container{ flex-direction: column; text-align: center; }
+}

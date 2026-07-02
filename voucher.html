@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Voucher de compra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/pago.css" />
+    <style>
+        .voucher-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        }
+        .voucher-container {
+        max-width: 480px;
+        margin: 4rem auto;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        .voucher-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        }
+        .voucher-header h2 {
+        margin: 0;
+        }
+        .voucher-line {
+        margin: 0.25rem 0;
+        font-size: 0.95rem;
+        }
+        .voucher-line span.label {
+        font-weight: 600;
+        }
+        .voucher-footer {
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        text-align: center;
+        color: #1a7f37;
+        font-weight: 600;
+        }
+
+        .btn-cerrar-voucher {
+            margin-top: 10px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background .3s;
+        }
+
+        .btn-cerrar-voucher:hover {
+            background: #b71c1c;
+        }
+
+    </style>
+    <script src="js/voucher.js" defer></script>
+</head>
+<body>
+    <div class="voucher-wrapper">
+        <!-- Puedes reutilizar tu header si quieres -->
+        <header>
+        <div class="logo">CINERAMA</div>
+        </header>
+
+        <div class="voucher-container">
+        <div class="voucher-header">
+            <h2>🎟️ Voucher de compra</h2>
+            <p id="v-estado" style="font-size:0.85rem; color:#888;"></p>
+        </div>
+
+        <p class="voucher-line">
+            <span class="label">📍 Cine:</span> <span id="v-cine"></span>
+        </p>
+        <p class="voucher-line">
+            <span class="label">🎬 Película:</span> <span id="v-pelicula"></span>
+        </p>
+        <p class="voucher-line">
+            <span class="label">🎞️ Tipo:</span> <span id="v-tipo"></span>
+        </p>
+        <p class="voucher-line">
+            <span class="label">⏰ Horario:</span> <span id="v-horario"></span>
+        </p>
+        <p class="voucher-line">
+            <span class="label">🪑 Asientos:</span> <span id="v-asientos"></span>
+        </p>
+
+        <hr style="margin:1.5rem 0;">
+
+        <p class="voucher-line">
+        <span class="label">🍿 Productos:</span>
+        </p>
+        <div id="v-productos"></div>
+
+        <p class="voucher-line">
+        <span class="label">🧾 Total productos:</span> S/ <span id="v-total-productos">0.00</span>
+        </p>
+
+        <p class="voucher-line">
+            <span class="label">🎟️ Entradas:</span> <span id="v-cantidad"></span>
+        </p>
+        <p class="voucher-line">
+            <span class="label">💳 Monto pagado:</span> S/ <span id="v-monto"></span>
+        </p>
+
+        <hr style="margin:1.5rem 0;">
+
+        <p class="voucher-line">
+            <span class="label">👤 Cliente:</span> <span id="v-nombre"></span>
+        </p>
+        <p class="voucher-line">
+            <span class="label">📧 Correo:</span> <span id="v-correo"></span>
+        </p>
+        <p class="voucher-line">
+            <span class="label">💰 Método:</span> <span id="v-metodo"></span>
+        </p>
+
+        <div class="voucher-footer" id="v-mensaje-final">
+            Gracias por su compra 💚
+        </div>
+        <div style="text-align:center; margin-top: 1.5rem;">
+            <button id="btnCerrarVoucher" class="btn-cerrar-voucher">Cerrar</button>
+        </div>
+
+        </div>
+
+        <!-- Puedes reutilizar tu footer si quieres -->
+    </div>
+</body>
+</html>

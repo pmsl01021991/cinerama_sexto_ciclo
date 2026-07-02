@@ -1,0 +1,53 @@
+#logo-cinerama {
+    font-size: 2rem; /* Tamaño del texto para computadoras */
+    color: #ffcc00; /* Color del texto */
+    animation: pulse 1.5s infinite; /* Llama a la animación */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ajustes para las letras */
+.letter {
+    font-size: 2rem; /* Tamaño del texto para computadoras */
+    color: #ffcc00; /* Color inicial del texto */
+    animation: pulse 1.5s infinite; /* Llama a la animación */
+    animation-delay: calc(var(--i) * 0.2s); /* Retraso para cada letra */
+}
+
+/* Media Queries para ajustar el tamaño en diferentes dispositivos */
+@media (max-width: 1024px) {
+    #logo-cinerama, .letter {
+        font-size: 3rem; /* Ajusta el tamaño para pantallas medianas */
+    }
+}
+
+@media (max-width: 768px) {
+    #logo-cinerama, .letter {
+        font-size: 5vw; /* Ajusta el tamaño en pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    #logo-cinerama, .letter {
+        font-size: 8vw; /* Aumenta aún más el tamaño en pantallas muy pequeñas */
+    }
+}

@@ -1,0 +1,593 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+ 
+/* Header */
+header {
+    position:fixed; /* ⬅️ muy importante */
+    top: 0;
+    background-color: #151515;
+    color: #fff;
+    padding: 0.6rem 1.875rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    z-index: 1000;
+}
+ 
+main {
+       padding-top: 80px; /* Ajusta según la altura de tu barra de navegación */
+}
+ 
+header .logo {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #e53935; /* rojo tipo Cinerama */
+    font-family: Arial, sans-serif;
+}
+ 
+.nav-menu {
+    display: flex;
+}
+ 
+.nav-menu ul {
+    display: flex; /* 🔥 esto es lo que te falta para que se vea horizontal */
+    gap: 1.25rem; /* espacio entre links */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+ 
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+ 
+.nav-menu a:hover {
+    color: #e53935; /* efecto hover rojo */
+}
+ 
+section .slide {
+    padding: 4.5rem 1.25rem;
+}
+ 
+.btn-atras {
+    font-size: 1.2rem;
+    display: flex;
+    gap: .8rem;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+}
+ 
+/* Modal Salir */
+.modal-alert-salir {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #00000036;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+}
+ 
+.modal-alert-contenido {
+    background-color: #eeeeee;
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin: 1rem;
+}
+ 
+.alert-salir-texto {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+ 
+.alert-salir-texto h2 {
+    color: #e53935;
+    padding-bottom: 2rem;
+}
+ 
+.alert-salir-texto h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 2rem;
+}
+ 
+.alert-salir-button {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+ 
+.alert-salir-button button {
+    font-size: 1rem;
+    padding: 10px 2rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #e53935;
+    color: white;
+}
+ 
+.alert-salir-button button:nth-child(1) {
+    border: 2px #e53935 solid;
+    background-color: #eee;
+    color: #e53935;
+}
+ 
+.remove {
+    display: none;
+}
+ 
+/* Contenedor principal */
+article {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: #eee;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+ 
+/* DATA DE PELICULA */
+.pelicula-info {
+    flex: 0 0 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1rem;
+}
+ 
+.pelicula-info-img {
+    width: 250px;
+}
+ 
+.img-pelicula {
+    width: 100%;
+}
+ 
+.pelicula-info-text {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+ 
+.titulo {
+    color: #e53935;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+ 
+.tipo-pelicula {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+ 
+/* ASIENTOS */
+.asientos {
+    flex: 1;
+    background-color: #f5eeee;
+    padding: 1rem;
+    border-left: 1px #f7f1f1 solid;
+    border-right: 1px #dadada solid;
+    box-sizing: border-box;
+}
+ 
+.asientos-contenido {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+}
+ 
+.asientos-pantalla {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+ 
+.asientos-pantalla p {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 2rem;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 2px #000000de;
+}
+
+.asiento-ocupado {
+    background-color: #555 !important;   /* gris oscuro */
+    border-color: #333 !important;
+    color: #b90707 !important;
+    cursor: not-allowed !important;
+    opacity: 0.85;
+}
+
+/* evita hover */
+.asiento-ocupado:hover {
+    background-color: #555 !important;
+}
+
+ 
+.pantalla {
+    width: 55%;
+    height: 10px;
+    margin: auto;
+    background: linear-gradient(90deg, rgba(191, 191, 191, 0.1) 0%, rgba(191, 191, 191, 1) 15%, rgba(191, 191, 191, 1) 50%, rgba(191, 191, 191, 1) 85%, rgba(191, 191, 191, 0.1) 100%);
+}
+ 
+/* Contenedor de filas dinámicas */
+.asientos-all {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+ 
+/* Cada fila */
+.asientos-fila {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+ 
+/* Pasillo central */
+.asiento-espacio {
+    width: 25px;
+    display: inline-block;
+    width: 80px;
+}
+ 
+/* Caja de asiento */
+.asiento-box {
+    margin: 0.4rem;
+    width: 38px;
+    height: 50px;
+    border: 2px #e53935 solid;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: rgb(243, 227, 227);
+    color: #e53935;
+    font-size: 0.8rem;
+    gap: 2px;
+    transition: all 0.2s ease-in-out;
+}
+ 
+.emoji-asiento {
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+}
+ 
+.asiento-codigo {
+    font-weight: bold;
+    color: #e53935;
+}
+ 
+.box-select {
+    background-color: #e53935;
+    color: white;
+}
+ 
+.box-select .asiento-codigo {
+    color: rgb(209, 13, 13);
+}
+ 
+/* Leyenda de asientos */
+.asiento-info {
+    margin: auto;
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+    background-color: #80808033;
+    width: 100%;
+    padding: 2rem 0;
+    justify-content: center;
+    border-radius: 10px;
+}
+ 
+.item-info-disponible {
+    width: 25px;
+    height: 25px;
+    border: 2px #e53935 solid;
+    border-radius: 50%;
+}
+ 
+.item-info-seleccionada {
+    width: 25px;
+    height: 25px;
+    border: 2px #e53935 solid;
+    background-color: #e53935;
+    border-radius: 50%;
+}
+ 
+.asiento-info-disponible,
+.asiento-info-seleccionada {
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .8rem;
+}
+ 
+/* DETALLES DE COMPRA */
+.pago-info {
+    flex: 0 0 260px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+ 
+.pago-info-all {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+ 
+.pago-info-aviso {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+ 
+.pago-info-aviso h3 {
+    color: #e53935;
+    text-transform: uppercase;
+}
+ 
+.pago-info-aviso ul {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+ 
+.pago-info-aviso ul li {
+    margin-left: 1rem;
+    font-size: .9rem;
+    font-weight: 600;
+}
+ 
+.pago-info-contenido {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+ 
+.pago-info-contenido h2 {
+    color: #e53935;
+    text-transform: uppercase;
+}
+ 
+.pago-info-text {
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: .5rem;
+}
+ 
+.linea {
+    width: 100%;
+    height: 2px;
+    background-color: #00000036;
+    margin: auto;
+}
+ 
+.total-pagar {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
+}
+ 
+.total-pagar::before {
+    content: 's/. ';
+}
+ 
+.pago-info-button button {
+    padding: 1.2rem 4rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #e53935;
+    border: none;
+    border-radius: 5px;
+    transition: .2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .8rem;
+}
+ 
+.pago-info-button button:hover {
+    background-color: #ce322f;
+}
+ 
+.bloquear {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+ 
+/* Footer */
+footer {
+    background: #222;
+    color: #fff;
+    padding: 3vw 5vw;
+    font-family: Arial, sans-serif;
+}
+ 
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2vw;
+    max-width: 90vw;
+    margin: auto;
+}
+ 
+.footer-section {
+    flex: 1;
+    min-width: 20vw;
+    margin-bottom: 2vh;
+}
+ 
+.footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1vh;
+    border-bottom: 0.2rem solid #ffcc00;
+    display: inline-block;
+    padding-bottom: 0.5vh;
+}
+ 
+.footer-section p,
+.footer-section a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 1rem;
+}
+ 
+.footer-section a:hover {
+    color: #ffcc00;
+}
+ 
+.social-links,
+.quick-links {
+    list-style: none;
+    padding: 0;
+}
+ 
+.social-links li,
+.quick-links li {
+    margin-bottom: 0.8vh;
+}
+ 
+.footer-bottom b p {
+    background-color: #3a46ee;
+    padding: 8vh;
+    text-align: center;
+    color: white;
+}
+ 
+.marquee {
+    width: 100%;
+    height: 3.125rem;
+    overflow: hidden;
+    position: relative;
+}
+ 
+.marquee-text {
+    position: absolute;
+    white-space: nowrap;
+    animation: bounce-left 5s linear infinite;
+    font-weight: bold;
+}
+ 
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    article {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+ 
+    .pelicula-info {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+    }
+ 
+    .pelicula-info-img {
+        width: 150px;
+    }
+ 
+    .pelicula-info-text {
+        align-items: flex-start;
+    }
+ 
+    .asientos {
+        order: 2;
+        padding: 1rem;
+    }
+ 
+    .asientos-fila {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+ 
+    .asientos-all {
+        width: 100%;
+    }
+ 
+    .asiento-box {
+        width: 35px;
+        height: 45px;
+        font-size: 0.75rem;
+    }
+ 
+    .emoji-asiento {
+        font-size: 1rem;
+    }
+ 
+    .asiento-codigo {
+        font-size: 0.7rem;
+    }
+ 
+    .asientos-pantalla p {
+        font-size: 1.5rem;
+    }
+ 
+    .pantalla {
+        width: 80%;
+    }
+ 
+    .pago-info {
+        order: 3;
+        padding: 1rem;
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+ 
+    .pago-info-button button {
+        width: 100%;
+    }
+ 
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}

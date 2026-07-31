@@ -117,7 +117,12 @@ class BtnHoraHandler {
         }
 
         // Guardamos info para la pantalla de asientos
-        localStorage.setItem("dataCine", JSON.stringify(data));
+        const dataAnterior = JSON.parse(localStorage.getItem("dataCine")) || {};
+
+        localStorage.setItem("dataCine", JSON.stringify({
+            ...data,
+            cine: dataAnterior.cine
+        }));
         localStorage.setItem("horarioSeleccionado", horarioSeleccionado);
         localStorage.setItem("tipoCine", tipoCine); // ← la misma key que lees en asientos.js
 

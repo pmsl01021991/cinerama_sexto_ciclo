@@ -95,7 +95,7 @@ class AsientosHandler {
                     asientos: this.butacasSeleccionadasArray.join(", "),
                     cantidad_entradas: this.seleccionado,
                     monto_entradas: this.seleccionado * this.entrada,
-                    estado: "PAGADO"
+                    estado: "RESERVADO"
                 })
             });
 
@@ -147,22 +147,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         const dataCine = JSON.parse(localStorage.getItem("dataCine"));
         const horario = localStorage.getItem("horarioSeleccionado");
 
-        const resp = await fetch(
-            `http://localhost:3001/api/reservas/ocupados/${encodeURIComponent(dataCine.cine)}/${encodeURIComponent(dataCine.titulo)}/${dataCine.sala}/${encodeURIComponent(horario)}`
-        );
+        const url = `http://localhost:3001/api/reservas/ocupados/${encodeURIComponent(dataCine.cine)}/${encodeURIComponent(dataCine.titulo)}/${dataCine.sala}/${encodeURIComponent(horario)}`;
+
+        console.log("dataCine:", dataCine);
+        console.log("URL:", url);
+
+        const resp = await fetch(url);
 
         const data = await resp.json();
 
+        console.log("OCUPADOS:", data);
+
         data.ocupados.forEach(cod => {
-            const asiento = document.querySelector(`.asiento-box[data-asiento="${cod}"]`);
+            const asiento = document.querySelector(
+                `.asiento-box[data-asiento="${cod}"]`
+            );
+
             if (asiento) {
                 asiento.classList.add("asiento-ocupado");
-                asiento.innerHTML = `<span style="font-size:1.2rem">❌</span>`;
+
+                asiento.innerHTML = `
+                    <span style="font-size:1.2rem">❌</span>
+                    <span class="asiento-codigo">${cod}</span>
+                `;
+
                 asiento.style.pointerEvents = "none";
             }
         });
     }
-
     function generarAsientos(filas, columnas) {
         contenedor.innerHTML = "";
         for (let i = 0; i < filas; i++) {

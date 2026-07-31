@@ -184,7 +184,7 @@ router.get("/ocupados/:cine/:pelicula/:sala/:horario", async (req, res) => {
          AND UPPER(pelicula_titulo) = UPPER(?)
          AND sala = ?
          AND horario = ?
-         AND estado IN ('RESERVADO','PAGADO')`,
+         AND estado='PAGADO'`,
       [cine, pelicula, sala, horario]
     );
 

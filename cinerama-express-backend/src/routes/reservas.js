@@ -1,4 +1,3 @@
-// src/routes/reservas.js
 import express from "express";
 import { pool } from "../db.js";
 import nodemailer from "nodemailer";
@@ -254,6 +253,89 @@ router.get("/:id/productos", async (req, res) => {
   } catch (err) {
     console.error("Error obteniendo productos:", err);
     res.status(500).json({ error: "Error obteniendo productos" });
+  }
+});
+
+router.post("/:id/enviar-voucher", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [[r]] = await pool.execute(
+      "SELECT * FROM reservas WHERE id = ?",
+      [id]
+    );
+
+    if (!r) {
+      return res.status(404).json({ error: "Reserva no encontrada" });
+    }
+
+    const [productos] = await pool.execute(
+      `SELECT p.nombre, pr.cantidad, pr.subtotal
+       FROM productos_reserva pr
+       JOIN productos p ON pr.producto_id = p.id
+       WHERE pr.reserva_id = ?`,
+      [id]
+    );
+
+    let htmlProductos = "";
+    let totalProductos = 0;
+
+    if (productos.length === 0) {
+      htmlProductos = "<p>No se compraron productos.</p>";
+    } else {
+      productos.forEach(p => {
+        totalProductos += Number(p.subtotal);
+        htmlProductos += `
+          <p>• ${p.nombre} x${p.cantidad} — S/ ${Number(p.subtotal).toFixed(2)}</p>
+        `;
+      });
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: r.correo_cliente,
+      subject: "Voucher de compra - Cinerama",
+      html: `
+        <h2>🎟️ Voucher de compra</h2>
+
+        <p><b>Cine:</b> ${r.cine}</p>
+        <p><b>Película:</b> ${r.pelicula_titulo}</p>
+        <p><b>Horario:</b> ${r.horario}</p>
+        <p><b>Asientos:</b> ${r.asientos}</p>
+
+        <hr>
+
+        <h3>Productos</h3>
+
+        ${htmlProductos}
+
+        <p><b>Total productos:</b> S/ ${totalProductos.toFixed(2)}</p>
+
+        <p><b>Entradas:</b> ${r.cantidad_entradas}</p>
+
+        <p><b>Total pagado:</b> S/ ${(Number(r.monto_entradas)+totalProductos).toFixed(2)}</p>
+
+        <hr>
+
+        <p><b>Cliente:</b> ${r.nombre_cliente}</p>
+
+        <p>Gracias por comprar en Cinerama 💚</p>
+      `
+    });
+
+    res.json({ ok: true });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error enviando correo" });
   }
 });
 

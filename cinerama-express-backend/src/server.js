@@ -10,9 +10,6 @@ import { fileURLToPath } from "url";
 import contactoRouter from "./routes/contacto.js";
 import adminRouter from "./routes/admin.js";
 
-
-
-
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);

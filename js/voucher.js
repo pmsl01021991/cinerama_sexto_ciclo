@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             : (r.metodo_pago || "-");
 
         // ================================
-        // 🚀 ENVIAR AUTOMÁTICAMENTE EL VOUCHER
+        //  ENVIAR AUTOMÁTICAMENTE EL VOUCHER
         // ================================
         async function enviarVoucher() {
             try {

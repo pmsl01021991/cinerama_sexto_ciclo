@@ -235,6 +235,40 @@ input[type="text"], input[type="email"], select {
     display: block;
     margin: 10px auto;
 }
+
+.mensaje-exito {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(.8);
+    width: 400px;
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(0,0,0,.35);
+    z-index: 9999;
+    opacity: 0;
+    transition: .4s;
+}
+
+.mensaje-exito.mostrar {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.mensaje-exito .icono{
+    font-size:60px;
+}
+
+.mensaje-exito h2{
+    color:#28a745;
+    margin:10px 0;
+}
+
+.mensaje-exito p{
+    color:#555;
+}
 /* Footer */
 footer {
     background: #222;

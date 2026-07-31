@@ -69,21 +69,46 @@ class PagoFormHandler {
                     metodo_pago: metodoPago,           // 'tarjeta' o 'billetera'
                     billetera: billeteraUsada || null, // 'Yape', 'Plin' o null
                     estado: "PAGADO"
-                })
+                })            
             });
 
             if (!resp.ok) throw new Error("Error al registrar el pago");
 
-            // Mensaje opcional
-            alert("¡Pago realizado con éxito! 🎟️ Tu compra ha sido registrada.");
-
-            // 👉 En lugar de limpiar y quedarse aquí, redirigimos al voucher
-            window.location.href = "voucher.html";
+            // Mostrar mensaje bonito
+            this.mostrarMensajeExito();
 
         } catch (err) {
             console.error(err);
             alert("Hubo un problema al procesar el pago.");
         }
+    }
+
+    mostrarMensajeExito() {
+
+        const mensaje = document.createElement("div");
+
+        mensaje.className = "mensaje-exito";
+
+        mensaje.innerHTML = `
+            <div class="icono">✅</div>
+            <h2>¡Pago realizado con éxito!</h2>
+            <p>
+                Tu compra fue registrada correctamente.
+                <br>
+                Redirigiendo al voucher...
+            </p>
+        `;
+
+        document.body.appendChild(mensaje);
+
+        setTimeout(()=>{
+            mensaje.classList.add("mostrar");
+        },100);
+
+        setTimeout(()=>{
+            window.location.href="voucher.html";
+        },2500);
+
     }
 }
 

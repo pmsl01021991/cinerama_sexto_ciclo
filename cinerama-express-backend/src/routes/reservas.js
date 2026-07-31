@@ -300,35 +300,264 @@ router.post("/:id/enviar-voucher", async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `"CINERAMA" <${process.env.EMAIL_USER}>`,
       to: r.correo_cliente,
-      subject: "Voucher de compra - Cinerama",
+      subject: "🎟️ Confirmación de compra - CINERAMA",
       html: `
-        <h2>🎟️ Voucher de compra</h2>
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+    <meta charset="UTF-8">
+    </head>
 
-        <p><b>Cine:</b> ${r.cine}</p>
-        <p><b>Película:</b> ${r.pelicula_titulo}</p>
-        <p><b>Horario:</b> ${r.horario}</p>
-        <p><b>Asientos:</b> ${r.asientos}</p>
+    <body style="
+    margin:0;
+    padding:40px;
+    background:#f3f3f3;
+    font-family:Arial, Helvetica, sans-serif;">
 
-        <hr>
+    <div style="
+    max-width:650px;
+    margin:auto;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);">
 
-        <h3>Productos</h3>
+    <!-- ENCABEZADO -->
 
-        ${htmlProductos}
+    <div style="
+    background:#151515;
+    padding:25px;
+    text-align:center;">
 
-        <p><b>Total productos:</b> S/ ${totalProductos.toFixed(2)}</p>
+    <h1 style="
+    margin:0;
+    font-size:34px;
+    color:#d9d93b;
+    letter-spacing:2px;">
 
-        <p><b>Entradas:</b> ${r.cantidad_entradas}</p>
+    🎬 CINERAMA
 
-        <p><b>Total pagado:</b> S/ ${(Number(r.monto_entradas)+totalProductos).toFixed(2)}</p>
+    </h1>
 
-        <hr>
+    <p style="
+    color:white;
+    margin-top:8px;">
 
-        <p><b>Cliente:</b> ${r.nombre_cliente}</p>
+    Tu compra fue realizada con éxito
 
-        <p>Gracias por comprar en Cinerama 💚</p>
-      `
+    </p>
+
+    </div>
+
+    <!-- CUERPO -->
+
+    <div style="padding:35px;">
+
+    <h2 style="
+    text-align:center;
+    margin-top:0;
+    color:#0f172a;">
+
+    🎟️ Voucher de Compra
+
+    </h2>
+
+    <div style="
+    background:#f7f7f7;
+    padding:18px;
+    border-radius:10px;
+    border-left:6px solid #2ecc71;
+    margin-bottom:20px;">
+
+    <h3 style="
+    margin:0;
+    color:#2ecc71;">
+
+    ✅ Estado: PAGADO
+
+    </h3>
+
+    </div>
+
+    <table width="100%" cellspacing="8">
+
+    <tr>
+    <td><b>📍 Cine</b></td>
+    <td>${r.cine}</td>
+    </tr>
+
+    <tr>
+    <td><b>🎬 Película</b></td>
+    <td>${r.pelicula_titulo}</td>
+    </tr>
+
+    <tr>
+    <td><b>🎞️ Tipo</b></td>
+    <td>${r.tipo_cine}</td>
+    </tr>
+
+    <tr>
+    <td><b>🕒 Horario</b></td>
+    <td>${r.horario}</td>
+    </tr>
+
+    <tr>
+    <td><b>🪑 Asientos</b></td>
+    <td>${r.asientos}</td>
+    </tr>
+
+    <tr>
+    <td><b>🎟️ Entradas</b></td>
+    <td>${r.cantidad_entradas}</td>
+    </tr>
+
+    </table>
+
+    <hr style="margin:30px 0;">
+
+    <h3 style="color:#d35400;">
+    🍿 Productos Comprados
+    </h3>
+
+    ${
+    productos.length===0
+    ?`
+    <p>No se compraron productos.</p>
+    `
+    :
+    productos.map(p=>`
+    <div style="
+    display:flex;
+    justify-content:space-between;
+    padding:10px;
+    background:#fafafa;
+    margin-bottom:8px;
+    border-radius:8px;">
+
+    <span>
+
+    ${p.nombre}
+
+    x${p.cantidad}
+
+    </span>
+
+    <span>
+
+    S/ ${Number(p.subtotal).toFixed(2)}
+
+    </span>
+
+    </div>
+    `).join("")
+    }
+
+    <div style="
+    margin-top:15px;
+    padding:15px;
+    background:#fff8e1;
+    border-radius:8px;">
+
+    <p style="margin:4px;">
+    <b>Total productos:</b>
+    S/ ${totalProductos.toFixed(2)}
+    </p>
+
+    <p style="margin:4px;">
+    <b>Total entradas:</b>
+    S/ ${Number(r.monto_entradas).toFixed(2)}
+    </p>
+
+    <h2 style="
+    margin-top:18px;
+    color:#0b8457;">
+
+    💳 TOTAL PAGADO
+
+    <br>
+
+    S/ ${(Number(r.monto_entradas)+totalProductos).toFixed(2)}
+
+    </h2>
+
+    </div>
+
+    <hr style="margin:30px 0;">
+
+    <h3>👤 Datos del Cliente</h3>
+
+    <table width="100%" cellspacing="8">
+
+    <tr>
+    <td><b>Nombre</b></td>
+    <td>${r.nombre_cliente}</td>
+    </tr>
+
+    <tr>
+    <td><b>Correo</b></td>
+    <td>${r.correo_cliente}</td>
+    </tr>
+
+    <tr>
+    <td><b>Método</b></td>
+    <td>${r.metodo_pago==="billetera"
+    ?`Billetera (${r.billetera})`
+    :r.metodo_pago}</td>
+    </tr>
+
+    </table>
+
+    <div style="
+    margin-top:35px;
+    padding:20px;
+    background:#e8f5e9;
+    border-radius:10px;
+    text-align:center;">
+
+    <h2 style="
+    margin:0;
+    color:#2e7d32;">
+
+    💚 Gracias por elegir CINERAMA
+
+    </h2>
+
+    <p style="margin-top:10px;">
+
+    Esperamos verte nuevamente.
+
+    Disfruta tu película.
+
+    🍿🎬
+
+    </p>
+
+    </div>
+
+    </div>
+
+    <div style="
+    background:#151515;
+    padding:15px;
+    text-align:center;
+    color:#ccc;
+    font-size:13px;">
+
+    © 2026 CINERAMA
+
+    <br>
+
+    Este correo fue generado automáticamente.
+
+    </div>
+
+    </div>
+
+    </body>
+    </html>
+    `
     });
 
     res.json({ ok: true });

@@ -65,7 +65,7 @@ class AsientosHandler {
         if (asiento.classList.toggle('box-select')) {
             this.seleccionado++;
             this.butacasSeleccionadasArray.push(codigo);
-            asiento.querySelector('.emoji-asiento').textContent = '🧍‍♂️🪑';
+            asiento.querySelector('.emoji-asiento').textContent = '🧍‍♂️';
         } else {
             this.seleccionado--;
             this.butacasSeleccionadasArray =

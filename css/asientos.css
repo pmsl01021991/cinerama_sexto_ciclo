@@ -260,7 +260,7 @@ article{
 
     width:100%;
 
-    max-width:720px;
+    max-width:730px;
 
     margin:auto;
 
@@ -293,7 +293,7 @@ article{
 
     width:36px;
 
-    height:48px;
+    height:70px;
 
     border:2px solid #e53935;
 
@@ -303,7 +303,8 @@ article{
 
     flex-direction:column;
 
-    justify-content:center;
+    justify-content:flex-start;
+    padding-top:6px;
 
     align-items:center;
 
@@ -313,30 +314,35 @@ article{
 
     color:#e53935;
 
-    font-size:.8rem;
+    font-size:.1rem;
 
     gap:1px;
 
     transition:.2s;
+    
 }
  
 .emoji-asiento{
-    font-size:0.9rem;
-    line-height:2;
+    font-size:1.4rem;
+    line-height:1;
     display:flex;
     align-items:center;
     justify-content:center;
-    height:16px;
+    height:22px;
 }
  
 .asiento-codigo {
     font-weight: bold;
+    font-size:.82rem;
     color: #e53935;
+    margin-top:10px;
 }
  
 .box-select {
     background-color: #e53935;
     color: white;
+
+    transform: scaleY(1); 
 }
  
 .box-select .asiento-codigo {

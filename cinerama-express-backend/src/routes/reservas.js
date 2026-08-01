@@ -549,8 +549,6 @@ router.post("/:id/enviar-voucher", async (req, res) => {
 
     <br>
 
-    Este correo fue generado automáticamente.
-
     </div>
 
     </div>

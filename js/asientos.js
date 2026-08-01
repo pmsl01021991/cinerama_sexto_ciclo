@@ -78,6 +78,16 @@ class AsientosHandler {
         document.getElementById('total-entrada').textContent = this.seleccionado;
         document.getElementById('butacas-seleccionadas').textContent =
             this.butacasSeleccionadasArray.join(', ');
+        // Guardar para comida.html
+        localStorage.setItem(
+            "asientosSeleccionados",
+            this.butacasSeleccionadasArray.join(", ")
+        );
+
+        localStorage.setItem(
+            "cantidadEntradas",
+            this.seleccionado
+        );
 
         const btn = document.getElementById('btn-continuar');
         btn.disabled = this.seleccionado === 0;

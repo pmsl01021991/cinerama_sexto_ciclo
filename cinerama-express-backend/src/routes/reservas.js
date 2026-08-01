@@ -168,7 +168,7 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: "Error al actualizar la reserva" });
   }
 });
-
+https://chatgpt.com/projects
 /**
  * ✅ GET /api/reservas/ocupados/:cine/:pelicula/:sala/:horario
  * DEVUELVE ASIENTOS RESERVADOS Y PAGADOS

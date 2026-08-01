@@ -136,33 +136,34 @@ section .slide {
 }
  
 /* Contenedor principal */
-article {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 2rem;
-    flex-wrap: nowrap;
-    width: 100%;
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 1rem;
-    background-color: #eee;
-    box-sizing: border-box;
-    overflow-x: hidden;
+article{
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    gap:20px;
+    width:100%;
+    max-width:1600px;
+    margin:0 auto;
+    padding:20px;
+    background:#eee;
+    overflow:hidden;
 }
  
 /* DATA DE PELICULA */
 .pelicula-info {
-    flex: 0 0 260px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding-top: 1rem;
+    flex: 0 0 220px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:1rem;
+
+    padding-top:2.5rem;
 }
  
 .pelicula-info-img {
-    width: 250px;
+    width: 220px;
 }
  
 .img-pelicula {
@@ -188,13 +189,21 @@ article {
 }
  
 /* ASIENTOS */
-.asientos {
-    flex: 1;
-    background-color: #f5eeee;
-    padding: 1rem;
-    border-left: 1px #f7f1f1 solid;
-    border-right: 1px #dadada solid;
-    box-sizing: border-box;
+.asientos{
+
+    flex:0 1 760px;
+
+    max-width:760px;
+
+    width:100%;
+
+    background:#f5eeee;
+
+    padding:1rem;
+
+    border-left:1px #f7f1f1 solid;
+    border-right:1px #dadada solid;
+
 }
  
 .asientos-contenido {
@@ -242,21 +251,32 @@ article {
 }
  
 /* Contenedor de filas dinámicas */
-.asientos-all {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 0 1rem;
+.asientos-all{
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+
+    width:100%;
+
+    max-width:720px;
+
+    margin:auto;
+
 }
  
 /* Cada fila */
-.asientos-fila {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 5px;
+.asientos-fila{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:8px;
+
+    margin-bottom:8px;
+
 }
  
 /* Pasillo central */
@@ -267,28 +287,41 @@ article {
 }
  
 /* Caja de asiento */
-.asiento-box {
-    margin: 0.4rem;
-    width: 38px;
-    height: 50px;
-    border: 2px #e53935 solid;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    background-color: rgb(243, 227, 227);
-    color: #e53935;
-    font-size: 0.8rem;
-    gap: 2px;
-    transition: all 0.2s ease-in-out;
+.asiento-box{
+
+    margin:3px;
+
+    width:36px;
+
+    height:48px;
+
+    border:2px solid #e53935;
+
+    border-radius:6px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    background:rgb(243,227,227);
+
+    color:#e53935;
+
+    font-size:.8rem;
+
+    gap:5px;
+
+    transition:.2s;
 }
  
-.emoji-asiento {
-    font-size: 1.2rem;
-    line-height: 1.2rem;
+.emoji-asiento{
+    font-size:1.1rem
 }
  
 .asiento-codigo {
@@ -343,13 +376,17 @@ article {
 }
  
 /* DETALLES DE COMPRA */
-.pago-info {
-    flex: 0 0 260px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
+.pago-info{
+
+    flex:0 0 250px;
+
+    padding:1rem;
+
+    padding-top:2.5rem;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
  
 .pago-info-all {
@@ -515,6 +552,8 @@ footer {
 }
  
 /* RESPONSIVE */
+
+
 @media (max-width: 768px) {
     article {
         display: flex;

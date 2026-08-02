@@ -369,7 +369,6 @@ ALTER TABLE reservas
 MODIFY estado ENUM('PENDIENTE','RESERVADO','PAGADO','CANCELADO') 
 DEFAULT 'PENDIENTE';
 
-
 CREATE TABLE mensajes_contacto (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(120) NOT NULL,
@@ -380,6 +379,256 @@ CREATE TABLE mensajes_contacto (
     mensaje TEXT NOT NULL,
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+select * from mensajes_contacto;
+
+SELECT
+    id,
+    cine,
+    estado,
+    fecha_creacion
+FROM reservas
+ORDER BY id DESC
+LIMIT 10;
+
+SELECT
+    id,
+    cine,
+    pelicula_titulo,
+    tipo_cine,
+    sala,
+    horario,
+    estado
+FROM reservas
+ORDER BY id DESC
+LIMIT 5;
+
+SELECT
+    id,
+    cine,
+    pelicula_titulo,
+    tipo_cine,
+    sala,
+    horario,
+    asientos,
+    cantidad_entradas,
+    monto_entradas,
+    estado
+FROM reservas
+ORDER BY id DESC
+LIMIT 5;
+
+SELECT
+    id,
+    cine,
+    pelicula_titulo,
+    tipo_cine,
+    sala,
+    horario,
+    asientos,
+    cantidad_entradas,
+    monto_entradas,
+    nombre_cliente,
+    correo_cliente,
+    metodo_pago,
+    billetera,
+    estado
+FROM reservas
+ORDER BY id DESC
+LIMIT 5;
+
+USE cinerama;
+
+DELETE FROM funciones
+WHERE cine_id = 1
+  AND pelicula_id = 1;
+
+INSERT INTO funciones
+(
+    cine_id,
+    pelicula_id,
+    tipo_cine,
+    sala,
+    fecha,
+    hora,
+    precio
+)
+VALUES
+(
+    1,
+    1,
+    '2D',
+    '01',
+    CURDATE(),
+    '15:20:00',
+    12.00
+),
+(
+    1,
+    1,
+    '3D',
+    '02',
+    CURDATE(),
+    '14:10:00',
+    15.00
+);
+
+SELECT *
+FROM funciones
+WHERE cine_id = 1
+  AND pelicula_id = 1;
+
+
+SELECT
+    id,
+    nombre,
+    ciudad
+FROM cines
+ORDER BY id;
+
+SELECT
+    id,
+    codigo,
+    titulo,
+    estado
+FROM peliculas
+ORDER BY id;
+
+-- ACTUALIZAR PELICULAS-
+
+-- ============================================
+-- ID 1 - EL AFINADOR
+-- Conservamos codigo = chavin
+-- ============================================
+
+UPDATE peliculas
+SET
+    codigo = 'chavin',
+    titulo = 'EL AFINADOR',
+    director = 'DANIEL ROHER.',
+    duracion_min = 107,
+    clasificacion = 'MAYORES DE 14',
+    genero = 'ANIMADO',
+    estreno = '2026-06-25',
+    reparto = 'LEO WOODALL, DUSTIN HOFFMAN, ALISEN RICHMOND-PECK.',
+    estado = 'EN_CARTELERA'
+WHERE id = 1;
+
+
+-- ============================================
+-- ID 2 - SUPER GIRL
+-- Conservamos codigo = hurry
+-- ============================================
+
+UPDATE peliculas
+SET
+    codigo = 'hurry',
+    titulo = 'SUPER GIRL',
+    director = 'CRAIG GILLESPIE.',
+    duracion_min = 108,
+    clasificacion = 'TODO ESPECTADOR',
+    genero = 'AVENTURA',
+    estreno = '2026-06-24',
+    reparto = 'MILLY ALCOCK, DAVID CORENSWET, EVE RIDLEY.',
+    estado = 'EN_CARTELERA'
+WHERE id = 2;
+
+
+-- ============================================
+-- ID 3 - TOY STORY
+-- Conservamos codigo = zootopia2
+-- ============================================
+
+UPDATE peliculas
+SET
+    codigo = 'zootopia2',
+    titulo = 'TOY STORY',
+    director = 'MCKENNA HARRIS, ANDREW STANTON.',
+    duracion_min = 102,
+    clasificacion = 'TODO ESPECTADOR',
+    genero = 'ANIMACION',
+    estreno = '2026-06-17',
+    reparto = 'TOM HANKS, KEANU REEVES, JOAN CUSACK.',
+    estado = 'EN_CARTELERA'
+WHERE id = 3;
+
+
+-- ============================================
+-- ID 4 - EL DIA DE LA REVELACION
+-- Conservamos codigo = nada3
+-- ============================================
+
+UPDATE peliculas
+SET
+    codigo = 'nada3',
+    titulo = 'EL DIA DE LA REVELACION',
+    director = 'STEVEN SPIELBERG',
+    duracion_min = 145,
+    clasificacion = 'MAYORES DE 14',
+    genero = 'ACCION',
+    estreno = '2026-06-10',
+    reparto = 'EMILY BLUNT, JOSH O''CONNOR, COLIN FIRTH.',
+    estado = 'EN_CARTELERA'
+WHERE id = 4;
+
+select * from peliculas;
+
+INSERT INTO funciones (
+    cine_id,
+    pelicula_id,
+    tipo_cine,
+    sala,
+    fecha,
+    hora,
+    precio
+)
+SELECT
+    c.id,
+    p.id,
+    '2D',
+    '01',
+    '2026-08-01',
+    '15:20:00',
+    12.00
+FROM cines c
+CROSS JOIN peliculas p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM funciones f
+    WHERE f.cine_id = c.id
+      AND f.pelicula_id = p.id
+      AND f.tipo_cine = '2D'
+);
+
+INSERT INTO funciones (
+    cine_id,
+    pelicula_id,
+    tipo_cine,
+    sala,
+    fecha,
+    hora,
+    precio
+)
+SELECT
+    c.id,
+    p.id,
+    '3D',
+    '02',
+    '2026-08-01',
+    '14:10:00',
+    15.00
+FROM cines c
+CROSS JOIN peliculas p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM funciones f
+    WHERE f.cine_id = c.id
+      AND f.pelicula_id = p.id
+      AND f.tipo_cine = '3D'
+);
+
+SELECT COUNT(*) AS total_funciones
+FROM funciones;
 
 
 

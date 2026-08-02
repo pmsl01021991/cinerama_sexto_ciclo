@@ -1,6 +1,3 @@
-// ===============================
-// CARGAR FICHA DE LA PELÍCULA
-// ===============================
 const params = new URLSearchParams(window.location.search);
 const codigo = params.get("pelicula");
 

@@ -43,80 +43,98 @@ class LoginForm {
     }
   }
 
-  enviarFormulario() {
+  async enviarFormulario() {
   if (this.loading) return;
 
   const user = (this.usuarioInput?.value || "").trim();
   const pass = (this.passwordInput?.value || "").trim();
 
   if (!user || !pass) {
-    this.mensajeError.textContent = "Por favor completa todos los campos.";
+    this.mensajeError.textContent =
+      "Por favor completa todos los campos.";
     return;
   }
 
   if (typeof grecaptcha === "undefined") {
-    this.mensajeError.textContent = "No se pudo cargar el captcha. Recarga la página.";
+    this.mensajeError.textContent =
+      "No se pudo cargar el captcha. Recarga la página.";
     return;
   }
 
   const token = grecaptcha.getResponse();
+
   if (!token) {
     this.mensajeError.textContent = "Completa el captcha.";
     return;
   }
 
   this.setLoading(true);
-this.mensajeError.textContent = "";
+  this.mensajeError.textContent = "";
 
-// Usuario administrador hardcodeado
-const adminUser = "admin@cinerama.com";
-const adminPass = "pmsl123";
+  try {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        usuario: user,
+        password: pass,
+        "g-recaptcha-response": token,
+      }),
+    });
 
-// Si el usuario NO es admin, redirigir con modal
-if (user !== adminUser || pass !== adminPass) {
-  localStorage.setItem("showRestrictedModal", "true");
-  try { grecaptcha.reset(); } catch (_) {}
-  window.location.href = "index.html";
-  return; // detener ejecución del login
-}
+    const data = await res.json();
 
-// Si es admin, proceder con el fetch normal
-const url = "/api/auth/login"; 
-fetch(url, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    usuario: user,
-    password: pass,
-    "g-recaptcha-response": token,
-  }),
-})
-  .then(async (res) => {
-    const text = await res.text();
+    if (!res.ok) {
+      this.mensajeError.textContent =
+        data.mensaje || "Usuario o contraseña incorrectos.";
 
-    if (res.ok && text === "OK") {
-      localStorage.setItem("adminLogeado", "true");
-      try { grecaptcha.reset(); } catch (_) {}
+      try {
+        grecaptcha.reset();
+      } catch (_) {}
+
+      return;
+    }
+
+    if (data.usuario?.rol !== "ADMIN") {
+      localStorage.setItem("showRestrictedModal", "true");
+
+      try {
+        grecaptcha.reset();
+      } catch (_) {}
+
       window.location.href = "index.html";
       return;
     }
 
-    // Si falla login
-    const intentos = JSON.parse(localStorage.getItem("intentosFallidos")) || [];
-    intentos.push({ usuario: user, fecha: new Date().toLocaleString() });
-    localStorage.setItem("intentosFallidos", JSON.stringify(intentos));
-    this.mensajeError.textContent = text || "Login inválido";
-    try { grecaptcha.reset(); } catch (_) {}
-  })
-  .catch((err) => {
-    console.error("❌ Fetch error:", err);
-    this.mensajeError.textContent = "Error de conexión.";
-    try { grecaptcha.reset(); } catch (_) {}
-  })
-  .finally(() => this.setLoading(false));
+    localStorage.setItem("adminLogeado", "true");
 
+    localStorage.setItem(
+      "usuarioSesion",
+      JSON.stringify(data.usuario)
+    );
+
+    try {
+      grecaptcha.reset();
+    } catch (_) {}
+
+    window.location.href = "index.html";
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+
+    this.mensajeError.textContent =
+      "Error de conexión con el servidor.";
+
+    try {
+      grecaptcha.reset();
+    } catch (_) {}
+
+  } finally {
+    this.setLoading(false);
+  }
 }
-
 }
 
 new LoginForm("#LoginForm");
@@ -136,6 +154,7 @@ class AdminPanel {
 
   cerrarSesion() {
     localStorage.removeItem("adminLogeado");
+    localStorage.removeItem("usuarioSesion");
     window.location.href = "index.html";
   }
 }

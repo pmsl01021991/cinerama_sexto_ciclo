@@ -9,6 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import contactoRouter from "./routes/contacto.js";
 import adminRouter from "./routes/admin.js";
+import usuariosRouter from "./routes/usuarios.js";
 
 dotenv.config();
 
@@ -103,7 +104,6 @@ app.get("/", (_req, res) => {
 // Rate limit para la API
 app.use("/api", rateLimit({ windowMs: 60_000, max: 60 }));
 
-
 app.use("/api/reservas", reservasRouter);
 
 app.use("/api/admin", adminRouter);
@@ -111,7 +111,11 @@ app.use("/api/admin", adminRouter);
 // Rutas API
 app.use("/api/auth", authRouter);
 app.use("/api/contacto", contactoRouter);
+app.use("/api/usuarios", usuariosRouter);
 
-app.listen(3001, () => {
-  console.log("Backend escuchando en http://localhost:3001");
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Backend escuchando en puerto ${PORT}`);
+  console.log(`Acceso local: http://localhost:${PORT}`);
 });

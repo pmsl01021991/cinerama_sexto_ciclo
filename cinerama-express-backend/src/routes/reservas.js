@@ -168,7 +168,370 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: "Error al actualizar la reserva" });
   }
 });
-https://chatgpt.com/projects
+
+/* ======================================================
+   💳 PROCESAR PAGO DESDE LA APP
+   PUT /api/reservas/:id/pagar
+   ====================================================== */
+
+router.put("/:id/pagar", async (req, res) => {
+  const { id } = req.params;
+
+  const {
+    nombre_cliente,
+    correo_cliente,
+    metodo_pago,
+    billetera,
+    tipo_documento,
+    numero_documento,
+    telefono,
+    monto_total,
+    productos,
+  } = req.body;
+
+  // =====================================================
+  // VALIDACIONES
+  // =====================================================
+
+  if (!nombre_cliente || !correo_cliente) {
+    return res.status(400).json({
+      error: "Nombre y correo son obligatorios",
+    });
+  }
+
+  if (!["tarjeta", "billetera"].includes(metodo_pago)) {
+    return res.status(400).json({
+      error: "Método de pago inválido",
+    });
+  }
+
+  if (
+    metodo_pago === "billetera" &&
+    !["Yape", "Plin"].includes(billetera)
+  ) {
+    return res.status(400).json({
+      error: "Billetera inválida",
+    });
+  }
+
+  let conn;
+
+  try {
+    conn = await pool.getConnection();
+
+    await conn.beginTransaction();
+
+    // =====================================================
+    // 1. COMPROBAR QUE LA RESERVA EXISTE
+    // =====================================================
+
+    const [[reserva]] = await conn.execute(
+      `SELECT *
+       FROM reservas
+       WHERE id = ?
+       FOR UPDATE`,
+      [id]
+    );
+
+    if (!reserva) {
+      await conn.rollback();
+
+      return res.status(404).json({
+        error: "Reserva no encontrada",
+      });
+    }
+
+    if (reserva.estado === "PAGADO") {
+      await conn.rollback();
+
+      return res.status(409).json({
+        error: "Esta reserva ya fue pagada",
+      });
+    }
+
+    if (reserva.estado === "CANCELADO") {
+      await conn.rollback();
+
+      return res.status(409).json({
+        error: "Esta reserva está cancelada",
+      });
+    }
+
+    // =====================================================
+    // 2. ACTUALIZAR DATOS DEL CLIENTE Y PAGO
+    // =====================================================
+
+    await conn.execute(
+      `UPDATE reservas
+       SET nombre_cliente = ?,
+           correo_cliente = ?,
+           metodo_pago = ?,
+           billetera = ?,
+           estado = 'PAGADO'
+       WHERE id = ?`,
+      [
+        nombre_cliente.trim(),
+        correo_cliente.trim(),
+        metodo_pago,
+        metodo_pago === "billetera"
+          ? billetera
+          : null,
+        id,
+      ]
+    );
+
+    // =====================================================
+    // 3. GUARDAR PRODUCTOS
+    // =====================================================
+
+    await conn.execute(
+      `DELETE FROM productos_reserva
+       WHERE reserva_id = ?`,
+      [id]
+    );
+
+    if (Array.isArray(productos)) {
+      for (const producto of productos) {
+        const productoId = Number(
+          producto.producto_id
+        );
+
+        const cantidad = Number(
+          producto.cantidad
+        );
+
+        if (
+          !Number.isInteger(productoId) ||
+          productoId <= 0 ||
+          !Number.isInteger(cantidad) ||
+          cantidad <= 0
+        ) {
+          throw new Error(
+            "Producto o cantidad inválida"
+          );
+        }
+
+        // Obtenemos el precio REAL desde MySQL.
+        // No confiamos en el precio enviado por la app.
+
+        const [[productoBD]] = await conn.execute(
+          `SELECT id, precio
+           FROM productos
+           WHERE id = ?
+             AND activo = 1`,
+          [productoId]
+        );
+
+        if (!productoBD) {
+          throw new Error(
+            `Producto ${productoId} no encontrado`
+          );
+        }
+
+        const subtotal =
+          Number(productoBD.precio) * cantidad;
+
+        await conn.execute(
+          `INSERT INTO productos_reserva
+           (
+             reserva_id,
+             producto_id,
+             cantidad,
+             subtotal
+           )
+           VALUES (?, ?, ?, ?)`,
+          [
+            id,
+            productoId,
+            cantidad,
+            subtotal,
+          ]
+        );
+      }
+    }
+
+    // =====================================================
+    // 4. GUARDAR / BUSCAR CLIENTE
+    // =====================================================
+
+    let clienteId = null;
+
+    const [[clienteExistente]] =
+      await conn.execute(
+        `SELECT id
+         FROM clientes
+         WHERE correo = ?
+         LIMIT 1`,
+        [correo_cliente.trim()]
+      );
+
+    if (clienteExistente) {
+      clienteId = clienteExistente.id;
+
+      await conn.execute(
+        `UPDATE clientes
+         SET nombre = ?,
+             tipo_documento = ?,
+             numero_documento = ?,
+             telefono = ?
+         WHERE id = ?`,
+        [
+          nombre_cliente.trim(),
+          tipo_documento || null,
+          numero_documento || null,
+          telefono || null,
+          clienteId,
+        ]
+      );
+    } else {
+      const [resultadoCliente] =
+        await conn.execute(
+          `INSERT INTO clientes
+           (
+             nombre,
+             correo,
+             tipo_documento,
+             numero_documento,
+             telefono
+           )
+           VALUES (?, ?, ?, ?, ?)`,
+          [
+            nombre_cliente.trim(),
+            correo_cliente.trim(),
+            tipo_documento || null,
+            numero_documento || null,
+            telefono || null,
+          ]
+        );
+
+      clienteId =
+        resultadoCliente.insertId;
+    }
+
+    // =====================================================
+    // 5. OBTENER MÉTODO DE PAGO
+    // =====================================================
+
+    const [[metodoBD]] =
+      await conn.execute(
+        `SELECT id
+         FROM metodos_pago
+         WHERE nombre = ?
+         LIMIT 1`,
+        [metodo_pago]
+      );
+
+    if (!metodoBD) {
+      throw new Error(
+        "Método de pago no encontrado en MySQL"
+      );
+    }
+
+    // =====================================================
+    // 6. OBTENER BILLETERA
+    // =====================================================
+
+    let billeteraId = null;
+
+    if (metodo_pago === "billetera") {
+      const [[billeteraBD]] =
+        await conn.execute(
+          `SELECT id
+           FROM billeteras
+           WHERE nombre = ?
+           LIMIT 1`,
+          [billetera]
+        );
+
+      if (!billeteraBD) {
+        throw new Error(
+          "Billetera no encontrada en MySQL"
+        );
+      }
+
+      billeteraId = billeteraBD.id;
+    }
+
+    // =====================================================
+    // 7. CALCULAR TOTAL REAL DESDE MYSQL
+    // =====================================================
+
+    const [[totalProductosBD]] =
+      await conn.execute(
+        `SELECT
+           COALESCE(SUM(subtotal), 0)
+           AS total_productos
+         FROM productos_reserva
+         WHERE reserva_id = ?`,
+        [id]
+      );
+
+    const totalReal =
+      Number(reserva.monto_entradas || 0) +
+      Number(
+        totalProductosBD.total_productos || 0
+      );
+
+    // =====================================================
+    // 8. REGISTRAR PAGO
+    // =====================================================
+
+    await conn.execute(
+      `INSERT INTO pagos
+       (
+         reserva_id,
+         cliente_id,
+         metodo_pago_id,
+         billetera_id,
+         monto,
+         estado
+       )
+       VALUES (?, ?, ?, ?, ?, 'PAGADO')`,
+      [
+        id,
+        clienteId,
+        metodoBD.id,
+        billeteraId,
+        totalReal,
+      ]
+    );
+
+    // =====================================================
+    // CONFIRMAR TRANSACCIÓN
+    // =====================================================
+
+    await conn.commit();
+
+    return res.json({
+      ok: true,
+      reservaId: Number(id),
+      estado: "PAGADO",
+      monto: totalReal,
+    });
+
+  } catch (err) {
+    if (conn) {
+      try {
+        await conn.rollback();
+      } catch {}
+    }
+
+    console.error(
+      "Error procesando pago:",
+      err
+    );
+
+    return res.status(500).json({
+      error: "Error procesando el pago",
+    });
+
+  } finally {
+    if (conn) {
+      conn.release();
+    }
+  }
+});
+
 /**
  * ✅ GET /api/reservas/ocupados/:cine/:pelicula/:sala/:horario
  * DEVUELVE ASIENTOS RESERVADOS Y PAGADOS
@@ -563,6 +926,44 @@ router.post("/:id/enviar-voucher", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error enviando correo" });
+  }
+});
+
+/**
+ * GET /api/reservas/funciones/:cineId/:peliculaId
+ * Obtiene las funciones disponibles de una película
+ * para un cine determinado.
+ */
+router.get("/funciones/:cineId/:peliculaId", async (req, res) => {
+  try {
+    const { cineId, peliculaId } = req.params;
+
+    const [rows] = await pool.execute(
+      `
+      SELECT
+        id,
+        cine_id,
+        pelicula_id,
+        tipo_cine,
+        sala,
+        DATE_FORMAT(fecha, '%Y-%m-%d') AS fecha,
+        TIME_FORMAT(hora, '%h:%i %p') AS horario,
+        precio
+      FROM funciones
+      WHERE cine_id = ?
+        AND pelicula_id = ?
+      ORDER BY fecha ASC, hora ASC
+      `,
+      [cineId, peliculaId]
+    );
+
+    res.json(rows);
+  } catch (err) {
+    console.error("Error obteniendo funciones:", err);
+
+    res.status(500).json({
+      error: "Error obteniendo funciones",
+    });
   }
 });
 

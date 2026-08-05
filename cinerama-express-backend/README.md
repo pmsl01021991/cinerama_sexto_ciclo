@@ -8,8 +8,6 @@ Sitio web de cine con **frontend estático (HTML/CSS/JS)** y un **backend en Exp
 > - Existen archivos de backend para **reservas y administración con MySQL**, pero **no están conectados** en el `server.js` publicado y falta la dependencia `mysql2`.  
 > - El archivo `cinerama1.sql` contiene el **nombre y tablas clave**, pero aparece **truncado** (con `...`). Revisa la sección **“Pendientes detectados”**.
 
----
-
 
 # Arranque de la página web ( IMPORTANTE )
 

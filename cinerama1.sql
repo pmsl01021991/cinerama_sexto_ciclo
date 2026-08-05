@@ -630,5 +630,32 @@ WHERE NOT EXISTS (
 SELECT COUNT(*) AS total_funciones
 FROM funciones;
 
+SELECT 
+    id,
+    cine_id,
+    pelicula_id,
+    tipo_cine,
+    sala,
+    fecha,
+    hora,
+    precio
+FROM funciones
+WHERE cine_id = 1
+  AND pelicula_id = 1;
+
+show tables;
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(150) NOT NULL,
+    correo VARCHAR(150) NOT NULL UNIQUE,
+    telefono VARCHAR(9) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    rol ENUM('USUARIO', 'ADMIN') NOT NULL DEFAULT 'USUARIO',
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+select * from usuarios;
 
 

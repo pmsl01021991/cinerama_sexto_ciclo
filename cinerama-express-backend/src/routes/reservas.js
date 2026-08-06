@@ -655,15 +655,23 @@ router.post("/:id/enviar-voucher", async (req, res) => {
     }
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+      },
+
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000
+  });
 
     console.log("========== PRUEBA CORREO ==========");
     console.log("EMAIL_USER existe:", !!process.env.EMAIL_USER);
+    console.log("EMAIL_PASS existe:", !!process.env.EMAIL_PASS);
     console.log("Correo destino:", r.correo_cliente);
     console.log("===================================");
 

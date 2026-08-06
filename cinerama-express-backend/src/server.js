@@ -21,6 +21,8 @@ const __dirname = path.dirname(__filename);
 const FRONT_DIR = path.join(__dirname, "..", "..");
 
 const app = express();
+// Render trabaja detrás de un proxy
+app.set("trust proxy", 1);
 
 
 /**

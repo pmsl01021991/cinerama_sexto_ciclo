@@ -151,12 +151,12 @@ class BtnHoraHandler {
         localStorage.setItem("tipoCine", tipoCine); // ← la misma key que lees en asientos.js
 
         // Datos que van a la BD
-        const peliculaCodigo = codigoPelicula;   // ej: "hurry"
-        const peliculaTitulo = data.titulo;      // ej: "Hurry"
+        const peliculaCodigo = codigoPelicula;   
+        const peliculaTitulo = data.titulo;      
 
         try {
             const resp = await fetch(
-                `https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}`,
+                `${API_URL}/api/reservas/${reservaId}`,
                 {
                     method: "PUT",
                     headers: {

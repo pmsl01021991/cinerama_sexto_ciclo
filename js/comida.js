@@ -286,7 +286,7 @@ class ComidaPage {
         .filter(Boolean);
 
 
-    await fetch(`https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}/productos`, {
+    await fetch(`${API_URL}/api/reservas/${reservaId}/productos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ productos: payload })

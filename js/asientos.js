@@ -98,7 +98,7 @@ class AsientosHandler {
         const reservaId = localStorage.getItem("reservaId");
 
         try {
-            const resp = await fetch(`https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}`, {
+            const resp = await fetch(`${API_URL}/api/reservas/${reservaId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const dataCine = JSON.parse(localStorage.getItem("dataCine"));
         const horario = localStorage.getItem("horarioSeleccionado");
 
-        const url = `https://cinerama-backen-react-native.onrender.com/api/reservas/ocupados/${encodeURIComponent(dataCine.cine)}/${encodeURIComponent(dataCine.titulo)}/${dataCine.sala}/${encodeURIComponent(horario)}`;
+        const url = `${API_URL}/api/reservas/ocupados/${encodeURIComponent(dataCine.cine)}/${encodeURIComponent(dataCine.titulo)}/${dataCine.sala}/${encodeURIComponent(horario)}`;
 
         console.log("dataCine:", dataCine);
         console.log("URL:", url);

@@ -103,7 +103,7 @@ class ContactFormHandler {
             mensaje,
             fecha: new Date().toLocaleString()
         };
-        await fetch("https://cinerama-backen-react-native.onrender.com/api/contacto", {
+        await fetch(`${API_URL}/api/contacto`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

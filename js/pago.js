@@ -60,7 +60,7 @@ class PagoFormHandler {
         }
 
         try {
-            const resp = await fetch(`https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}`, {
+            const resp = await fetch(`${API_URL}/api/reservas/${reservaId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

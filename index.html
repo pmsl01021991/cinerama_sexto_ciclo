@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/Login.css" />
     <link rel="stylesheet" href="css/logo.css" />
-
+    <script src="js/config.js"></script>
     <!-- Scripts propios -->
     <script src="js/script.js" defer></script>
     <!-- Guard de sesión + toggles de elementos admin -->
@@ -247,7 +247,7 @@
 
                 try {
                     // 1. Guardar cine en BD (crear reserva)
-                    const resp = await fetch("https://cinerama-backen-react-native.onrender.com/api/reservas", {
+                    const resp = await fetch(`${API_URL}/api/reservas`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ cine: cineSeleccionado })

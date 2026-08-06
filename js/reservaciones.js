@@ -65,12 +65,12 @@ class AdminPanel {
   async obtenerDatos(tipo) {
     try {
       if (tipo === "reservaciones") {
-        const r = await fetch("https://cinerama-backen-react-native.onrender.com/api/admin/reservas");
+        const r = await fetch(`${API_URL}/api/admin/reservas`);
         return await r.json();
       }
 
       if (tipo === "mensajes") {
-        const r = await fetch("https://cinerama-backen-react-native.onrender.com/api/contacto");
+        const r = await fetch(`${API_URL}/api/contacto`);
         return await r.json();
       }
 

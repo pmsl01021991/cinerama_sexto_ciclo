@@ -230,60 +230,6 @@ CREATE TABLE pagos (
 );
 
 
-SELECT * FROM cines;
-
-SELECT * FROM peliculas;
-
-SELECT * FROM funciones;
-
-SELECT * FROM reservas;
-
-SELECT * FROM salas;
-
-SELECT * FROM asientos;
-
-SELECT * FROM asientos_reservados;
-
-SELECT * FROM entradas;
-
-SELECT * FROM formatos;
-
-SELECT * FROM horarios_base;
-
-SELECT * FROM reservas
-WHERE estado = 'PAGADO';
-
-
-SELECT asientos
-FROM reservas
-WHERE pelicula_titulo = 'Hurry'
-  AND sala = '02'
-  AND horario = '04:00 pm'
-  AND estado = 'PAGADO';
-
-SELECT
-  cine,
-  pelicula_titulo,
-  tipo_cine,
-  sala,
-  horario,
-  asientos,
-  cantidad_entradas,
-  monto_entradas,
-  nombre_cliente,
-  correo_cliente,
-  metodo_pago,
-  estado
-FROM reservas;
-
-
-SHOW TABLES;
-
-DESCRIBE salas;
-DESCRIBE asientos;
-DESCRIBE asientos_reservados;
-DESCRIBE entradas;
-
 CREATE TABLE productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -311,50 +257,6 @@ INSERT INTO productos (nombre, categoria, precio) VALUES
 ('Galletas', 'Snack', 4.00),
 ('Popcorn Grande', 'Snack', 12.00);
 
-
-select * from productos
-
-DESCRIBE reservas;
-
-
-SHOW CREATE TABLE reservas;
-
-
-ALTER TABLE reservas
-MODIFY estado ENUM('PENDIENTE','RESERVADO','PAGADO','CANCELADO')
-DEFAULT 'PENDIENTE';
-
-SELECT 
-  id,
-  cine,
-  pelicula_titulo,
-  sala,
-  horario,
-  estado
-FROM reservas
-ORDER BY id DESC
-LIMIT 20;
-
-SELECT 
-  id,
-  cine,
-  pelicula_titulo,
-  sala,
-  horario,
-  estado
-FROM reservas
-WHERE pelicula_titulo LIKE '%zoo%';
-
-SELECT 
-  cine,
-  pelicula_titulo,
-  sala,
-  horario,
-  asientos,
-  estado
-FROM reservas
-WHERE estado IN ('RESERVADO','PAGADO');
-
 SELECT 
   pelicula_titulo,
   COUNT(*) AS total
@@ -379,69 +281,6 @@ CREATE TABLE mensajes_contacto (
     mensaje TEXT NOT NULL,
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-select * from mensajes_contacto;
-
-SELECT
-    id,
-    cine,
-    estado,
-    fecha_creacion
-FROM reservas
-ORDER BY id DESC
-LIMIT 10;
-
-SELECT
-    id,
-    cine,
-    pelicula_titulo,
-    tipo_cine,
-    sala,
-    horario,
-    estado
-FROM reservas
-ORDER BY id DESC
-LIMIT 5;
-
-SELECT
-    id,
-    cine,
-    pelicula_titulo,
-    tipo_cine,
-    sala,
-    horario,
-    asientos,
-    cantidad_entradas,
-    monto_entradas,
-    estado
-FROM reservas
-ORDER BY id DESC
-LIMIT 5;
-
-SELECT
-    id,
-    cine,
-    pelicula_titulo,
-    tipo_cine,
-    sala,
-    horario,
-    asientos,
-    cantidad_entradas,
-    monto_entradas,
-    nombre_cliente,
-    correo_cliente,
-    metodo_pago,
-    billetera,
-    estado
-FROM reservas
-ORDER BY id DESC
-LIMIT 5;
-
-USE cinerama;
-
-DELETE FROM funciones
-WHERE cine_id = 1
-  AND pelicula_id = 1;
 
 INSERT INTO funciones
 (
@@ -582,23 +421,6 @@ INSERT INTO funciones (
     hora,
     precio
 )
-SELECT
-    c.id,
-    p.id,
-    '2D',
-    '01',
-    '2026-08-01',
-    '15:20:00',
-    12.00
-FROM cines c
-CROSS JOIN peliculas p
-WHERE NOT EXISTS (
-    SELECT 1
-    FROM funciones f
-    WHERE f.cine_id = c.id
-      AND f.pelicula_id = p.id
-      AND f.tipo_cine = '2D'
-);
 
 INSERT INTO funciones (
     cine_id,
@@ -609,41 +431,7 @@ INSERT INTO funciones (
     hora,
     precio
 )
-SELECT
-    c.id,
-    p.id,
-    '3D',
-    '02',
-    '2026-08-01',
-    '14:10:00',
-    15.00
-FROM cines c
-CROSS JOIN peliculas p
-WHERE NOT EXISTS (
-    SELECT 1
-    FROM funciones f
-    WHERE f.cine_id = c.id
-      AND f.pelicula_id = p.id
-      AND f.tipo_cine = '3D'
-);
 
-SELECT COUNT(*) AS total_funciones
-FROM funciones;
-
-SELECT 
-    id,
-    cine_id,
-    pelicula_id,
-    tipo_cine,
-    sala,
-    fecha,
-    hora,
-    precio
-FROM funciones
-WHERE cine_id = 1
-  AND pelicula_id = 1;
-
-show tables;
 
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -656,6 +444,62 @@ CREATE TABLE usuarios (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-select * from usuarios;
+INSERT INTO peliculas
+(
+    codigo,
+    titulo,
+    director,
+    duracion_min,
+    clasificacion,
+    genero,
+    estreno,
+    reparto,
+    estado
+)
+VALUES
+(
+    'residentEvil',
+    'RESIDENT EVIL',
+    'ZACH CREGGER',
+    NULL,
+    'MAYORES DE 14',
+    'TERROR',
+    '2026-09-18',
+    'AUSTIN ABRAMS, ZACH CHERRY, KALI REIS, PAUL WALTER HAUSER',
+    'PROXIMO'
+),
+(
+    'streetFighter',
+    'STREET FIGHTER',
+    'KITAO SAKURAI',
+    NULL,
+    'MAYORES DE 14',
+    'ACCION',
+    '2026-10-16',
+    'ANDREW KOJI, NOAH CENTINEO, CALLINA LIANG',
+    'PROXIMO'
+),
+(
+    'hungerGames',
+    'THE HUNGER GAMES: SUNRISE ON THE REAPING',
+    'FRANCIS LAWRENCE',
+    NULL,
+    'MAYORES DE 14',
+    'ACCION',
+    '2026-11-20',
+    'JOSEPH ZADA, RALPH FIENNES, ELLE FANNING, JESSE PLEMONS',
+    'PROXIMO'
+),
+(
+    'avengersDoomsday',
+    'AVENGERS: DOOMSDAY',
+    'ANTHONY RUSSO, JOE RUSSO',
+    NULL,
+    'MAYORES DE 14',
+    'ACCION',
+    '2026-12-18',
+    'ROBERT DOWNEY JR., CHRIS HEMSWORTH, PEDRO PASCAL, ANTHONY MACKIE, VANESSA KIRBY',
+    'PROXIMO'
+);
 
 

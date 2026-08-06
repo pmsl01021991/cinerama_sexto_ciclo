@@ -106,49 +106,52 @@ class InfoPelicula {
         this.closeButton = document.querySelector('.close');
  
         this.peliculasInfo = {
-            chihiro: {
-                titulo: "El viaje de chihiro",
-                director: "STUDIO GHIBLI",
-                duracion: "02:05:00",
-                estreno: "2025-08-07",
-                reparto: "ACTORES Y ACTRICES",
-                sinopsis: `Chihiro es una niña que queda atrapada en un mundo mágico y debe encontrar el valor para salvar a sus padres y regresar a casa.`,
-                poster: "imagenes/estrenos/chihiro.png",
-                categorias: ["TODO ESPECTADOR", "ANIMADO", "CINE COLOR"],
-                trailer: "https://www.youtube.com/embed/ByXuk9QqQkk&t=2s"
+            residentEvil: {
+                titulo: "Resident Evil",
+                director: "Zach Cregger",
+                duracion: "01:30:00",
+                estreno: "2026-09-18",
+                reparto: "Austin Abrams, Zach Cherry, Kali Reis, Paul Walter Hauser",
+                sinopsis: "Bryan, un mensajero médico, queda atrapado en una aterradora noche de caos y debe luchar por sobrevivir mientras todo a su alrededor se descontrola.",
+                poster: "imagenes/estrenos/resident_evil.jpg",
+                categorias: ["TERROR", "ACCIÓN", "MAYORES DE 18"],
+                trailer: ""
             },
-            Stans: {
-                titulo: "Stans",
-                director: "DIRECTOR X",
-                duracion: "01:42:00",
-                estreno: "2025-08-07",
-                reparto: "ACTORES Y ACTRICES",
-                sinopsis: "Lanzada en el año 2000, la canción «Stan» de Eminem, que trata sobre un fan obsesivo e inestable, sigue siendo icónica. ",
-                poster: "imagenes/estrenos/stans.png",
-                categorias: ["mayor de 18 años"],
-                trailer: "https://www.youtube.com/embed/DZkDackH-H8"
+
+            streetFighter: {
+                titulo: "Street Fighter",
+                director: "Kitao Sakurai",
+                duracion: "",
+                estreno: "2026-10-16",
+                reparto: "Andrew Koji, Noah Centineo, Callina Liang",
+                sinopsis: "Ryu y Ken regresan al combate cuando Chun-Li los recluta para participar en el World Warrior Tournament, donde descubrirán una peligrosa conspiración.",
+                poster: "imagenes/estrenos/street_fighter.jpg",
+                categorias: ["ACCIÓN", "AVENTURA", "MAYORES DE 14"],
+                trailer: ""
             },
-            LIVE: {
-                titulo: "LIVE VIEWING",
-                director: "DIRECTOR X",
-                duracion: "02:45:00",
-                estreno: "2025-08-09",
-                reparto: "ACTORES Y ACTRICES",
-                sinopsis: "Desde Goyang hasta Japón, Norteamérica y Europa, Jin emprende un increíble recorrido para encontrarse con su querido ARMY en esta primera gira mundial como solista.",
-                poster: "imagenes/estrenos/live.png",
-                categorias: ["MAYORES DE 14", "THRILLER", "DRAMA"],
-                trailer: "https://www.youtube.com/embed/R2bJBQSTSAs"
+
+            hungerGames: {
+                titulo: "The Hunger Games: Sunrise on the Reaping",
+                director: "Francis Lawrence",
+                duracion: "",
+                estreno: "2026-11-20",
+                reparto: "Joseph Zada, Ralph Fiennes, Elle Fanning, Jesse Plemons",
+                sinopsis: "La historia regresa a Panem 24 años antes de los acontecimientos de Los Juegos del Hambre y sigue el inicio de los 50.º Juegos del Hambre, conocidos como el Segundo Vasallaje de los Veinticinco.",
+                poster: "imagenes/estrenos/hunger_games.jpg",
+                categorias: ["ACCIÓN", "AVENTURA", "MAYORES DE 14"],
+                trailer: ""
             },
-            Miraculous: {
-                titulo: "Miraculous",
-                director: "DIRECTOR X",
-                duracion: "01:11:00",
-                estreno: "2025-08-14",
-                reparto: "ACTORES Y ACTRICES",
-                sinopsis: "El nuevo año escolar trae consigo grandes transformaciones: nuevos héroes, poderes en evolución y un misterioso villano que se esconde a plena vista. ",
-                poster: "imagenes/estrenos/miraculo.png",
-                categorias: ["TODO ESPECTADOR", "AVENTURA", "FAMILIAR"],
-                trailer: "https://www.youtube.com/embed/MqLTqsyvDvA"
+
+            avengersDoomsday: {
+                titulo: "Avengers: Doomsday",
+                director: "Anthony Russo, Joe Russo",
+                duracion: "",
+                estreno: "2026-12-18",
+                reparto: "Robert Downey Jr., Chris Evans, Chris Hemsworth, Pedro Pascal, Anthony Mackie, Vanessa Kirby",
+                sinopsis: "Héroes provenientes de distintos universos se enfrentarán a una amenaza existencial que los llevará a una peligrosa colisión entre mundos.",
+                poster: "imagenes/estrenos/avengers_doomsday.jpg",
+                categorias: ["ACCIÓN", "AVENTURA", "MAYORES DE 14"],
+                trailer: ""
             }
         };
  
@@ -244,49 +247,56 @@ class BtnHoraHandler {
  
     getPeliculasInfo() {
         return {
-            chihiro: {
-                titulo: "El viaje de chihiro",
-                director: "STUDIO GHIBLI",
-                duracion: "02:05:00",
-                estreno: "2025-08-07",
-                reparto: "ACTORES Y ACTRICES",
-                sinopsis: `Chihiro es una niña que queda atrapada en un mundo mágico y debe encontrar el valor para salvar a sus padres y regresar a casa.`,
-                poster: "imagenes/estrenos/chihiro.png",
-                categorias: ["TODO ESPECTADOR", "ANIMADO", "CINE COLOR"],
-                trailer: "https://www.youtube.com/embed/5Fgq4Osh6XQ"
+            residentEvil: {
+                titulo: "Resident Evil",
+                director: "Zach Cregger",
+                duracion: "01:30:00",
+                estreno: "2026-09-18",
+                reparto: "Austin Abrams, Zach Cherry, Kali Reis, Paul Walter Hauser",
+                sinopsis: "Bryan, un mensajero médico, queda atrapado en una aterradora noche de caos y debe luchar por sobrevivir mientras todo a su alrededor se descontrola.",
+                poster: "imagenes/estrenos/resident_evil.jpg",
+                categorias: ["TERROR", "ACCIÓN"],
+                trailer: "",
+                sala: "01"
             },
-            Stans: {
-                titulo: "Stans",
-                director: "DIRECTOR X",
-                duracion: "01:42:00",
-                estreno: "2025-08-07",
-                reparto: "ACTORES Y ACTRICES",
-                sinopsis: "Lanzada en el año 2000, la canción «Stan» de Eminem, que trata sobre un fan obsesivo e inestable, sigue siendo icónica. ",
-                poster: "imagenes/estrenos/stans.png",
-                categorias: ["mayor de 18 años"],
-                trailer: "https://www.youtube.com/embed/7Zn1e11CJ-0"
+
+            streetFighter: {
+                titulo: "Street Fighter",
+                director: "Kitao Sakurai",
+                duracion: "",
+                estreno: "2026-10-16",
+                reparto: "Andrew Koji, Noah Centineo, Callina Liang",
+                sinopsis: "Ryu y Ken regresan al combate cuando Chun-Li los recluta para participar en el World Warrior Tournament, donde descubrirán una peligrosa conspiración.",
+                poster: "imagenes/estrenos/street_fighter.jpg",
+                categorias: ["ACCIÓN", "AVENTURA"],
+                trailer: "",
+                sala: "02"
             },
-            LIVE: {
-                titulo: "LIVE VIEWING",
-                director: "DIRECTOR X",
-                duracion: "02:45:00",
-                estreno: "2025-08-09",
-                reparto: "ACTORES Y ACTRICES",
-                sinopsis: "Desde Goyang hasta Japón, Norteamérica y Europa, Jin emprende un increíble recorrido para encontrarse con su querido ARMY en esta primera gira mundial como solista.",
-                poster: "imagenes/estrenos/live.png",
-                categorias: ["MAYORES DE 14", "THRILLER", "DRAMA"],
-                trailer: "https://www.youtube.com/embed/R2bJBQSTSAs"
+
+            hungerGames: {
+                titulo: "The Hunger Games: Sunrise on the Reaping",
+                director: "Francis Lawrence",
+                duracion: "",
+                estreno: "2026-11-20",
+                reparto: "Joseph Zada, Ralph Fiennes, Elle Fanning, Jesse Plemons",
+                sinopsis: "La historia regresa a Panem 24 años antes de los acontecimientos de Los Juegos del Hambre y sigue el inicio de los 50.º Juegos del Hambre, conocidos como el Segundo Vasallaje de los Veinticinco.",
+                poster: "imagenes/estrenos/hunger_games.jpg",
+                categorias: ["ACCIÓN", "AVENTURA"],
+                trailer: "",
+                sala: "03"
             },
-            Miraculous: {
-                titulo: "Miraculous",
-                director: "DIRECTOR X",
-                duracion: "01:11:00",
-                estreno: "2025-08-14",
-                reparto: "ACTORES Y ACTRICES",
-                sinopsis: "El nuevo año escolar trae consigo grandes transformaciones: nuevos héroes, poderes en evolución y un misterioso villano que se esconde a plena vista. ",
-                poster: "imagenes/estrenos/miraculo.png",
-                categorias: ["TODO ESPECTADOR", "AVENTURA", "FAMILIAR"],
-                trailer: "https://www.youtube.com/embed/MqLTqsyvDvA"
+
+            avengersDoomsday: {
+                titulo: "Avengers: Doomsday",
+                director: "Anthony Russo, Joe Russo",
+                duracion: "",
+                estreno: "2026-12-18",
+                reparto: "Robert Downey Jr., Chris Evans, Chris Hemsworth, Pedro Pascal, Anthony Mackie, Vanessa Kirby",
+                sinopsis: "Héroes provenientes de distintos universos se enfrentarán a una amenaza existencial que los llevará a una peligrosa colisión entre mundos.",
+                poster: "imagenes/estrenos/avengers_doomsday.jpg",
+                categorias: ["ACCIÓN", "AVENTURA", "CIENCIA FICCIÓN"],
+                trailer: "",
+                sala: "04"
             }
         };
     }

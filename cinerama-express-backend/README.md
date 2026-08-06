@@ -1,226 +1,1330 @@
-# CINERAMA
+# 🎬 CINERAMA
 
-Sitio web de cine con **frontend estático (HTML/CSS/JS)** y un **backend en Express** para el login con **reCAPTCHA v2**. El proyecto incluye un **esquema MySQL** (en progreso) para soportar reservas y administración.
+**CINERAMA** es un sistema web para la gestión y compra de entradas de cine, desarrollado con un **frontend en HTML, CSS y JavaScript** y un **backend REST en Node.js + Express**.
 
-> Estado actual (según los archivos del repositorio):  
-> - El **login de administrador** funciona contra un backend Express (`/api/auth/login`) con verificación de reCAPTCHA.  
-> - El **panel de “Reservaciones”** está **protegido** y visible sólo cuando `adminLogeado === "true"`, pero **lee datos desde `localStorage`** (no desde la base de datos).  
-> - Existen archivos de backend para **reservas y administración con MySQL**, pero **no están conectados** en el `server.js` publicado y falta la dependencia `mysql2`.  
-> - El archivo `cinerama1.sql` contiene el **nombre y tablas clave**, pero aparece **truncado** (con `...`). Revisa la sección **“Pendientes detectados”**.
+El sistema permite realizar el flujo completo de una reserva: seleccionar cine, película, horario, asientos, productos, registrar los datos del cliente, realizar el proceso de pago y generar un voucher de compra.
 
+La información de las reservas se almacena en una base de datos **MySQL alojada en Aiven**, mientras que el backend se encuentra desplegado en **Render**. Además, el sistema utiliza **Google reCAPTCHA v2** para proteger el acceso administrativo y **Brevo** para enviar automáticamente el voucher de compra al correo electrónico del cliente.
 
-# Arranque de la página web ( IMPORTANTE )
+---
 
-- cd "C:\SEXTO CICLO\PROYECTO DE APLICACION EMPRESARIAL\CINERAMA\cinerama-frontend-main\cinerama-frontend-main\cinerama-express-backend"
- y luego ejecutar:
+## 📌 Estado actual del proyecto
+
+Actualmente el sistema cuenta con:
+
+- ✅ Frontend desarrollado con **HTML, CSS y JavaScript**.
+- ✅ Backend desarrollado con **Node.js + Express**.
+- ✅ Base de datos **MySQL alojada en Aiven**.
+- ✅ Conexión segura del backend hacia Aiven mediante **SSL**.
+- ✅ Backend desplegado como **Web Service en Render**.
+- ✅ Frontend desplegado en **Render**.
+- ✅ Configuración para trabajar tanto en **localhost como en producción**.
+- ✅ Registro y actualización de reservas en MySQL.
+- ✅ Selección y almacenamiento de asientos.
+- ✅ Registro de productos asociados a una reserva.
+- ✅ Registro de datos del cliente y método de pago.
+- ✅ Generación del voucher de compra.
+- ✅ Envío automático del voucher mediante **Brevo Transactional Email API**.
+- ✅ Login administrativo protegido mediante **Google reCAPTCHA v2**.
+- ✅ Panel administrativo protegido.
+- ✅ Variables sensibles administradas mediante archivos `.env` y variables de entorno de Render.
+
+---
+
+# 🚀 Arranque del proyecto en local
+
+## 1. Abrir el backend
+
+Desde una terminal de VS Code ingresar a:
+
+```bash
+cd "C:\SEXTO CICLO\PROYECTO DE APLICACION EMPRESARIAL\CINERAMA\cinerama-frontend-main\cinerama-frontend-main\cinerama-express-backend"
+
+Luego ejecutar:
+
 npm run dev
 
+También se puede utilizar:
 
+npm start
 
-## 🎯 Funcionalidades principales
+El backend utiliza el puerto 3001 cuando se ejecuta localmente:
 
-- **Home (`index.html`)** con slider, menú hamburguesa y secciones informativas.
-- **Cartelera y Estrenos** (`cartelera.html`, `estrenos.html`) con componentes JS para sliders y trailers.
-- **Selección de asientos** (`asientos.html` + `js/asientos.js`): gestión de butacas, cuenta de seleccionados y **precio por entrada = 12** (hardcodeado).
-- **Pago** (`pago.html` + `js/pago.js`): selección de **método de pago** (tarjeta o billeteras); actualmente **muestra un mensaje** y **reinicia el formulario** (no persiste en backend).
-- **Contacto** (`contacto.html` + `js/contacto.js`): validación de formulario; guarda mensajes en `localStorage` bajo `mensajesContacto` y reproduce audio/toast.
-- **Login de administrador** (`login.html` + `js/login.js`): reCAPTCHA v2 (checkbox), envío al backend y, en éxito, setea `localStorage.adminLogeado = "true"`.
-- **Panel de Reservaciones** (`reservaciones.html` + `js/reservaciones.js`): **requiere admin** (`<body data-require-admin="true">`), lee **reservaciones** y **mensajes** desde `localStorage`. Incluye botón **“Salir”** que borra la sesión local.
-- **Guardas de interfaz** (`js/auth.js`): oculta/mostrar elementos marcados con `data-admin-only` y redirige si la página **requiere** admin.
+http://localhost:3001
 
----
+Si la conexión es correcta, en la terminal debe aparecer aproximadamente:
 
-## 🧱 Estructura del proyecto (carpetas principales)
+Backend escuchando en puerto 3001
+Acceso local: http://localhost:3001
+✅ MySQL Aiven conectado correctamente
 
-```
-CINERAMA (1)/
-├── cinerama-express-backend/           # Backend en Node/Express (auth con reCAPTCHA)
-│   ├── .env.example                    # Plantilla de variables de entorno
-│   ├── db.js                           # Pool MySQL (requiere mysql2) [no conectado]
-│   ├── routes/
-│   │   ├── admin.js                    # Endpoints admin (requiere MySQL) [no montado]
-│   │   └── reservas.js                 # Endpoints reservas (requiere MySQL) [no montado]
-│   └── src/
-│       ├── controllers/authController.js
-│       ├── middleware/verifyCaptcha.js
-│       ├── routes/auth.js
-│       └── server.js                   # Arranca Express y monta /api/auth
-├── css/                                # Estilos de cada página (Login, pago, etc.)
-├── js/                                 # Lógica de páginas (asientos, cartelera, pago, etc.)
-├── imagenes/, audio/                   # Assets
-├── *.html                              # Páginas (index, cartelera, estrenos, asientos, pago…)
-└── cinerama1.sql                       # Esquema MySQL (truncado en el repo)
-```
+En producción, Render asigna automáticamente el puerto mediante la variable de entorno PORT.
 
----
+🎯 Funcionalidades principales
+🏠 Página principal
 
-## ⚙️ Requisitos
+index.html
 
-- **Node.js** 18 o 20 y **npm**
-- (Opcional) **MySQL 8** si vas a conectar reservas reales
-- (Opcional) **VS Code + Live Server** para servir el frontend en desarrollo
-- Claves de **Google reCAPTCHA v2 (Checkbox)**: *Site Key* (frontend) y *Secret Key* (backend)
-- (Opcional) **EmailJS** (se ve el `emailjs.init("nFJQXJun_0mdXBQ6U")` en `js/login.js`)
+Contiene la página principal del cine con:
 
----
+Slider principal.
+Navegación.
+Menú hamburguesa.
+Información de películas.
+Selección de cine.
+Acceso a cartelera, estrenos, comida y demás secciones.
+🎬 Cartelera y estrenos
 
-## 🚀 Puesta en marcha
+Archivos principales:
 
-### 1) Backend (Express)
+cartelera.html
+estrenos.html
 
-```bash
-cd cinerama-express-backend
-npm install
-cp .env.example .env
-# edita .env con tus valores
-npm run dev   # o: npm start
-```
+js/cartelera.js
+js/estrenos.js
+js/info.js
+js/infoestrenos.js
 
-`src/server.js` levanta el servidor en el puerto definido por `PORT` (por defecto **3001**) y expone:
+Permiten:
 
-- `POST /api/auth/login` → verifica reCAPTCHA y credenciales del admin.
+Mostrar películas disponibles.
+Consultar información de cada película.
+Mostrar director, duración, reparto y sinopsis.
+Reproducir trailers.
+Seleccionar horarios.
+Registrar película, sala, horario y tipo de cine en la reserva.
+🪑 Selección de asientos
 
-> **Importante:** El archivo `server.js` de este repositorio muestra fragmentos con `...` dentro de la **configuración de Helmet/CORS** y del **servido de estáticos**. Si tu versión local tiene ese código completo, no hay problema; en caso contrario, revisa la sección **Pendientes detectados** para la corrección.
+Archivos:
 
-### 2) Frontend (HTML estático)
+asientos.html
+js/asientos.js
 
-Opción rápida (recomendada en dev):
+Permite:
 
-- Abre el proyecto en VS Code y usa la extensión **Live Server** en `index.html`.  
-- Asegúrate que `ALLOWED_ORIGIN` en el `.env` del backend coincida con la URL donde sirves el frontend (por ejemplo, `http://127.0.0.1:5500`).
+Mostrar las butacas disponibles.
+Seleccionar uno o varios asientos.
+Controlar la cantidad de entradas.
+Calcular el monto correspondiente.
+Asociar los asientos seleccionados con la reserva actual.
 
-O también puedes servir los archivos estáticos desde tu propio servidor (Nginx/Apache).
+Durante el flujo se utiliza temporalmente:
 
----
+localStorage.getItem("reservaId")
 
-## 🔐 Variables de entorno (`.env`)
+para identificar qué reserva se está modificando.
 
-Ejemplo (basado en `.env.example`):
+localStorage se utiliza para mantener información temporal entre páginas, pero la reserva final se almacena en MySQL.
 
-```
+🍿 Selección de productos
+
+Archivos:
+
+comida.html
+js/comida.js
+
+Permite seleccionar productos adicionales como alimentos y bebidas.
+
+Los productos quedan asociados a la reserva mediante el backend y posteriormente aparecen en el voucher.
+
+Cada producto puede contener:
+
+Producto
+Cantidad
+Subtotal
+💳 Proceso de pago
+
+Archivos:
+
+pago.html
+js/pago.js
+
+Permite registrar información relacionada con la compra, incluyendo:
+
+Datos del cliente.
+Correo electrónico.
+Método de pago.
+Billetera digital, cuando corresponda.
+Cantidad de entradas.
+Monto de entradas.
+Estado de la reserva.
+
+La información es enviada al backend y almacenada en la base de datos MySQL.
+
+El sistema académico registra el proceso de pago y la reserva. No constituye una integración bancaria real con un procesador de tarjetas.
+
+🧾 Voucher de compra
+
+Archivos:
+
+voucher.html
+js/voucher.js
+
+Después de completar la compra, el sistema consulta la reserva almacenada en MySQL y muestra:
+
+Estado de la compra.
+Cine.
+Película.
+Tipo de sala.
+Horario.
+Asientos.
+Cantidad de entradas.
+Productos comprados.
+Total de productos.
+Total de entradas.
+Total pagado.
+Nombre del cliente.
+Correo.
+Método de pago.
+
+También se ejecuta automáticamente:
+
+POST /api/reservas/:id/enviar-voucher
+
+para solicitar al backend el envío del comprobante por correo electrónico.
+
+📧 Envío del voucher por correo
+
+El backend utiliza Brevo Transactional Email API.
+
+Flujo:
+
+Compra finalizada
+      ↓
+voucher.js
+      ↓
+POST /api/reservas/:id/enviar-voucher
+      ↓
+Backend Express
+      ↓
+Consulta reserva en MySQL
+      ↓
+Consulta productos
+      ↓
+Genera voucher HTML
+      ↓
+Brevo API
+      ↓
+Correo del cliente
+
+La credencial se almacena mediante:
+
+BREVO_API_KEY=TU_API_KEY
+
+La API Key nunca debe escribirse directamente en el código ni subirse a GitHub.
+
+📩 Contacto
+
+Archivos:
+
+contacto.html
+js/contacto.js
+
+Permite gestionar el formulario de contacto del sistema.
+
+El backend dispone de la ruta:
+
+/api/contacto
+
+para las operaciones correspondientes al módulo.
+
+🔐 Login administrativo
+
+Archivos:
+
+login.html
+js/login.js
+
+El login administrativo utiliza:
+
+Usuario.
+Contraseña.
+Google reCAPTCHA v2.
+Backend Express.
+
+La petición se realiza mediante:
+
+POST /api/auth/login
+
+Cuando las credenciales son correctas y el CAPTCHA es válido:
+
+localStorage.setItem("adminLogeado", "true");
+
+También se almacena temporalmente la información del usuario:
+
+localStorage.setItem(
+    "usuarioSesion",
+    JSON.stringify(data.usuario)
+);
+🛡️ Protección del panel administrativo
+
+Las páginas administrativas utilizan:
+
+<body data-require-admin="true">
+
+Si el usuario intenta ingresar sin haber iniciado sesión, es redirigido y se muestra un mensaje de acceso restringido.
+
+El cierre de sesión elimina:
+
+localStorage.removeItem("adminLogeado");
+localStorage.removeItem("usuarioSesion");
+🧱 Estructura principal del proyecto
+CINERAMA/
+│
+├── cinerama-express-backend/
+│   │
+│   ├── src/
+│   │   ├── controllers/
+│   │   │   └── authController.js
+│   │   │
+│   │   ├── middleware/
+│   │   │   └── verifyCaptcha.js
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── admin.js
+│   │   │   ├── auth.js
+│   │   │   ├── contacto.js
+│   │   │   ├── reservas.js
+│   │   │   └── usuarios.js
+│   │   │
+│   │   ├── db.js
+│   │   └── server.js
+│   │
+│   ├── .env
+│   ├── .env.example
+│   ├── ca.pem
+│   ├── package.json
+│   └── package-lock.json
+│
+├── css/
+│
+├── js/
+│   ├── asientos.js
+│   ├── auth.js
+│   ├── cartelera.js
+│   ├── comida.js
+│   ├── config.js
+│   ├── contacto.js
+│   ├── estrenos.js
+│   ├── info.js
+│   ├── infoestrenos.js
+│   ├── login.js
+│   ├── pago.js
+│   ├── reservaciones.js
+│   ├── script.js
+│   └── voucher.js
+│
+├── imagenes/
+├── audio/
+├── videos/
+│
+├── index.html
+├── cartelera.html
+├── comida.html
+├── contacto.html
+├── estrenos.html
+├── info.html
+├── infoestrenos.html
+├── login.html
+├── pago.html
+├── reservaciones.html
+├── voucher.html
+├── asientos.html
+│
+└── cinerama1.sql
+⚙️ Tecnologías y servicios utilizados
+Frontend
+HTML5
+CSS3
+JavaScript
+LocalStorage para mantener información temporal entre pantallas
+Backend
+Node.js
+Express
+mysql2
+dotenv
+cors
+helmet
+express-rate-limit
+Base de datos
+MySQL
+Aiven Cloud
+DBeaver para administración y pruebas de conexión
+Seguridad
+Google reCAPTCHA v2
+Helmet
+Express Rate Limit
+Variables de entorno
+SSL para la conexión MySQL
+Hosting y servicios externos
+Render — despliegue del frontend y backend
+Aiven — alojamiento MySQL
+Brevo — envío de correos transaccionales
+Google reCAPTCHA — protección del login
+GitHub — repositorio y despliegue del código
+🗃️ Base de datos MySQL con Aiven
+
+La base de datos MySQL se encuentra alojada en Aiven Cloud.
+
+La creación inicial se realizó utilizando un servicio MySQL y obteniendo desde Aiven:
+
+Database
+Host
+Port
+User
+Password
+Service URI
+
+Aiven exige conexión mediante SSL:
+
+ssl-mode=REQUIRED
+
+La conexión fue comprobada previamente mediante DBeaver.
+
+La guía detallada utilizada para configurar Aiven y DBeaver se encuentra documentada por separado.
+
+🔌 Configuración utilizada en DBeaver
+
+Se creó una conexión:
+
+Nueva conexión
+→ MySQL
+
+utilizando los datos proporcionados por Aiven.
+
+Debido a los requisitos de conexión se configuraron:
+
+allowPublicKeyRetrieval = true
+sslMode = REQUIRED
+
+La configuración final quedó conceptualmente como:
+
+SSL = activado
+Require SSL = activado
+Verify server certificate = desactivado
+Allow public key retrieval = activado
+
+La conexión terminó siendo validada correctamente contra MySQL de Aiven.
+
+🔐 Variables de entorno
+
+El backend utiliza un archivo:
+
+cinerama-express-backend/.env
+
+Ejemplo:
+
 PORT=3001
-RECAPTCHA_SECRET=TU_SECRETO_DE_RECAPTCHA
+
+# MYSQL - AIVEN
+DB_HOST=TU_HOST_AIVEN
+DB_PORT=TU_PUERTO_AIVEN
+DB_USER=avnadmin
+DB_PASS=TU_PASSWORD
+DB_NAME=defaultdb
+
+# ADMIN
 ADMIN_USER=admin@cinerama.com
-ADMIN_PASS=pmsl123
-ALLOWED_ORIGIN=http://127.0.0.1:5500
-```
+ADMIN_PASS=TU_PASSWORD_ADMIN
 
-- **RECAPTCHA_SECRET**: clave secreta de reCAPTCHA v2 (checkbox).
-- **ADMIN_USER / ADMIN_PASS**: credenciales válidas para el login de administrador.
-- **ALLOWED_ORIGIN**: origen permitido para CORS (frontend).
+# RECAPTCHA
+RECAPTCHA_SECRET=TU_SECRET_KEY
 
-> En `login.html` el `data-sitekey` del widget es:  
-> `6Le6y5crAAAAAN-dhbDOxqJ8e-hhESbty8B1oFNU` (reemplázalo por tu **site key** real).
+# BREVO
+BREVO_API_KEY=TU_API_KEY
 
----
+Nunca subir el archivo .env al repositorio.
 
-## 🔑 Flujo de autenticación (admin)
+El .gitignore debe contener:
 
-1. En `login.html`, el usuario completa usuario/contraseña y resuelve reCAPTCHA v2.
-2. `js/login.js` envía:  
-   - `usuario`, `password`, `g-recaptcha-response` → `POST /api/auth/login`.
-3. `src/middleware/verifyCaptcha.js` valida el token contra Google (`/recaptcha/api/siteverify`).
-4. `src/controllers/authController.js` compara con `ADMIN_USER` y `ADMIN_PASS`.  
-   - Si coincide: **200 OK** y el frontend guarda `localStorage.adminLogeado = "true"`.
-   - Si no: **401 LOGIN_INVALIDO**.
+.env
+node_modules/
+🔑 Flujo de autenticación del administrador
 
-**Ejemplo de `curl`:**
-```bash
-curl -X POST http://localhost:3001/api/auth/login   -H "Content-Type: application/json"   -d '{{ 
-    "usuario": "admin@cinerama.com",
-    "password": "pmsl123",
-    "g-recaptcha-response": "TOKEN_DEL_WIDGET"
-  }}'
-```
+El proceso es:
 
----
+login.html
+     ↓
+Google reCAPTCHA v2
+     ↓
+js/login.js
+     ↓
+POST /api/auth/login
+     ↓
+verifyCaptcha.js
+     ↓
+Google verifica token
+     ↓
+authController.js
+     ↓
+Valida ADMIN_USER / ADMIN_PASS
+     ↓
+Acceso al panel
 
-## 🗃️ (Opcional) Base de datos MySQL
+js/login.js envía:
 
-Hay un pool MySQL en `cinerama-express-backend/db.js` y rutas listas en `routes/admin.js` y `routes/reservas.js` (insertan en `reservas` y en `asientos_reservados`).  
-El **esquema objetivo** (según `cinerama1.sql`) incluye tablas:
+{
+    "usuario": "usuario",
+    "password": "contraseña",
+    "g-recaptcha-response": "TOKEN_RECAPTCHA"
+}
 
-- `cines`, `salas`, `peliculas`, `funciones`, `usuarios`, `reservas`, `asientos_reservados`.
+Si las credenciales son correctas:
 
-> **Advertencia:** `cinerama1.sql` está **incompleto** (aparecen `...`). Si vas a usar MySQL, asegúrate de tener el script completo o construir las tablas manualmente.
+HTTP 200
 
-**Para activar MySQL de verdad:**
+y el frontend registra la sesión administrativa.
 
-1. Instala la dependencia que falta:
-   ```bash
-   cd cinerama-express-backend
-   npm i mysql2
-   ```
-2. Crea la base de datos y tablas (corrige/termina `cinerama1.sql`).
-3. Completa las variables del `.env` que usa `db.js`:
-   ```
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_USER=root
-   DB_PASS=tu_password
-   DB_NAME=cinerama
-   ```
-4. **Monta las rutas** de `routes/admin.js` y `routes/reservas.js` en tu `server.js`, por ejemplo:
-   ```js
-   import adminRouter from "../routes/admin.js";
-   import reservasRouter from "../routes/reservas.js";
+Si las credenciales son incorrectas:
 
-   app.use("/api/admin", adminRouter);
-   app.use("/api/reservas", reservasRouter);
-   ```
-5. Cambia el frontend para **enviar las reservas reales** a `/api/reservas` en lugar de guardarlas sólo en `localStorage`.
+HTTP 401
+🌐 Configuración Local / Render
 
----
+El proyecto puede utilizar el backend local durante desarrollo y el backend de Render en producción.
 
-## 🖥️ Páginas y JS destacados
+Para esto existe:
 
-- `index.html` + `js/script.js`: slider principal, menú hamburguesa y enlaces.
-- `cartelera.html` + `js/cartelera.js`: carrusel de películas, modal de trailers.
-- `estrenos.html` + `js/estrenos.js`: listado de estrenos con interacción.
-- `asientos.html` + `js/asientos.js`: selección de butacas.  
-  - Precio por defecto: **S/ 12** (`this.entrada = 12`).
-  - Usa `localStorage` para traer `dataCine`, `horarioSeleccionado`, `tipoCine`.
-- `pago.html` + `js/pago.js`: métodos de pago (tarjeta o billeteras).  
-  - Actualmente **no realiza cobro**: muestra alerta *“¡Tus datos han sido enviados!”* y limpia el formulario.
-- `contacto.html` + `js/contacto.js`: valida y guarda mensajes en `localStorage.mensajesContacto`, muestra toasts y sintetiza voz.
-- `login.html` + `js/login.js`: reCAPTCHA v2 + envío a backend; al éxito, setea `adminLogeado`.
-- `reservaciones.html` + `js/reservaciones.js`: **Panel Admin** (requiere sesión). Muestra **reservaciones** y **contactos** desde `localStorage`.
+js/config.js
 
----
+con una configuración similar a:
 
-## 🔧 Solución de problemas
+const API_URL =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+        ? "http://localhost:3001"
+        : "https://cinerama-backen-react-native.onrender.com";
 
-- **“Captcha no enviado / inválido”**  
-  Revisa que el frontend envíe `g-recaptcha-response` y que el `RECAPTCHA_SECRET` y **site key** correspondan al mismo dominio.
-- **CORS bloqueado**  
-  Ajusta `ALLOWED_ORIGIN` en `.env` (por ejemplo `http://127.0.0.1:5500` para Live Server).
-- **La sesión de admin no persiste**  
-  Verifica que, al éxito del login, el frontend guarde `localStorage.adminLogeado = "true"` y que `js/auth.js` esté cargado en las páginas protegidas.
-- **No se ven reservas en el panel**  
-  Hoy se leen desde `localStorage`. Si quieres datos reales, conecta MySQL y modifica el frontend para consumir `/api/admin/reservas`.
-- **Errores en MySQL**  
-  Completa el script `cinerama1.sql` y revisa claves foráneas; `routes/reservas.js` espera `usuarios`, `funciones`, `salas`, etc. existentes.
+Los archivos JavaScript deben utilizar:
 
----
+fetch(`${API_URL}/api/...`)
 
-## 📝 Pendientes detectados en este repo
+Por ejemplo:
 
-- En varios archivos aparecen literales `...` (por ejemplo `src/server.js`, `src/middleware/verifyCaptcha.js`, `db.js`, `cinerama1.sql`, algunos `.js` del frontend).  
-  **Solución**: reemplaza esos `...` por el código que falta (parecen recortes al copiar/pegar).
-- `cinerama-express-backend/package.json` **no incluye** `"mysql2"` aunque `db.js` lo usa.
-- `src/server.js` **no monta** `routes/admin.js` ni `routes/reservas.js`. Si quieres persistencia real, móntalas y conecta MySQL.
-- `pago.js` **no** envía datos al backend. Si necesitas pagos reales, integra un gateway (p.ej., Culqi, Niubiz, Stripe) y **nunca** proceses tarjetas en el frontend.
-- El **.env real** no está incluido (sólo `.env.example`). Crea tu `.env` con tus claves/usuarios.
+fetch(`${API_URL}/api/auth/login`)
 
----
+De esta manera:
 
-## 📄 Licencia
+DESARROLLO
+Frontend local
+     ↓
+http://localhost:3001
 
-No se ha especificado una licencia en el repositorio. Si se va a publicar, añade una licencia (MIT/Apache-2.0) según corresponda.
 
----
+PRODUCCIÓN
+Frontend Render
+     ↓
+https://cinerama-backen-react-native.onrender.com
 
-## 👤 Autoría y soporte
+Cuando un archivo JavaScript utiliza API_URL, config.js debe cargarse antes de dicho archivo.
 
-Proyecto **CINERAMA**.  
-Si necesitas que conecte **toda la parte de reservas a MySQL** (rutas montadas, esquema completo y fetch desde el frontend), indícalo y lo dejo operativo sobre este mismo código.
+Ejemplo:
+
+<script src="js/config.js"></script>
+<script src="js/login.js"></script>
+☁️ Despliegue del backend en Render
+
+El backend se encuentra desplegado como un Web Service.
+
+Configuración:
+
+Build Command:
+npm install
+
+Start Command:
+npm start
+
+El package.json debe disponer del script:
+
+{
+    "scripts": {
+        "start": "node src/server.js"
+    }
+}
+
+El servidor utiliza:
+
+const PORT = process.env.PORT || 3001;
+
+Esto permite:
+
+Local  → puerto 3001
+Render → puerto asignado por Render
+
+Cuando el despliegue funciona correctamente aparecen mensajes similares a:
+
+Backend escuchando en puerto 10000
+✅ MySQL Aiven conectado correctamente
+Your service is live
+🔐 Variables de entorno en Render
+
+Las variables locales del .env deben registrarse también en:
+
+Render
+→ Web Service
+→ Environment
+
+Por ejemplo:
+
+DB_HOST
+DB_PORT
+DB_USER
+DB_PASS
+DB_NAME
+
+ADMIN_USER
+ADMIN_PASS
+
+RECAPTCHA_SECRET
+
+BREVO_API_KEY
+
+Después:
+
+Save, rebuild, and deploy
+🤖 Configuración de Google reCAPTCHA
+
+El proyecto utiliza Google reCAPTCHA v2 Checkbox.
+
+En la configuración de la clave deben registrarse los dominios desde los cuales se utilizará el CAPTCHA.
+
+Ejemplo:
+
+localhost
+cinerama-9dbf1.web.app
+cinerama-web.onrender.com
+
+Se debe registrar únicamente el dominio.
+
+Correcto:
+
+cinerama-web.onrender.com
+
+Incorrecto:
+
+https://cinerama-web.onrender.com/login.html
+
+Si el dominio no está autorizado aparecerá:
+
+ERROR para el propietario del sitio:
+El dominio no es válido para la clave del sitio
+📧 Configuración de Brevo
+
+Brevo se utiliza para enviar el voucher de compra al correo electrónico ingresado por el cliente.
+
+1. Crear cuenta
+
+Crear una cuenta en Brevo y completar la configuración inicial.
+
+2. Crear remitente
+
+Ingresar a:
+
+Settings
+→ Remitentes, dominio, IP
+→ Remitentes
+→ Agregar remitente
+
+Registrar un correo y verificarlo.
+
+Debe aparecer:
+
+Verificado
+3. Crear API Key
+
+Ingresar a:
+
+Settings
+→ SMTP y API
+→ Claves API y MCP
+
+Crear una nueva API Key.
+
+Guardar la clave inmediatamente.
+
+4. Configurar localmente
+
+Agregar en .env:
+
+BREVO_API_KEY=TU_API_KEY
+5. Configurar Render
+
+Ingresar a:
+
+Render
+→ Environment
+→ Add variable
+
+Agregar:
+
+BREVO_API_KEY
+
+Después ejecutar:
+
+Save, rebuild, and deploy
+
+Cuando el envío funciona correctamente el backend muestra:
+
+✅ VOUCHER ENVIADO POR BREVO
+🔄 Flujo general del sistema
+                    USUARIO
+                       │
+                       ▼
+               Selecciona cine
+                       │
+                       ▼
+             Selecciona película
+                       │
+                       ▼
+              Selecciona horario
+                       │
+                       ▼
+              Selecciona asientos
+                       │
+                       ▼
+              Selecciona productos
+                       │
+                       ▼
+              Proceso de pago
+                       │
+                       ▼
+               BACKEND EXPRESS
+                       │
+              ┌────────┴────────┐
+              ▼                 ▼
+         MYSQL AIVEN        BREVO API
+              │                 │
+              ▼                 ▼
+      Guarda la reserva    Envía voucher
+                                │
+                                ▼
+                         CORREO CLIENTE
+🛠️ Guía rápida para volver a configurar todo
+
+Si en el futuro se necesita reconstruir el proyecto desde cero:
+
+Crear el frontend.
+Crear el backend Express.
+Crear MySQL en Aiven.
+Obtener las credenciales de conexión.
+Configurar SSL.
+Probar la conexión mediante DBeaver.
+Instalar mysql2.
+Crear la conexión del backend con Aiven.
+Crear las tablas.
+Configurar .env.
+Probar el backend en localhost:3001.
+Probar el frontend localmente.
+Crear config.js.
+Subir el proyecto a GitHub.
+Crear el Web Service en Render.
+Registrar las variables de entorno.
+Desplegar el backend.
+Desplegar el frontend.
+Registrar el dominio de Render en Google reCAPTCHA.
+Crear y verificar un remitente en Brevo.
+Crear la API Key de Brevo.
+Registrar BREVO_API_KEY en Render.
+Realizar una compra de prueba.
+Comprobar la reserva en MySQL.
+Comprobar que el voucher llegue al correo.
+
+☁️ Arquitectura actual del proyecto
+
+Actualmente CINERAMA funciona con la siguiente arquitectura:
+
+┌──────────────────────────────┐
+│          FRONTEND            │
+│       HTML / CSS / JS        │
+│                              │
+│   cinerama-web.onrender.com  │
+└──────────────┬───────────────┘
+               │
+               │ fetch()
+               ▼
+┌──────────────────────────────────────────┐
+│                BACKEND                   │
+│          Node.js + Express               │
+│                                          │
+│ cinerama-backen-react-native.onrender.com│
+└──────────┬───────────────────┬───────────┘
+           │                   │
+           │                   │ API
+           ▼                   ▼
+┌────────────────────┐   ┌──────────────────┐
+│       AIVEN        │   │      BREVO       │
+│                    │   │                  │
+│     MySQL 8        │   │ Envío de voucher│
+│ Base de datos cloud│   │    por correo    │
+└────────────────────┘   └──────────────────┘
+
+Por lo tanto:
+
+Frontend → Render
+Backend  → Render
+MySQL    → Aiven
+Correo   → Brevo
+Captcha  → Google reCAPTCHA v2
+🗃️ Base de datos MySQL en Aiven
+
+La base de datos del proyecto está alojada en Aiven utilizando MySQL.
+
+Durante la creación del servicio se seleccionó:
+
+Servicio: MySQL
+Plan: Gratis
+
+Aiven proporciona los siguientes datos:
+
+Host
+Port
+Database
+User
+Password
+Service URI
+SSL
+
+La conexión de Aiven requiere SSL:
+
+ssl-mode=REQUIRED
+
+La configuración fue comprobada previamente mediante DBeaver.
+
+La guía completa de esta configuración se encuentra en:
+
+GUIA DE AIVEN CONECTAR A HOSTING CON MYSQL EN LA CUBE.docx
+
+La conexión quedó validada correctamente contra MySQL 8.4.8.
+
+🔐 Variables de entorno del Backend
+
+Las credenciales reales NO deben escribirse directamente en el código ni subirse a GitHub.
+
+Para desarrollo local se utiliza:
+
+cinerama-express-backend/.env
+
+Ejemplo:
+
+PORT=3001
+
+# =========================
+# MYSQL - AIVEN
+# =========================
+
+DB_HOST=HOST_DE_AIVEN
+DB_PORT=PUERTO_DE_AIVEN
+DB_USER=avnadmin
+DB_PASS=CONTRASEÑA_DE_AIVEN
+DB_NAME=defaultdb
+
+# =========================
+# ADMIN
+# =========================
+
+ADMIN_USER=admin@cinerama.com
+ADMIN_PASS=TU_PASSWORD
+
+# =========================
+# GOOGLE RECAPTCHA
+# =========================
+
+RECAPTCHA_SECRET=TU_RECAPTCHA_SECRET
+
+# =========================
+# BREVO
+# =========================
+
+BREVO_API_KEY=TU_API_KEY_DE_BREVO
+
+⚠️ Nunca subir .env a GitHub.
+
+Debe existir en .gitignore:
+
+.env
+node_modules/
+🔌 Conexión del backend con Aiven
+
+El backend utiliza:
+
+mysql2
+
+Instalación:
+
+npm install mysql2
+
+La conexión se realiza mediante un pool de conexiones.
+
+El archivo correspondiente es:
+
+src/db.js
+
+El backend utiliza las variables:
+
+process.env.DB_HOST
+process.env.DB_PORT
+process.env.DB_USER
+process.env.DB_PASS
+process.env.DB_NAME
+
+Al iniciar correctamente el backend debe aparecer:
+
+Backend escuchando en puerto 3001
+Acceso local: http://localhost:3001
+✅ MySQL Aiven conectado correctamente
+
+En Render el puerto es asignado automáticamente mediante:
+
+const PORT = process.env.PORT || 3001;
+
+Por eso NO se debe colocar solamente 3001 de forma fija.
+
+🚀 Backend Express
+
+El servidor principal se encuentra en:
+
+cinerama-express-backend/src/server.js
+
+Actualmente monta las rutas:
+
+app.use("/api/reservas", reservasRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/contacto", contactoRouter);
+app.use("/api/usuarios", usuariosRouter);
+
+Por lo tanto el backend maneja:
+
+/api/reservas
+/api/admin
+/api/auth
+/api/contacto
+/api/usuarios
+🌐 Backend en Render
+
+El backend fue desplegado como un Web Service de Render.
+
+Repositorio:
+
+GitHub
+   ↓
+Render Web Service
+   ↓
+Node.js / Express
+
+Configuración utilizada:
+
+Build Command:
+npm install
+
+Start Command:
+npm start
+
+El package.json debe contener:
+
+{
+  "scripts": {
+    "start": "node src/server.js"
+  }
+}
+
+La URL actual del backend es:
+
+https://cinerama-backen-react-native.onrender.com
+
+Cuando Render inicia correctamente debe aparecer:
+
+Backend escuchando en puerto 10000
+✅ MySQL Aiven conectado correctamente
+Your service is live
+
+El puerto 10000 puede ser asignado por Render y no representa un error.
+
+🔐 Variables de entorno en Render
+
+Las variables del .env local NO se suben a GitHub.
+
+En Render deben configurarse manualmente desde:
+
+Web Service
+↓
+Environment
+↓
+Environment Variables
+
+Agregar las variables necesarias:
+
+DB_HOST
+DB_PORT
+DB_USER
+DB_PASS
+DB_NAME
+
+ADMIN_USER
+ADMIN_PASS
+
+RECAPTCHA_SECRET
+
+BREVO_API_KEY
+
+Después de modificar variables utilizar:
+
+Save, rebuild, and deploy
+
+Esto reinicia el backend con las nuevas variables.
+
+🌍 Frontend local y Render con config.js
+
+Para evitar escribir la URL del backend manualmente en todos los archivos JavaScript se creó:
+
+js/config.js
+
+Este archivo determina automáticamente si el frontend está ejecutándose localmente o en producción.
+
+Ejemplo:
+
+const API_URL =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1"
+    ? "http://localhost:3001"
+    : "https://cinerama-backen-react-native.onrender.com";
+
+Después los demás archivos deben utilizar:
+
+`${API_URL}/api/...`
+
+Ejemplo:
+
+fetch(`${API_URL}/api/reservas/${reservaId}`)
+
+En lugar de escribir:
+
+fetch("https://cinerama-backen-react-native.onrender.com/api/...")
+
+Esto permite utilizar el mismo código tanto localmente como en Render.
+
+💻 Desarrollo local
+
+Para trabajar localmente primero se levanta el backend.
+
+Desde VS Code:
+
+cd cinerama-express-backend
+npm run dev
+
+o:
+
+npm start
+
+Debe aparecer:
+
+Backend escuchando en puerto 3001
+Acceso local: http://localhost:3001
+✅ MySQL Aiven conectado correctamente
+
+El frontend puede ejecutarse localmente y config.js utilizará automáticamente:
+
+http://localhost:3001
+
+Mientras que cuando el frontend esté desplegado utilizará:
+
+https://cinerama-backen-react-native.onrender.com
+🤖 Google reCAPTCHA v2
+
+El login administrativo utiliza:
+
+Google reCAPTCHA v2
+"No soy un robot"
+
+Para que funcione deben registrarse los dominios donde se ejecutará el frontend.
+
+Actualmente se configuraron dominios como:
+
+localhost
+cinerama-9dbf1.web.app
+cinerama-web.onrender.com
+
+⚠️ Importante:
+
+Google reCAPTCHA solicita dominios, no URLs completas.
+
+Correcto:
+
+cinerama-web.onrender.com
+
+Incorrecto:
+
+https://cinerama-web.onrender.com/login.html
+
+Si el dominio no está registrado aparecerá:
+
+ERROR para el propietario del sitio:
+El dominio no es válido para la clave del sitio
+🔑 Login administrativo
+
+El login se encuentra en:
+
+login.html
+js/login.js
+
+La petición debe utilizar API_URL:
+
+const res = await fetch(`${API_URL}/api/auth/login`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    usuario: user,
+    password: pass,
+    "g-recaptcha-response": token,
+  }),
+});
+
+Es importante cargar primero:
+
+<script src="js/config.js"></script>
+<script src="js/login.js"></script>
+
+porque login.js necesita la variable:
+
+API_URL
+🎟️ Sistema de reservas
+
+Las reservas ya no dependen únicamente de localStorage.
+
+El frontend se comunica con:
+
+/api/reservas
+
+para registrar y actualizar la información de la reserva.
+
+Durante el flujo de compra se almacenan datos como:
+
+Cine
+Película
+Tipo de cine
+Sala
+Horario
+Asientos
+Cantidad de entradas
+Monto de entradas
+Productos
+Cliente
+Correo
+Método de pago
+Estado
+
+El identificador de la reserva se mantiene temporalmente en:
+
+localStorage.getItem("reservaId")
+
+Esto permite continuar modificando la misma reserva mientras el usuario avanza entre las pantallas.
+
+🍿 Productos de la reserva
+
+Los productos seleccionados también están asociados a la reserva.
+
+El voucher consulta:
+
+GET /api/reservas/:id/productos
+
+y obtiene información como:
+
+nombre
+cantidad
+subtotal
+
+El total final se calcula como:
+
+TOTAL = monto de entradas + total de productos
+🧾 Voucher
+
+Después de completar la compra se muestra:
+
+voucher.html
+
+y:
+
+js/voucher.js
+
+consulta la reserva mediante:
+
+fetch(`${API_URL}/api/reservas/${reservaId}`)
+
+También obtiene los productos:
+
+fetch(`${API_URL}/api/reservas/${reservaId}/productos`)
+
+Finalmente solicita al backend enviar el comprobante:
+
+POST /api/reservas/:id/enviar-voucher
+📧 Envío de voucher mediante Brevo
+
+Para enviar el voucher por correo se utiliza actualmente:
+
+Brevo Transactional Email API
+
+Se eligió utilizar la API de Brevo para que el envío funcione desde el backend desplegado.
+
+El flujo es:
+
+voucher.js
+       ↓
+POST /api/reservas/:id/enviar-voucher
+       ↓
+Express
+       ↓
+Busca reserva en Aiven
+       ↓
+Busca productos
+       ↓
+Brevo API
+       ↓
+Correo del cliente
+
+La API Key se genera desde:
+
+Brevo
+→ Settings
+→ SMTP y API
+→ Claves API y MCP
+→ Generar clave API
+
+La clave se guarda en:
+
+BREVO_API_KEY=xxxxxxxx
+
+y en Render:
+
+Environment
+→ BREVO_API_KEY
+
+⚠️ Nunca colocar la API Key directamente dentro de reservas.js.
+
+📤 Remitente de Brevo
+
+Antes de enviar correos se debe configurar un remitente.
+
+Ruta:
+
+Brevo
+→ Settings
+→ Remitentes, dominio, IP
+→ Agregar remitente
+
+El remitente debe aparecer:
+
+Verificado
+
+Ejemplo:
+
+cinerama <correo-verificado@gmail.com>
+
+Una vez verificado puede utilizarse para los correos transaccionales del proyecto.
+
+📩 Envío de correo desde Express
+
+El endpoint utilizado es:
+
+POST /api/reservas/:id/enviar-voucher
+
+El backend consulta primero:
+
+SELECT * FROM reservas WHERE id = ?
+
+y posteriormente consulta los productos relacionados con la reserva.
+
+Finalmente realiza la petición a Brevo utilizando:
+
+https://api.brevo.com/v3/smtp/email
+
+con la API Key almacenada en:
+
+process.env.BREVO_API_KEY
+
+Cuando funciona correctamente el backend muestra:
+
+✅ VOUCHER ENVIADO POR BREVO
+⚠️ Error de Brevo: Key not found
+
+Si aparece:
+
+❌ ERROR BREVO:
+{
+  message: "Key not found",
+  code: "unauthorized"
+}
+
+significa que la API Key utilizada no es válida, fue eliminada o el backend está utilizando otra variable.
+
+Revisar:
+
+BREVO_API_KEY
+
+tanto en:
+
+.env
+
+como en:
+
+Render → Environment
+
+Después de modificarla en Render:
+
+Save, rebuild, and deploy
+🔄 Flujo completo actual de CINERAMA
+
+El flujo del sistema actualmente es:
+
+USUARIO
+   ↓
+Selecciona cine
+   ↓
+Selecciona película
+   ↓
+Selecciona horario
+   ↓
+Selecciona asientos
+   ↓
+Selecciona productos
+   ↓
+Realiza el proceso de pago
+   ↓
+Backend actualiza la reserva
+   ↓
+MySQL Aiven guarda los datos
+   ↓
+Se genera el voucher
+   ↓
+Brevo envía el voucher
+   ↓
+CORREO DEL CLIENTE
+🛠️ Si vuelvo a crear el proyecto desde cero
+
+El orden recomendado es:
+
+Crear el proyecto frontend y backend.
+Crear MySQL en Aiven.
+Obtener Host, Port, Database, User y Password.
+Configurar SSL.
+Probar Aiven mediante DBeaver.
+Instalar mysql2 en Express.
+Crear db.js.
+Crear .env.
+Conectar Express con Aiven.
+Probar primero todo localmente.
+Subir el proyecto a GitHub.
+Crear el Web Service del backend en Render.
+Configurar las variables de entorno en Render.
+Desplegar el backend.
+Crear/configurar el frontend en Render.
+Crear js/config.js para alternar automáticamente entre localhost y Render.
+Registrar localhost y el dominio del frontend en Google reCAPTCHA.
+Crear una cuenta en Brevo.
+Verificar el remitente.
+Generar una API Key de Brevo.
+Guardar BREVO_API_KEY en .env y Render.
+Crear el endpoint /enviar-voucher.
+Realizar una compra de prueba.
+Revisar los registros en Aiven.
+Confirmar la recepción del voucher por correo.

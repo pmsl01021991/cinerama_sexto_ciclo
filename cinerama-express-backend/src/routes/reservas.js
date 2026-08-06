@@ -1,7 +1,8 @@
 import express from "express";
 import { pool } from "../db.js";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 const router = express.Router();
 
 /**
@@ -654,30 +655,11 @@ router.post("/:id/enviar-voucher", async (req, res) => {
       });
     }
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
 
-      auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-      },
-
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 15000
-  });
-
-    console.log("========== PRUEBA CORREO ==========");
-    console.log("EMAIL_USER existe:", !!process.env.EMAIL_USER);
-    console.log("EMAIL_PASS existe:", !!process.env.EMAIL_PASS);
-    console.log("Correo destino:", r.correo_cliente);
-    console.log("===================================");
-
-    await transporter.sendMail({
-      from: `"CINERAMA" <${process.env.EMAIL_USER}>`,
-      to: r.correo_cliente,
+    const { data: correoEnviado, error: errorCorreo } =
+      await resend.emails.send({
+      from: "CINERAMA <onboarding@resend.dev>",
+      to: [r.correo_cliente],
       subject: "🎟️ Confirmación de compra - CINERAMA",
       html: `
     <!DOCTYPE html>
@@ -934,7 +916,25 @@ router.post("/:id/enviar-voucher", async (req, res) => {
     `
     });
 
-    res.json({ ok: true });
+    if (errorCorreo) {
+  console.error("❌ ERROR RESEND:", errorCorreo);
+
+  return res.status(500).json({
+    error: "Error enviando voucher",
+    detalle: errorCorreo
+  });
+}
+
+console.log(
+  "✅ VOUCHER ENVIADO POR RESEND:",
+  correoEnviado
+);
+
+res.json({
+  ok: true,
+  message: "Voucher enviado correctamente"
+});
+
 
   } catch (err) {
     console.error("❌ ERROR ENVIANDO VOUCHER:");
@@ -949,11 +949,6 @@ router.post("/:id/enviar-voucher", async (req, res) => {
   }
 });
 
-/**
- * GET /api/reservas/funciones/:cineId/:peliculaId
- * Obtiene las funciones disponibles de una película
- * para un cine determinado.
- */
 router.get("/funciones/:cineId/:peliculaId", async (req, res) => {
   try {
     const { cineId, peliculaId } = req.params;

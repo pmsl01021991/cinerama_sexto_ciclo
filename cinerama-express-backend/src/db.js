@@ -9,8 +9,6 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const caPath = path.join(__dirname, "..", "ca.pem");
-
 /** Pool de conexiones MySQL */
 export const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -21,7 +19,9 @@ export const pool = mysql.createPool({
 
     // SSL requerido por Aiven
     ssl: {
-        ca: fs.readFileSync(caPath, "utf8"),
+        ca: process.env.DB_CA_CERT
+            ? process.env.DB_CA_CERT.replace(/\\n/g, "\n")
+            : fs.readFileSync(path.join(__dirname, "..", "ca.pem"), "utf8"),
         rejectUnauthorized: true,
     },
 

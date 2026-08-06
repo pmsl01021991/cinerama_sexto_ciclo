@@ -91,8 +91,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS (solo si abres el front desde otro origen, ej. Live Server)
-const origin = process.env.ALLOWED_ORIGIN || "http://127.0.0.1:5500";
-app.use(cors({ origin }));
+app.use(cors());
 
 // Archivos estáticos del frontend
 app.use(express.static(FRONT_DIR));

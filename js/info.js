@@ -155,24 +155,36 @@ class BtnHoraHandler {
         const peliculaTitulo = data.titulo;      // ej: "Hurry"
 
         try {
-            fetch(`https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    pelicula_codigo: peliculaCodigo,
-                    pelicula_titulo: peliculaTitulo,
-                    tipo_cine: tipoCine,                 // '2D' o '3D'
-                    sala: data.sala,                     // '01', '02', etc.
-                    horario: horarioSeleccionado         // '04:00 pm'
-                })
-            });
+            const resp = await fetch(
+                `https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        pelicula_codigo: peliculaCodigo,
+                        pelicula_titulo: peliculaTitulo,
+                        tipo_cine: tipoCine,
+                        sala: data.sala,
+                        horario: horarioSeleccionado
+                    })
+                }
+            );
 
-            if (!resp.ok) throw new Error("Error al actualizar película");
+            if (!resp.ok) {
+                const errorData = await resp.json().catch(() => ({}));
+                console.error("Error backend:", errorData);
+                throw new Error("Error al actualizar película");
+            }
 
             console.log("Reserva actualizada con película y horario");
+
             window.location.href = "./asientos.html";
+
         } catch (err) {
-            console.error(err);
+            console.error("Error actualizando reserva:", err);
+
             alert("No se pudo actualizar la reserva.");
         }
     }

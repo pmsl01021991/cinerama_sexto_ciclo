@@ -55,14 +55,30 @@ class TrailerModal {
     }
 
     openModal(videoUrl) {
-        this.trailerVideo.src = videoUrl;
-        this.modal.style.display = 'flex';
-    }
+            this.trailerVideo.src = videoUrl;
+            this.modal.style.display = 'flex';
 
-    closeModal() {
-        this.modal.style.display = 'none';
-        this.trailerVideo.src = ''; // Detener el video
-    }
+            // Empezar desde el inicio
+            this.trailerVideo.currentTime = 0;
+
+            // Reproducir
+            this.trailerVideo.play();
+        }
+
+        closeModal() {
+            // Pausar el video
+            this.trailerVideo.pause();
+
+            // Regresar al inicio
+            this.trailerVideo.currentTime = 0;
+
+            // Cerrar modal
+            this.modal.style.display = 'none';
+
+            // Quitar el video cargado
+            this.trailerVideo.removeAttribute('src');
+            this.trailerVideo.load();
+        }
 }
 
 // Crear instancia del modal

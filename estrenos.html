@@ -52,7 +52,7 @@
                         <div>
                             <button
                                 class="btn-trailer"
-                                data-video="https://www.youtube.com/embed/5Fgq4Osh6XQ">
+                                data-video="videos/resident_evil.mp4">
                                 🎬 TRAILER
                             </button>
 
@@ -69,7 +69,7 @@
                         <div>
                             <button
                                 class="btn-trailer"
-                                data-video="https://www.youtube.com/embed/7Zn1e11CJ-0">
+                                data-video="videos/street_fighter.mp4">
                                 🎬 TRAILER
                             </button>
 
@@ -86,7 +86,7 @@
                         <div>
                             <button
                                 class="btn-trailer"
-                                data-video="">
+                                data-video="videos/hunger_games.mp4">
                                 🎬 TRAILER
                             </button>
 
@@ -103,7 +103,7 @@
                         <div>
                             <button
                                 class="btn-trailer"
-                                data-video="">
+                                data-video="videos/avengers.mp4">
                                 🎬 TRAILER
                             </button>
 
@@ -160,12 +160,20 @@
     </footer>
 
     <!-- Modal para el trailer -->
-        <div id="trailerModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <iframe id="trailerVideo" width="560" height="315" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            </div>
+    <div id="trailerModal" class="modal">
+        <div class="modal-content">
+
+            <span class="close">&times;</span>
+
+            <video
+                id="trailerVideo"
+                width="100%"
+                controls
+                playsinline>
+            </video>
+
         </div>
+    </div>
 
 </body>
 </html>

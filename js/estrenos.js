@@ -57,13 +57,29 @@ class TrailerModal {
     openModal(videoUrl) {
         this.trailerVideo.src = videoUrl;
         this.modal.style.display = 'flex';
+
+        // Iniciar desde el comienzo
+        this.trailerVideo.currentTime = 0;
+
+        // Reproducir
+        this.trailerVideo.play();
     }
 
     closeModal() {
+        // Pausar video
+        this.trailerVideo.pause();
+
+        // Volver al inicio
+        this.trailerVideo.currentTime = 0;
+
+        // Cerrar modal
         this.modal.style.display = 'none';
-        this.trailerVideo.src = ''; // Detener el video
+
+        // Descargar el video del reproductor
+        this.trailerVideo.removeAttribute('src');
+        this.trailerVideo.load();
     }
-}
+    }
 
 // Crear instancia del modal
 const trailerModal = new TrailerModal('#trailerModal', '#trailerVideo', '.close');

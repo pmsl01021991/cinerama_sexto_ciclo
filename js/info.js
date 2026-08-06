@@ -11,7 +11,7 @@ const infoPeliculas = {
         sinopsis: "HARRY HOROWITZ ES UN VETERANO AFINADOR DE PIANOS QUE TRABAJA JUNTO A NIKI, SU LEAL Y TALENTOSO APRENDIZ, QUE PADECE HIPERACUSIA, UNA RARA CONDICIÓN QUE LE PROVOCA PERCIBIR LOS SONIDOS A UN VOLUMEN EXAGERADAMENTE ALTO, LO QUE LE OBLIGA A USAR TAPONES PARA LOS OÍDOS CONSTANTEMENTE. CUANDO EL JOVEN DESCUBRE UNA APTITUD INESPERADA PARA ABRIR CAJAS FUERTES, SE VERÁ INVOLUCRADO EN EL PELIGROSO MUNDO DEL CRIMEN Y SU TRANQUILA VIDA CAMBIARÁ POR COMPLETO.",
         poster: "imagenes/el_afinador.jpg",
         categorias: ["MAYORES DE 14", "ANIMADO", "BF"],
-        trailer: "https://www.youtube.com/embed/Lmu8z-JTMcQ"
+        trailer: "videos/el_afinador.mp4"
     },
 
     superGirl: {
@@ -23,7 +23,7 @@ const infoPeliculas = {
         sinopsis: "KARA, LA PRIMA DE SUPERMAN, SE HA IDO HACIENDO MÁS FUERTE CON EL PASO DE LOS AÑOS Y TAMBIÉN DEBIDO A LA CAÍDA DE KRYPTON. MIENTRAS VA VIAJANDO POR DIFERENTES LUGARES, CONOCE A RUTHYE, UNA JOVEN QUE BUSCA VENGANZA POR EL ASESINATO DE SU PADRE.",
         poster: "imagenes/super_girl.jpg",
         categorias: ["TODO ESPECTADOR", "AVENTURA", "FAMILIAR"],
-        trailer: "https://www.youtube.com/embed/S2JsnctozH4"
+        trailer: "videos/super_girl.mp4"
     },
 
     toyStory: {
@@ -35,7 +35,7 @@ const infoPeliculas = {
         sinopsis: "LOS JUGUETES ESTÁN DE VUELTA. ESTA VEZ, BUZZ LIGHTYEAR, WOODY, JESSIE Y EL RESTO DE LA PANDILLA SE ENFRENTAN A UN NUEVO RETO CUANDO CONOCEN A LILYPAD, UNA NUEVA TABLET QUE LLEGA CON SUS PROPIAS IDEAS DISRUPTIVAS SOBRE LO QUE ES MEJOR PARA BONNIE. ¿VOLVERÁ A SER LO MISMO LA HORA DE JUGAR?",
         poster: "imagenes/toy_story.webp",
         categorias: ["TODO ESPECTADOR", "ANIMACION", "CINECOLOR"],
-        trailer: "https://www.youtube.com/embed/s_qpMMkvHYE"
+        trailer: "videos/toy_story.mp4"
     },
 
     diaRevelacion: {
@@ -47,7 +47,7 @@ const infoPeliculas = {
         sinopsis: "EN UN FUTURO NO MUY LEJANO, LA HUMANIDAD ESTÁ A PUNTO DE DESCRIBIR LA VERDAD SOBRE LA EXISTENCIA DE EXTRATERRESTRES, UN SECRETO QUE HA PERMANECIDO OCULTO DURANTE VARIAS DÉCADAS. MIENTRAS MILLONES DE PERSONAS SE PREPARAN PARA RECIBIR LA REVELACIÓN, ALGUNAS VIEJAS CREENCIAS SE VEN CUESTIONADAS, Y LA FORMA EN LA QUE ENTENDEMOS EL UNIVERSO EMPIEZA A CAMBIAR. ENTRE CONSPIRACIONES, AVANCES DE LA TECNOLOGÍA Y ENCUENTROS INESPERADOS, LA REVELACIÓN PROMETE CAMBIAR VIDAS, RELACIONES Y LA PROPIA PERCEPCIÓN DE NUESTRO LUGAR EN EL UNIVERSO PARA SIEMPRE.",
         poster: "imagenes/el_dia_de_la_revelacion.webp",
         categorias: ["MAYORES DE 14", "ACCION", "BF"],
-        trailer: "https://www.youtube.com/embed/-XXZgYygh40"
+        trailer: "videos/dia_revelacion.mp4"
     }
 };
 
@@ -71,11 +71,35 @@ if(data){
 
     // Trailer
     const btn = document.getElementById("btnTrailer");
-    btn.onclick = () => {
-        document.getElementById("trailerVideo").src = data.trailer;
-        document.getElementById("trailerModal").style.display = "flex";
-    };
-}
+
+        btn.onclick = () => {
+            const video = document.getElementById("trailerVideo");
+
+            video.src = data.trailer;
+            document.getElementById("trailerModal").style.display = "flex";
+
+            video.play();
+        };
+
+        // CERRAR MODAL DEL TRAILER
+        const modal = document.getElementById("trailerModal");
+        const cerrar = document.querySelector(".close");
+        const video = document.getElementById("trailerVideo");
+
+        cerrar.onclick = () => {
+            video.pause();
+            video.currentTime = 0;
+            modal.style.display = "none";
+        };
+
+        modal.onclick = (event) => {
+            if (event.target === modal) {
+                video.pause();
+                video.currentTime = 0;
+                modal.style.display = "none";
+            }
+        };
+    }
 
 
 class BtnHoraHandler {
@@ -164,7 +188,7 @@ class BtnHoraHandler {
                 sinopsis: "HARRY HOROWITZ ES UN VETERANO AFINADOR DE PIANOS QUE TRABAJA JUNTO A NIKI, SU LEAL Y TALENTOSO APRENDIZ, QUE PADECE HIPERACUSIA, UNA RARA CONDICIÓN QUE LE PROVOCA PERCIBIR LOS SONIDOS A UN VOLUMEN EXAGERADAMENTE ALTO, LO QUE LE OBLIGA A USAR TAPONES PARA LOS OÍDOS CONSTANTEMENTE. CUANDO EL JOVEN DESCUBRE UNA APTITUD INESPERADA PARA ABRIR CAJAS FUERTES, SE VERÁ INVOLUCRADO EN EL PELIGROSO MUNDO DEL CRIMEN Y SU TRANQUILA VIDA CAMBIARÁ POR COMPLETO.",
                 poster: "imagenes/el_afinador.jpg",
                 categorias: ["MAYORES DE 14", "ANIMADO", "BF"],
-                trailer: "https://www.youtube.com/embed/Lmu8z-JTMcQ",
+                trailer: "videos/el_afinador.mp4",
                 sala: "01",
                 url: "info.html?pelicula=elAfinador"
             },
@@ -178,7 +202,7 @@ class BtnHoraHandler {
                 sinopsis: "KARA, LA PRIMA DE SUPERMAN, SE HA IDO HACIENDO MÁS FUERTE CON EL PASO DE LOS AÑOS Y TAMBIÉN DEBIDO A LA CAÍDA DE KRYPTON. MIENTRAS VA VIAJANDO POR DIFERENTES LUGARES, CONOCE A RUTHYE, UNA JOVEN QUE BUSCA VENGANZA POR EL ASESINATO DE SU PADRE.",
                 poster: "imagenes/super_girl.jpg",
                 categorias: ["TODO ESPECTADOR", "AVENTURA", "FAMILIAR"],
-                trailer: "https://www.youtube.com/embed/S2JsnctozH4",
+                trailer: "videos/super_girl.mp4",
                 sala: "02",
                 url: "info.html?pelicula=superGirl"
             },
@@ -192,7 +216,7 @@ class BtnHoraHandler {
                 sinopsis: "LOS JUGUETES ESTÁN DE VUELTA. ESTA VEZ, BUZZ LIGHTYEAR, WOODY, JESSIE Y EL RESTO DE LA PANDILLA SE ENFRENTAN A UN NUEVO RETO CUANDO CONOCEN A LILYPAD, UNA NUEVA TABLET QUE LLEGA CON SUS PROPIAS IDEAS DISRUPTIVAS SOBRE LO QUE ES MEJOR PARA BONNIE. ¿VOLVERÁ A SER LO MISMO LA HORA DE JUGAR?",
                 poster: "imagenes/toy_story.webp",
                 categorias: ["TODO ESPECTADOR", "ANIMACION", "CINECOLOR"],
-                trailer: "https://www.youtube.com/embed/s_qpMMkvHYE",
+                trailer: "videos/toy_story.mp4",
                 sala: "03",
                 url: "info.html?pelicula=toyStory"
             },
@@ -206,7 +230,7 @@ class BtnHoraHandler {
                 sinopsis: "EN UN FUTURO NO MUY LEJANO, LA HUMANIDAD ESTÁ A PUNTO DE DESCRIBIR LA VERDAD SOBRE LA EXISTENCIA DE EXTRATERRESTRES, UN SECRETO QUE HA PERMANECIDO OCULTO DURANTE VARIAS DÉCADAS.",
                 poster: "imagenes/el_dia_de_la_revelacion.webp",
                 categorias: ["MAYORES DE 14", "ACCION", "BF"],
-                trailer: "https://www.youtube.com/embed/-XXZgYygh40",
+                trailer: "videos/dia_revelacion.mp4",
                 sala: "04",
                 url: "info.html?pelicula=diaRevelacion"
             }

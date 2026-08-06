@@ -1,5 +1,6 @@
 use cinerama
 
+select * from peliculas;
 CREATE TABLE cines (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(120) NOT NULL,
@@ -390,6 +391,12 @@ SET
     reparto = 'TOM HANKS, KEANU REEVES, JOAN CUSACK.',
     estado = 'EN_CARTELERA'
 WHERE id = 3;
+
+
+-- ============================================
+-- ID 4 - EL DIA DE LA REVELACION
+-- Conservamos codigo = nada3
+-- ============================================
 
 UPDATE peliculas
 SET

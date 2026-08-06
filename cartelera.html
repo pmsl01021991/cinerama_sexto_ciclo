@@ -51,7 +51,7 @@
                 <img src="imagenes/el_afinador.jpg" alt="el_afinador">
                 <div>
                     <button class="btn-trailer"
-                            data-video="https://www.youtube.com/embed/Lmu8z-JTMcQ?si=8V-9sbv6GQSvTq5i">🎬 TRAILER</button>
+                            data-video="videos/el_afinador.mp4">🎬 TRAILER</button>
                     <a href="info.html?pelicula=elAfinador" class="btn-info">INFO</a>
                     <div class="horarios">
                     <button class="btn-funcion"
@@ -79,7 +79,7 @@
                 <img src="imagenes/super_girl.jpg" alt="SUPER GIRL">
                 <div>
                     <button class="btn-trailer"
-                            data-video="https://www.youtube.com/embed/S2JsnctozH4">🎬 TRAILER</button>
+                            data-video="videos/super_girl.mp4">🎬 TRAILER</button>
                     <a href="info.html?pelicula=superGirl" class="btn-info">INFO</a>
                     <div class="horarios">
                     <button class="btn-funcion"
@@ -108,7 +108,7 @@
                 <img src="imagenes/toy_story.webp" alt="TOY STORY">
                 <div>
                     <button class="btn-trailer"
-                            data-video="https://www.youtube.com/embed/s_qpMMkvHYE">🎬 TRAILER</button>
+                            data-video="videos/toy_story.mp4">🎬 TRAILER</button>
                     <a href="info.html?pelicula=toyStory" class="btn-info">INFO</a>
                     <div class="horarios">
                     <button class="btn-funcion"
@@ -136,7 +136,7 @@
                 <img src="imagenes/el_dia_de_la_revelacion.webp" alt="EL DIA DE LA REVELACION">
                 <div>
                     <button class="btn-trailer"
-                            data-video="https://www.youtube.com/embed/-XXZgYygh40">🎬 TRAILER</button>
+                            data-video="videos/el_dia_de_la_revelacion.mp4">🎬 TRAILER</button>
                     <a href="info.html?pelicula=diaRevelacion" class="btn-info">INFO</a>
                     <div class="horarios">
                     <button class="btn-funcion"
@@ -218,12 +218,20 @@
     </footer>
 
     <!-- Modal para el trailer -->
-        <div id="trailerModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <iframe id="trailerVideo" width="560" height="315" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            </div>
+    <div id="trailerModal" class="modal">
+        <div class="modal-content">
+
+            <span class="close">&times;</span>
+
+            <video
+                id="trailerVideo"
+                width="100%"
+                controls
+                playsinline>
+            </video>
+
         </div>
+    </div>
 
 </body>
 </html>

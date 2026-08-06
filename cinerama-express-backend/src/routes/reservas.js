@@ -1,8 +1,6 @@
 import express from "express";
 import { pool } from "../db.js";
-import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const router = express.Router();
 
 /**
@@ -656,12 +654,28 @@ router.post("/:id/enviar-voucher", async (req, res) => {
     }
 
 
-    const { data: correoEnviado, error: errorCorreo } =
-      await resend.emails.send({
-      from: "CINERAMA <onboarding@resend.dev>",
-      to: [r.correo_cliente],
-      subject: "🎟️ Confirmación de compra - CINERAMA",
-      html: `
+    const respuestaBrevo = await fetch(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        method: "POST",
+        headers: {
+          "accept": "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          sender: {
+            name: "CINERAMA",
+            email: "micanalxiexie@gmail.com"
+          },
+          to: [
+            {
+              email: r.correo_cliente,
+              name: r.nombre_cliente || "Cliente CINERAMA"
+            }
+          ],
+          subject: "🎟️ Confirmación de compra - CINERAMA",
+          htmlContent: `
     <!DOCTYPE html>
     <html lang="es">
     <head>
@@ -912,29 +926,33 @@ router.post("/:id/enviar-voucher", async (req, res) => {
     </div>
 
     </body>
-    </html>
-    `
-    });
+</html>
+`
+        })
+    }
+  );
 
-    if (errorCorreo) {
-  console.error("❌ ERROR RESEND:", errorCorreo);
+const resultadoBrevo = await respuestaBrevo.json();
+
+if (!respuestaBrevo.ok) {
+  console.error("❌ ERROR BREVO:", resultadoBrevo);
 
   return res.status(500).json({
     error: "Error enviando voucher",
-    detalle: errorCorreo
+    detalle: resultadoBrevo
   });
 }
 
 console.log(
-  "✅ VOUCHER ENVIADO POR RESEND:",
-  correoEnviado
+  "✅ VOUCHER ENVIADO POR BREVO:",
+  resultadoBrevo
 );
 
-res.json({
+return res.json({
   ok: true,
-  message: "Voucher enviado correctamente"
+  message: "Voucher enviado correctamente",
+  messageId: resultadoBrevo.messageId
 });
-
 
   } catch (err) {
     console.error("❌ ERROR ENVIANDO VOUCHER:");

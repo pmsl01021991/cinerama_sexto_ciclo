@@ -1,1 +1,4 @@
 node_modules/
+ca.pem
+.env
+.env.example

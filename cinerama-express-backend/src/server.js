@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import contactoRouter from "./routes/contacto.js";
 import adminRouter from "./routes/admin.js";
 import usuariosRouter from "./routes/usuarios.js";
+import { testConnection } from "./db.js";
 
 dotenv.config();
 
@@ -115,7 +116,18 @@ app.use("/api/usuarios", usuariosRouter);
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, "0.0.0.0", async () => {
   console.log(`Backend escuchando en puerto ${PORT}`);
   console.log(`Acceso local: http://localhost:${PORT}`);
+
+  try {
+    const conectado = await testConnection();
+
+    if (conectado) {
+      console.log("✅ MySQL Aiven conectado correctamente");
+    }
+  } catch (error) {
+    console.error("❌ Error conectando a MySQL Aiven:");
+    console.error(error.message);
+  }
 });

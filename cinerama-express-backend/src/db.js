@@ -1,14 +1,30 @@
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const caPath = path.join(__dirname, "..", "ca.pem");
 
 /** Pool de conexiones MySQL */
 export const pool = mysql.createPool({
-    host: process.env.DB_HOST ?? "127.0.0.1",
-    port: Number(process.env.DB_PORT ?? 3306),
-    user: process.env.DB_USER ?? "root",
-    password: process.env.DB_PASS ?? "1234",
-    database: process.env.DB_NAME ?? "cinerama",
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+
+    // SSL requerido por Aiven
+    ssl: {
+        ca: fs.readFileSync(caPath, "utf8"),
+        rejectUnauthorized: true,
+    },
+
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
@@ -25,10 +41,14 @@ export async function query(sql, params = []) {
 /** Helper para transacciones (opcional) */
 export async function tx(work) {
     const conn = await pool.getConnection();
+
     try {
         await conn.beginTransaction();
+
         const res = await work(conn);
+
         await conn.commit();
+
         return res;
     } catch (e) {
         await conn.rollback();

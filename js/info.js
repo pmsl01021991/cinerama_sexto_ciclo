@@ -2,7 +2,7 @@ const params = new URLSearchParams(window.location.search);
 const codigo = params.get("pelicula");
 
 const infoPeliculas = {
-    chavin: {
+    elAfinador: {
         titulo: "EL AFINADOR",
         director: "DANIEL ROHER.",
         duracion: "01:47:00 min",
@@ -13,7 +13,8 @@ const infoPeliculas = {
         categorias: ["MAYORES DE 14", "ANIMADO", "BF"],
         trailer: "https://www.youtube.com/embed/Lmu8z-JTMcQ"
     },
-    hurry: {
+
+    superGirl: {
         titulo: "SUPER GIRL",
         director: "CRAIG GILLESPIE.",
         duracion: "01:48:00 min",
@@ -24,7 +25,8 @@ const infoPeliculas = {
         categorias: ["TODO ESPECTADOR", "AVENTURA", "FAMILIAR"],
         trailer: "https://www.youtube.com/embed/S2JsnctozH4"
     },
-    zootopia2: {
+
+    toyStory: {
         titulo: "TOY STORY",
         director: "MCKENNA HARRIS, ANDREW STANTON.",
         duracion: "01:42:00 min",
@@ -35,7 +37,8 @@ const infoPeliculas = {
         categorias: ["TODO ESPECTADOR", "ANIMACION", "CINECOLOR"],
         trailer: "https://www.youtube.com/embed/s_qpMMkvHYE"
     },
-    nada3: {
+
+    diaRevelacion: {
         titulo: "EL DIA DE LA REVELACION",
         director: "STEVEN SPIELBERG",
         duracion: "02:25:00 min",
@@ -152,7 +155,7 @@ class BtnHoraHandler {
 
     getPeliculasInfo() {
         return {
-            chavin: {
+            elAfinador: {
                 titulo: "EL AFINADOR",
                 director: "DANIEL ROHER.",
                 duracion: "01:47:00",
@@ -163,46 +166,49 @@ class BtnHoraHandler {
                 categorias: ["MAYORES DE 14", "ANIMADO", "BF"],
                 trailer: "https://www.youtube.com/embed/Lmu8z-JTMcQ",
                 sala: "01",
-                url: "info.html?pelicula=chavin"
+                url: "info.html?pelicula=elAfinador"
             },
-            hurry: {
-                titulo: "Hurry",
-                director: "DIRECTOR X",
-                duracion: "01:40:00",
-                estreno: "2025-08-01",
-                reparto: "Actores y actrices reconocidos",
-                sinopsis: "Una emocionante carrera contra el tiempo.",
-                poster: "imagenes/hurry.jpg",
-                categorias: ["TODO ESPECTADOR", "AVENTURA", "FAMILIAR"],
-                trailer: "https://www.youtube.com/embed/s_qpMMkvHYE",
-                sala: "02",
-                url: "info.html?pelicula=hurry"
-            },
-            zootopia2: {
-                titulo: "ZOOTOPIA 2",
-                director: "JARED BUSH, BYRON HOWARD",
+
+            superGirl: {
+                titulo: "SUPER GIRL",
+                director: "CRAIG GILLESPIE.",
                 duracion: "01:48:00",
-                estreno: "2025-11-27",
-                reparto: "-",
-                sinopsis: "La policía coneja Judy Hopps y su amigo el zorro Nick Wilde vuelven a unirse para resolver su caso más peligroso y complejo.",
-                poster: "imagenes/estrenos/zootopia2.jpg",
-                categorias: ["TODO ESPECTADOR", "ANIMACION", "CINECOLOR"],
-                trailer: "https://www.youtube.com/embed/A-7RMaQaygI",
-                sala: "03",
-                url: "info.html?pelicula=zootopia2"
+                estreno: "2026-06-24",
+                reparto: "MILLY ALCOCK, DAVID CORENSWET, EVE RIDLEY.",
+                sinopsis: "KARA, LA PRIMA DE SUPERMAN, SE HA IDO HACIENDO MÁS FUERTE CON EL PASO DE LOS AÑOS Y TAMBIÉN DEBIDO A LA CAÍDA DE KRYPTON. MIENTRAS VA VIAJANDO POR DIFERENTES LUGARES, CONOCE A RUTHYE, UNA JOVEN QUE BUSCA VENGANZA POR EL ASESINATO DE SU PADRE.",
+                poster: "imagenes/super_girl.jpg",
+                categorias: ["TODO ESPECTADOR", "AVENTURA", "FAMILIAR"],
+                trailer: "https://www.youtube.com/embed/S2JsnctozH4",
+                sala: "02",
+                url: "info.html?pelicula=superGirl"
             },
-            nada3: {
-                titulo: "NADA ES LO QUE PARECE 3",
-                director: "RUBEN FLEISCHER",
-                duracion: "01:52:00",
-                estreno: "2025-11-13",
-                reparto: "MORGAN FREEMAN, ROSAMUND PIKE, WOODY HARRELSON",
-                sinopsis: "Los cuatro jinetes vuelven con más giros, trampas y espectáculo que nunca.",
-                poster: "imagenes/estrenos/NADAESLOQUEPARECE.jpg",
+
+            toyStory: {
+                titulo: "TOY STORY",
+                director: "MCKENNA HARRIS, ANDREW STANTON.",
+                duracion: "01:42:00",
+                estreno: "2026-06-17",
+                reparto: "TOM HANKS, KEANU REEVES, JOAN CUSACK.",
+                sinopsis: "LOS JUGUETES ESTÁN DE VUELTA. ESTA VEZ, BUZZ LIGHTYEAR, WOODY, JESSIE Y EL RESTO DE LA PANDILLA SE ENFRENTAN A UN NUEVO RETO CUANDO CONOCEN A LILYPAD, UNA NUEVA TABLET QUE LLEGA CON SUS PROPIAS IDEAS DISRUPTIVAS SOBRE LO QUE ES MEJOR PARA BONNIE. ¿VOLVERÁ A SER LO MISMO LA HORA DE JUGAR?",
+                poster: "imagenes/toy_story.webp",
+                categorias: ["TODO ESPECTADOR", "ANIMACION", "CINECOLOR"],
+                trailer: "https://www.youtube.com/embed/s_qpMMkvHYE",
+                sala: "03",
+                url: "info.html?pelicula=toyStory"
+            },
+
+            diaRevelacion: {
+                titulo: "EL DIA DE LA REVELACION",
+                director: "STEVEN SPIELBERG",
+                duracion: "02:25:00",
+                estreno: "2026-06-10",
+                reparto: "EMILY BLUNT, JOSH O'CONNOR, COLIN FIRTH.",
+                sinopsis: "EN UN FUTURO NO MUY LEJANO, LA HUMANIDAD ESTÁ A PUNTO DE DESCRIBIR LA VERDAD SOBRE LA EXISTENCIA DE EXTRATERRESTRES, UN SECRETO QUE HA PERMANECIDO OCULTO DURANTE VARIAS DÉCADAS.",
+                poster: "imagenes/el_dia_de_la_revelacion.webp",
                 categorias: ["MAYORES DE 14", "ACCION", "BF"],
                 trailer: "https://www.youtube.com/embed/-XXZgYygh40",
                 sala: "04",
-                url: "info.html?pelicula=nada3"
+                url: "info.html?pelicula=diaRevelacion"
             }
         };
     }

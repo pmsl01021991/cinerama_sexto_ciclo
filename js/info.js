@@ -155,7 +155,7 @@ class BtnHoraHandler {
         const peliculaTitulo = data.titulo;      // ej: "Hurry"
 
         try {
-            const resp = await fetch(`http://localhost:3001/api/reservas/${reservaId}`, {
+            fetch(`https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

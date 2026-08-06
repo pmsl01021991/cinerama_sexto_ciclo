@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const resp = await fetch(`http://localhost:3001/api/reservas/${reservaId}`);
+        const resp = await fetch(`https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}`);
         if (!resp.ok) throw new Error("Error al obtener la reserva");
 
         const r = await resp.json();
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 🍿 CARGAR PRODUCTOS DE LA RESERVA
     // ================================
     try {
-    const respProd = await fetch(`http://localhost:3001/api/reservas/${reservaId}/productos`);
+    const respProd = await fetch(`https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}/productos`);
     if (respProd.ok) {
         const productos = await respProd.json();
 
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ================================
         async function enviarVoucher() {
             try {
-                const resp = await fetch(`http://localhost:3001/api/reservas/${reservaId}/enviar-voucher`, {
+                const resp = await fetch(`https://cinerama-backen-react-native.onrender.com/api/reservas/${reservaId}/enviar-voucher`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" }
                 });

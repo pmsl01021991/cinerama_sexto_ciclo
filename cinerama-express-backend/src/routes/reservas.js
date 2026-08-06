@@ -662,6 +662,11 @@ router.post("/:id/enviar-voucher", async (req, res) => {
       }
     });
 
+    console.log("========== PRUEBA CORREO ==========");
+    console.log("EMAIL_USER existe:", !!process.env.EMAIL_USER);
+    console.log("Correo destino:", r.correo_cliente);
+    console.log("===================================");
+
     await transporter.sendMail({
       from: `"CINERAMA" <${process.env.EMAIL_USER}>`,
       to: r.correo_cliente,
@@ -924,8 +929,15 @@ router.post("/:id/enviar-voucher", async (req, res) => {
     res.json({ ok: true });
 
   } catch (err) {
+    console.error("❌ ERROR ENVIANDO VOUCHER:");
     console.error(err);
-    res.status(500).json({ error: "Error enviando correo" });
+
+    res.status(500).json({
+      error: "Error enviando correo",
+      detalle: err.message,
+      code: err.code || null,
+      response: err.response || null
+    });
   }
 });
 

@@ -391,12 +391,6 @@ SET
     estado = 'EN_CARTELERA'
 WHERE id = 3;
 
-
--- ============================================
--- ID 4 - EL DIA DE LA REVELACION
--- Conservamos codigo = nada3
--- ============================================
-
 UPDATE peliculas
 SET
     codigo = 'nada3',
